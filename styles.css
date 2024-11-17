@@ -1,0 +1,123 @@
+@font-face {
+    font-family: 'Hypermarket-Regular';
+    src: url('fonts/Hypermarket-Regular.woff2') format('woff2'),
+         url('fonts/Hypermarket-Regular.woff') format('woff'),
+         url('fonts/Hypermarket-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Hypermarket-Regular', sans-serif;
+    color: #000;
+    background-color:  #000000;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.portfolio {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative; /* Needed for correct positioning of the pseudo-element */
+    overflow: hidden; /* Ensure the mask stays within the container */
+}
+
+/* Add a pseudo-element for the background */
+.portfolio::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('knöggelpapper.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -1; /* Ensure the background is behind the content */
+}
+
+h1 {
+    font-size: 24px;
+    margin: 0;
+    font-family: 'Hypermarket-Regular', sans-serif;
+}
+
+.subtitle {
+    font-size: 16px;
+    margin: 5px 0 5px;
+    font-family: 'Hypermarket-Regular', sans-serif;
+}
+
+.contact{
+
+}
+
+.contact span {
+    display: block;
+    font-family: 'Hypermarket-Regular', sans-serif;
+    margin:0px;
+    padding: 0%;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 10px 0;
+    font-family: 'Hypermarket-Regular', sans-serif;
+}
+
+.info p {
+    margin: 5px 0;
+    text-align: left;
+    font-family: 'Hypermarket-Regular', sans-serif;
+}
+
+.line {
+    width: 100%;
+}
+
+p{
+    margin: 5px 0;
+    font-family: 'Hypermarket-Regular', sans-serif;
+
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5px 0;
+}
+
+table th, table td {
+    text-align: left;
+    font-family: 'Hypermarket-Regular', sans-serif;
+}
+
+.barcode {
+    mix-blend-mode: darken; /* Apply the darken effect */
+    margin-top: 15px;
+}
+
+.barcode p {
+    margin: 5px 0;
+    font-family: 'Hypermarket-Regular', sans-serif;
+}
+
+.barcode img {
+    height: auto;
+    width: 58%;
+}
+
+.control_code{
+    display: none;
+    text-align: left;
+}
+
+.thank-you {
+    margin-top: 20px;
+    font-size: 16px;
+    font-family: 'Hypermarket-Regular', sans-serif;
+    text-align: middle;
+}
+
