@@ -95,6 +95,11 @@ table th, table td {
     font-family: 'Hypermarket-Regular', sans-serif;
 }
 
+td:hover{
+    color:blue;
+    cursor: pointer;
+}
+
 .barcode {
     mix-blend-mode: darken; /* Apply the darken effect */
     margin-top: 15px;
@@ -122,3 +127,8 @@ table th, table td {
     text-align: middle;
 }
 
+@media (max-width: 768px) {
+    .portfolio {
+        margin: 0px;
+    }
+}
