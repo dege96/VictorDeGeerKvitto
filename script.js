@@ -1,20 +1,21 @@
 const portfolio = document.querySelector(".portfolio");
-const KognitivetLink = document.getElementById("KognitivetLink");
+const KognitivetLink = document.getElementsByClassName("KognitivetLink");
 const VideosKognitivet = document.getElementById("VideosKognitivet");
-const BackArrows = document.getElementsByClassName("back_arrow");
+const BackArrow = document.querySelector(".back_arrow");
 
-for (let i = 0; i < BackArrows.length; i++) {
-    BackArrows[i].addEventListener('click', function() {
-        window.history.back();  // Go back to the previous page
-        console.log("Back arrow clicked");
-    });
+BackArrow.addEventListener('click', (event) => {
+  console.log("BackArrow clicked");
+  VideosKognitivet.style.display = "none";
+  portfolio.style.display = "block";
+}); 
+
+for (let i = 0; i < KognitivetLink.length; i++) {
+  KognitivetLink[i].addEventListener('click', (event) => {
+    console.log("KognitivetLink clicked");
+    portfolio.style.display = "none";
+    VideosKognitivet.style.display = "flex";
+  });
 }
-
-KognitivetLink.addEventListener('click', (event) => {
-  console.log("KognitivetLink clicked");
-  portfolio.style.display = "none";
-  VideosKognitivet.style.display = "flex";
-});
 
 function copyToClipboard(text) {
   navigator.clipboard.writeText(text).then(() => {
