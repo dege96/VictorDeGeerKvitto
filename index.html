@@ -7,14 +7,92 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <div id="VideosKognitivet">
+        <div id="IgVideo1">
+            <video class="video" controls poster="videos/1.jpg">
+                <source src="videos/1.mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div id="IgVideo2">
+            <video class="video" controls poster="videos/2.jpg">
+                <source src="videos/2.mp4">
+                Your browser does not support the video tag.
+        </div>
+
+        <div id="IgVideo3">
+            <video class="video" controls>
+                <source src="videos/3.mp4">
+                Your browser does not support the video tag.
+        </div>
+
+        <div id="IgVideo4">
+            <video class="video" controls poster="videos/4.jpg">
+                <source src="videos/4.mp4">
+                Your browser does not support the video tag.
+        </div>
+
+        <div id="IgVideo5">
+            <video class="video" controls poster="videos/5.jpg">
+                <source src="videos/5.mp4">
+                Your browser does not support the video tag.
+        </div>
+
+        <div id="IgVideo6">
+            <video class="video" controls poster="videos/6.jpg">
+                <source src="videos/6.mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div id="IgVideo7">
+            <video class="video" controls poster="videos/7.jpg">
+                <source src="videos/7.mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div id="IgVideo8">
+            <video class="video" controls poster="videos/8.jpg">
+                <source src="videos/8.mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div id="IgVideo9">
+            <video class="video" controls poster="videos/9.jpg">
+                <source src="videos/9.mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div id="IgVideo10">
+            <video class="video" controls poster="videos/10.jpg">
+                <source src="videos/10.mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+    </div>
+
+    <div id="copied-message" style="display: none; 
+    position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.548); color: white; padding: 10px 20px; border-radius: 5px; font-size: 16px; z-index: 9999;">
+    Copied to clipboard!
+  </div>
+  
     <div class="portfolio">
         <h1>VICTOR DE GEER</h1>
         <h2 class="subtitle">Creative designer & developer</h2>
         <p class="contact">
-            <p>victordegeer96@gmail.com<br>
-            <p>Tel: 0761914617<br>
+            <p><a href="mailto:victordegeer96@gmail.com">victordegeer96@gmail.com</a><br>
+            <p> <span id="copy-text" class="click-to-copy" onclick="copyToClipboard('0761914617')">0761914617</span><br>
         </p>
-        <h2>Portfolio</h2>
+
+
+<!--         <h2>Portfolio</h2> -->
         <div class="info">
             <p>Date: 2024-11-17 &nbsp;&nbsp;&nbsp; 12:51</p>
             <p>Sign:</p>
@@ -87,15 +165,15 @@
                         <td>UX Design</td>
                     </tr>
                     <tr>
-                        <td>HaSams AB</td>
+                        <td><a href="https://hasamsredovisning.se/">HaSams redovisning AB</a></td>
                         <td>Web design</td>
                     </tr>
                     <tr>
-                        <td>DG Development</td>
+                        <td><a href="https://dgd.solutions/">DG Development</a></td>
                         <td>Web design</td>
                     </tr>
                     <tr>
-                        <td>Kognitivet</td>
+                        <td><a id="KognitivetLink">Kognitivet</a></td>
                         <td>Music & video production</td>
                     </tr>
                 </tbody>
@@ -110,7 +188,10 @@
         <div class="barcode">
             <img src="barcode.png" alt="barcode">
         </div>
-        <p class="thank-you">Lets connect!</p>
+        <p class="thank-you">Let's connect!</p>
     </div>
+
+<script src="script.js"></script>
 </body>
 </html>
+
