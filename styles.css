@@ -24,14 +24,12 @@ body {
 }
 
 .back_arrow{
-    position: absolute;
+    position: fixed;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    margin: 5vh;
+    top: 5vh;
+    left: 5vw;
     filter: invert(100%);
 }
-
 .portfolio {
     display: block;
     max-width: 366px;
@@ -187,9 +185,12 @@ th:nth-child(3), td:nth-child(3) {
 @media (max-width: 768px) {
     .portfolio {
         display: block;
-        max-width: 100000px;
-        margin: 0px;
-        position: static;
+        max-width: 1111111px;
+        margin: 7px auto;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        
     }
 
     .video{ 
