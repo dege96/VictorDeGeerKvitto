@@ -1,6 +1,14 @@
 const portfolio = document.querySelector(".portfolio");
 const KognitivetLink = document.getElementById("KognitivetLink");
 const VideosKognitivet = document.getElementById("VideosKognitivet");
+const BackArrows = document.getElementsByClassName("back_arrow");
+
+for (let i = 0; i < BackArrows.length; i++) {
+    BackArrows[i].addEventListener('click', function() {
+        window.history.back();  // Go back to the previous page
+        console.log("Back arrow clicked");
+    });
+}
 
 KognitivetLink.addEventListener('click', (event) => {
   console.log("KognitivetLink clicked");
@@ -21,3 +29,6 @@ function copyToClipboard(text) {
     console.error('Failed to copy text: ', err);
   });
 }
+
+
+
