@@ -47,7 +47,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('KvittoSmallKludd.png') no-repeat center center;
+    background: url('KvittoSmallKludd2.png') no-repeat center center;
     background-size: cover;
     z-index: -1; /* Ensure the background is behind the content */
 
