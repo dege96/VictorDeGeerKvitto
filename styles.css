@@ -220,6 +220,10 @@ th:nth-child(3), td:nth-child(3) {
     width: 25vw;
 }
 
+.IphoneVideo{
+    width: 15vw !important;
+}
+
 .Kogmusic{
     height: 352px;
 }
@@ -242,4 +246,46 @@ th:nth-child(3), td:nth-child(3) {
     .Kogmusic{
         height: 152px;
     }
+}
+
+.video-info-box {
+    position: fixed;
+    display: none;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    pointer-events: none;
+    z-index: 1000;
+    width: 150px;
+    backdrop-filter: blur(5px);
+    transform: translate3d(0, 0, 0);
+}
+
+.info-content {
+    font-size: 14px;
+}
+
+.Contribution{
+    margin: 0 0 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.info-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.info-content li {
+    margin: 5px 0;
+    opacity: 0.8;
+}
+
+.video-description {
+    font-size: 12px;
+    margin: 5px 0 10px;
+    opacity: 0.9;
+    font-style: italic;
 }
