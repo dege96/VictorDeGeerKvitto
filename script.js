@@ -11,8 +11,8 @@ const BackArrows = document.querySelectorAll(".back_arrow");
 
 // Back arrow click handler
 BackArrows.forEach((BackArrow) => {
-    BackArrow.addEventListener('click', (event) => {
-        console.log("BackArrow clicked");
+  BackArrow.addEventListener('click', (event) => {
+    console.log("BackArrow clicked");
         const containers = [
             VideosKognitivetContainer,
             MusicKognitivetContainer,
@@ -25,34 +25,44 @@ BackArrows.forEach((BackArrow) => {
             }
         });
         
-        portfolio.style.display = "block";
-    });
+        // Rensa physics-världen om den finns
+        if (window.currentPhysics) {
+            cleanupPhysics(
+                window.currentPhysics.engine,
+                window.currentPhysics.render,
+                window.currentPhysics.runner
+            );
+            window.currentPhysics = null;
+        }
+        
+    portfolio.style.display = "block";
+  });
 });
 
 // Navigation event listeners för olika sektioner
 for (let i = 0; i < KognitivetVideoLink.length; i++) {
-    KognitivetVideoLink[i].addEventListener('click', (event) => {
-        console.log("KognitivetVideoLink clicked");
-        portfolio.style.display = "none";
-        VideosKognitivetContainer.style.display = "flex";
-    });
+  KognitivetVideoLink[i].addEventListener('click', (event) => {
+    console.log("KognitivetVideoLink clicked");
+    portfolio.style.display = "none";
+    VideosKognitivetContainer.style.display = "flex";
+  });
 }
 
 for (let i = 0; i < KognitivetMusicLink.length; i++) {
-    KognitivetMusicLink[i].addEventListener('click', (event) => {
-        console.log("KognitivetMusicLink clicked");
-        portfolio.style.display = "none";
-        MusicKognitivetContainer.style.display = "flex";
-    });
+  KognitivetMusicLink[i].addEventListener('click', (event) => {
+    console.log("KognitivetMusicLink clicked");
+    portfolio.style.display = "none";
+    MusicKognitivetContainer.style.display = "flex";
+  });
 }
 
 for (let i = 0; i < Kognitivet_Video_and_Music_Link.length; i++) {
-    Kognitivet_Video_and_Music_Link[i].addEventListener('click', (event) => {
-        console.log("Kognitivet_Video_and_Music_Link clicked");
-        portfolio.style.display = "none";
-        MusicKognitivetContainer.style.display = "flex";
-        VideosKognitivetContainer.style.display = "flex";
-    });
+  Kognitivet_Video_and_Music_Link[i].addEventListener('click', (event) => {
+    console.log("Kognitivet_Video_and_Music_Link clicked");
+    portfolio.style.display = "none";
+    MusicKognitivetContainer.style.display = "flex";
+    VideosKognitivetContainer.style.display = "flex";
+  });
 }
 
 for (let i = 0; i < ImageDesignLink.length; i++) {
@@ -67,15 +77,15 @@ for (let i = 0; i < ImageDesignLink.length; i++) {
 
 // Kopiera till urklipp funktion
 function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        const messageElement = document.getElementById('copied-message');
+  navigator.clipboard.writeText(text).then(() => {
+    const messageElement = document.getElementById('copied-message');
         messageElement.style.display = 'block';
-        setTimeout(() => {
-            messageElement.style.display = 'none';
-        }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy text: ', err);
-    });
+    setTimeout(() => {
+      messageElement.style.display = 'none';
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy text: ', err);
+  });
 }
 
 // Video hover info box hantering
@@ -218,11 +228,38 @@ function initPhysics() {
         originalSizes.set(img.src, { width, height });
         
         const startY = 100;
-        const body = Bodies.rectangle(
+
+        // Skapa en temporär canvas för att analysera bildens alpha-kanal
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.drawImage(img, 0, 0);
+        
+        // Samla punkter från bildens kanter
+        const points = [];
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // Sampla punkter med ett intervall för bättre prestanda
+        const sampleInterval = 5;
+        for (let y = 0; y < canvas.height; y += sampleInterval) {
+            for (let x = 0; x < canvas.width; x += sampleInterval) {
+                const alpha = data[((y * canvas.width + x) * 4) + 3];
+                if (alpha > 127) { // Om pixeln inte är transparent
+                    points.push({ x: x, y: y });
+                }
+            }
+        }
+
+        // Använd Matter.Bodies.fromVertices direkt med punkterna
+        const body = Bodies.fromVertices(
             Math.random() * (window.innerWidth - width - 200) + width/2 + 100,
             startY,
-            width,
-            height,
+            [points.map(p => ({
+                x: p.x * (width / img.naturalWidth),
+                y: p.y * (height / img.naturalHeight)
+            }))],
             {
                 render: {
                     sprite: {
@@ -233,9 +270,9 @@ function initPhysics() {
                 },
                 restitution: 0.2,
                 friction: 0.1,
-                density: 0.001,        // Minska densiteten
-                frictionAir: 0.01,     // Öka luftmotståndet något
-                slop: 0.05,           // Minska genomträngning
+                density: 0.001,
+                frictionAir: 0.01,
+                slop: 0.05,
                 collisionFilter: {
                     category: 0x0001,
                     mask: 0xFFFFFFFF
@@ -244,70 +281,80 @@ function initPhysics() {
         );
 
         // Lägg till dubbelklick detektion
-        let lastClickTime = 0;
+        let mouseDownTime = 0;
+        let isDragging = false;
+
         Matter.Events.on(mouseConstraint, 'mousedown', function(event) {
             const mousePosition = event.mouse.position;
-            const currentTime = new Date().getTime();
             
             if (Matter.Bounds.contains(body.bounds, mousePosition)) {
-                if (currentTime - lastClickTime < 300) { // Dubbelklick inom 300ms
-                    const originalSize = originalSizes.get(body.render.sprite.texture);
-                    const scaleFactor = 1.2;
-                    
-                    // Spara ursprungliga värden
-                    const startAngle = body.angle;
-                    const startPos = { x: body.position.x, y: body.position.y };
-                    const targetPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-                    const startScale = 1;
-                    const targetScale = scaleFactor;
-                    
-                    const animationDuration = 500; // 500ms
-                    const startTime = Date.now();
-                    
-                    // Stoppa all rörelse
-                    Matter.Body.setVelocity(body, { x: 0, y: 0 });
-                    Matter.Body.setAngularVelocity(body, 0);
-                    body.isStatic = true;
-                    
-                    // Animera allt tillsammans
-                    const animate = () => {
-                        const elapsed = Date.now() - startTime;
-                        const progress = Math.min(elapsed / animationDuration, 1);
-                        
-                        // Cubic easing
-                        const easeProgress = 1 - Math.pow(1 - progress, 3);
-                        
-                        // Animera rotation
-                        const currentAngle = startAngle + (0 - startAngle) * easeProgress;
-                        Matter.Body.setAngle(body, currentAngle);
-                        
-                        // Animera position
-                        const currentX = startPos.x + (targetPos.x - startPos.x) * easeProgress;
-                        const currentY = startPos.y + (targetPos.y - startPos.y) * easeProgress;
-                        Matter.Body.setPosition(body, { x: currentX, y: currentY });
-                        
-                        // Animera storlek med bättre kontroll
-                        if (progress < 1) {
-                            requestAnimationFrame(animate);
-                        } else {
-                            // När animationen är klar
-                            setTimeout(() => {
-                                // Återställ physics-kroppen till originalstorlek
-                                Matter.Body.setPosition(body, {
-                                    x: window.innerWidth / 2,
-                                    y: window.innerHeight / 2
-                                });
-                                Matter.Body.scale(body, 1, 1);
-                                body.isStatic = false;
-                            }, 1000);
-                        }
-                    };
-                    
-                    // Starta animationen
-                    animate();
-                }
-                lastClickTime = currentTime;
+                mouseDownTime = Date.now();
+                isDragging = false;
             }
+        });
+
+        Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
+            if (mouseDownTime > 0) {
+                isDragging = true;
+            }
+        });
+
+        Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
+            const mouseUpTime = Date.now();
+            const clickDuration = mouseUpTime - mouseDownTime;
+            
+            if (!isDragging && clickDuration < 150) { // Kort klick, mindre än 150ms
+                const originalSize = originalSizes.get(body.render.sprite.texture);
+                const scaleFactor = 1.2;
+                
+                // Spara ursprungliga värden
+                const startAngle = body.angle;
+                const startPos = { x: body.position.x, y: body.position.y };
+                const targetPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+                
+                const animationDuration = 500;
+                const startTime = Date.now();
+                
+                // Stoppa all rörelse
+                Matter.Body.setVelocity(body, { x: 0, y: 0 });
+                Matter.Body.setAngularVelocity(body, 0);
+                body.isStatic = true;
+                
+                // Animera allt tillsammans
+                const animate = () => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / animationDuration, 1);
+                    
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    
+                    // Animera rotation
+                    const currentAngle = startAngle + (0 - startAngle) * easeProgress;
+                    Matter.Body.setAngle(body, currentAngle);
+                    
+                    // Animera position
+                    const currentX = startPos.x + (targetPos.x - startPos.x) * easeProgress;
+                    const currentY = startPos.y + (targetPos.y - startPos.y) * easeProgress;
+                    Matter.Body.setPosition(body, { x: currentX, y: currentY });
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        setTimeout(() => {
+                            Matter.Body.setPosition(body, {
+                                x: window.innerWidth / 2,
+                                y: window.innerHeight / 2
+                            });
+                            Matter.Body.scale(body, 1, 1);
+                            body.isStatic = false;
+                        }, 1000);
+                    }
+                };
+                
+                animate();
+            }
+            
+            mouseDownTime = 0;
+            isDragging = false;
         });
 
         bodies.push(body);
@@ -367,9 +414,17 @@ function initPhysics() {
     engine.world.gravity.y = 1;
     engine.world.gravity.scale = 0.001;  // Dubbla gravitationen tillbaka till original
 
-    // Starta physics engine
-    Runner.run(engine);
+    // Spara runner referensen
+    const runner = Runner.create();
+    Runner.run(runner, engine);
     Render.run(render);
+
+    // Spara referenser globalt
+    window.currentPhysics = {
+        engine: engine,
+        render: render,
+        runner: runner
+    };
 
     // Window resize hantering
     window.addEventListener('resize', function() {
@@ -377,6 +432,15 @@ function initPhysics() {
         render.canvas.height = window.innerHeight;
         Matter.Render.setPixelRatio(render, window.devicePixelRatio);
     });
+}
+
+// Lägg till en cleanup funktion
+function cleanupPhysics(engine, render, runner) {
+    Matter.World.clear(engine.world);
+    Matter.Engine.clear(engine);
+    Matter.Render.stop(render);
+    Matter.Runner.stop(runner);
+    render.canvas.remove();
 }
 
 
