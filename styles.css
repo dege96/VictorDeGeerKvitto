@@ -12,6 +12,7 @@ body {
     text-align: center;
     margin: 0;  
     padding: 0;
+    overflow-x: hidden;
 }
 
 .click-to-copy {
@@ -171,6 +172,16 @@ th:nth-child(3), td:nth-child(3) {
     margin-top: 14px;
 }
 
+#ImageDesignContainer{
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    padding: 10vh;
+}
+
 #VideosKognitivetContainer{
     display: none;
     flex-wrap: wrap;
@@ -288,4 +299,80 @@ th:nth-child(3), td:nth-child(3) {
     margin: 5px 0 10px;
     opacity: 0.9;
     font-style: italic;
+}
+
+
+
+@media (max-width: 768px) {
+    .ux-image, .web-image, .design-image { 
+        width: 80vw;
+    }
+}
+
+
+
+#ImageDesign {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#ImageDesign canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 1;
+}
+
+.design-image {
+    position: absolute;
+    visibility: hidden;
+    max-width: calc(100vh/3);
+    height: auto;
+}
+
+.image-projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vh;
+    width: 100%;
+}
+
+.white_title {
+    font-size: 24px;
+    margin: 15px;
+    font-family: 'Hypermarket-Regular', sans-serif;
+    color: #ffff;
+}
+
+#ImageDesignContainer .back_arrow {
+    position: fixed;
+    cursor: pointer;
+    top: 5vh;
+    left: 5vw;
+    filter: invert(100%);
+    z-index: 20; /* Högre än white_title för att säkerställa att pilen alltid är klickbar */
+}
+
+.image-projects-container,
+.ux-projects-container,
+.web-projects-container {
+    display: none;
+}
+
+.ux-image,
+.web-image {
+    display: none;
+}
+
+.ux-project,
+.web-project,
+.image-project {
+    margin: 10px;
 }
