@@ -8,34 +8,124 @@ const MusicKognitivetContainer = document.getElementById("MusicKognitivetContain
 const ImageDesignContainer = document.getElementById("ImageDesignContainer");
 const ImageDesignLink = document.getElementsByClassName("ImageDesignLink");
 const BackArrows = document.querySelectorAll(".back_arrow");
+const crumbleVideos = document.querySelectorAll(".crumbleVideoClass");
 
-// Back arrow click handler
-BackArrows.forEach((BackArrow) => {
-  BackArrow.addEventListener('click', (event) => {
-    console.log("BackArrow clicked");
-        const containers = [
-            VideosKognitivetContainer,
-            MusicKognitivetContainer,
-            ImageDesignContainer
-        ];
-        
-        containers.forEach(container => {
-            if (container) {
-                container.style.display = "none";
-            }
+// Ta bort video-skapandet från början av filen och ersätt med:
+const crumbleVideo = document.getElementById('crumbleVideo');
+const crumbleVideoReverse = document.getElementById('crumbleVideoReverse');
+if (!crumbleVideo || !crumbleVideoReverse) {
+    console.error('Could not find crumbleVideo element');
+}
+
+// Hjälpfunktion för att spela animationen och hantera övergångar
+async function playTransitionAnimation(callback) {
+    if (!crumbleVideo) {
+        callback();
+        return;
+    }
+    portfolio.style.filter = 'blur(100px)';
+    // Använd första source (crumble.webm)
+    crumbleVideo.load();
+    crumbleVideo.style.display = 'block';
+
+    
+    crumbleVideo.addEventListener('loadeddata', () => {
+        portfolio.style.display = 'none';
+    });
+    
+    try {
+        await crumbleVideo.play();
+        crumbleVideo.style.filter = 'blur(0px)';
+        await new Promise(resolve => {
+            crumbleVideo.onended = resolve;
         });
         
-        // Rensa physics-världen om den finns
-        if (window.currentPhysics) {
-            cleanupPhysics(
-                window.currentPhysics.engine,
-                window.currentPhysics.render,
-                window.currentPhysics.runner
-            );
-            window.currentPhysics = null;
-        }
+        crumbleVideo.style.display = 'none';
+        callback();
+        crumbleVideo.currentTime = 0;
+    } catch (error) {
+        console.error('Video playback failed:', error);
+        callback();
+    }
+}
+
+// Hjälpfunktion för att spela animationen och hantera övergångar
+async function playTransitionAnimationReverse(callback) {
+    if (!crumbleVideoReverse) {
+        callback();
+        return;
+    }
+    crumbleVideo.style.filter = 'blur(0px)';
+    crumbleVideoReverse.style.filter = 'blur(0px)';
+    portfolio.style.filter = 'blur(100px)';
+
+    
+    // Använd första source (crumble.webm)
+    crumbleVideoReverse.load();
+    crumbleVideoReverse.style.display = 'block';
+    portfolio.style.display = 'none';
+    
+    try {
+        await crumbleVideoReverse.play();
+        await new Promise(resolve => {
+            crumbleVideoReverse.onended = resolve;
+        });
         
-    portfolio.style.display = "block";
+        crumbleVideoReverse.style.display = 'none';
+        callback();
+        crumbleVideoReverse.currentTime = 0;
+    } catch (error) {
+        console.error('Reverse video playback failed:', error);
+        callback();
+    }
+}
+
+// Funktion för att uppdatera video höjden
+function updateVideoHeight() {
+    const portfolioHeight = portfolio.offsetHeight;
+    crumbleVideos.forEach(video => {
+        video.style.height = `${portfolioHeight + 20}px`;
+    });
+}
+
+// Uppdatera höjden när sidan laddas
+updateVideoHeight();
+
+// Uppdatera höjden om fönstret ändrar storlek
+window.addEventListener('resize', updateVideoHeight);
+
+// Uppdatera back arrow event listener
+BackArrows.forEach((BackArrow) => {
+  BackArrow.addEventListener('click', async (event) => {
+    console.log("BackArrow clicked");
+    
+    // Göm först alla containers
+    const containers = [
+        VideosKognitivetContainer,
+        MusicKognitivetContainer,
+        ImageDesignContainer
+    ];
+    
+    containers.forEach(container => {
+        if (container) {
+            container.style.display = "none";
+        }
+    });
+    
+    // Städa upp physics om det behövs
+    if (window.currentPhysics) {
+        cleanupPhysics(
+            window.currentPhysics.engine,
+            window.currentPhysics.render,
+            window.currentPhysics.runner
+        );
+        window.currentPhysics = null;
+    }
+
+    // Spela reverse animationen och visa portfolio efter
+    await playTransitionAnimationReverse(() => {
+        portfolio.style.display = "block";
+    });
   });
 });
 
@@ -43,35 +133,38 @@ BackArrows.forEach((BackArrow) => {
 for (let i = 0; i < KognitivetVideoLink.length; i++) {
   KognitivetVideoLink[i].addEventListener('click', (event) => {
     console.log("KognitivetVideoLink clicked");
-    portfolio.style.display = "none";
-    VideosKognitivetContainer.style.display = "flex";
+    playTransitionAnimation(() => {
+        VideosKognitivetContainer.style.display = "flex";
+    });
   });
 }
 
 for (let i = 0; i < KognitivetMusicLink.length; i++) {
   KognitivetMusicLink[i].addEventListener('click', (event) => {
     console.log("KognitivetMusicLink clicked");
-    portfolio.style.display = "none";
-    MusicKognitivetContainer.style.display = "flex";
+    playTransitionAnimation(() => {
+        MusicKognitivetContainer.style.display = "flex";
+    });
   });
 }
 
 for (let i = 0; i < Kognitivet_Video_and_Music_Link.length; i++) {
   Kognitivet_Video_and_Music_Link[i].addEventListener('click', (event) => {
     console.log("Kognitivet_Video_and_Music_Link clicked");
-    portfolio.style.display = "none";
-    MusicKognitivetContainer.style.display = "flex";
-    VideosKognitivetContainer.style.display = "flex";
+    playTransitionAnimation(() => {
+        MusicKognitivetContainer.style.display = "flex";
+        VideosKognitivetContainer.style.display = "flex";
+    });
   });
 }
 
 for (let i = 0; i < ImageDesignLink.length; i++) {
     ImageDesignLink[i].addEventListener('click', (event) => {
         console.log("ImageDesignLink clicked");
-        portfolio.style.display = "none";
-        ImageDesignContainer.style.display = "flex";
-        // Ge bilderna lite tid att laddas innan physics startar
-        setTimeout(initPhysics, 200);
+        playTransitionAnimation(() => {
+            ImageDesignContainer.style.display = "flex";
+            setTimeout(initPhysics, 200);
+        });
     });
 }
 
@@ -207,7 +300,10 @@ function initPhysics() {
     const images = document.querySelectorAll('.design-image');
     const originalSizes = new Map();
 
-    // Lägg till dubbelklick hantering i createPhysicsBody
+    // Lägg till i början av initPhysics
+    let isAnyCentered = false;
+
+    // Skapa en temporär canvas för att analysera bildens alpha-kanal
     function createPhysicsBody(img) {
         // Beräkna maximal storlek baserat på både bredd och höjd
         const maxWidth = window.innerWidth / 3;
@@ -303,9 +399,11 @@ function initPhysics() {
             const mouseUpTime = Date.now();
             const clickDuration = mouseUpTime - mouseDownTime;
             
-            if (!isDragging && clickDuration < 150) { // Kort klick, mindre än 150ms
+            if (!isDragging && clickDuration < 150 && !isAnyCentered) { // Lägg till kontroll för isAnyCentered
                 const originalSize = originalSizes.get(body.render.sprite.texture);
                 const scaleFactor = 1.2;
+                
+                isAnyCentered = true; // Sätt flaggan när en bild centreras
                 
                 // Spara ursprungliga värden
                 const startAngle = body.angle;
@@ -346,6 +444,7 @@ function initPhysics() {
                             });
                             Matter.Body.scale(body, 1, 1);
                             body.isStatic = false;
+                            isAnyCentered = false; // Återställ flaggan när animeringen är klar
                         }, 1000);
                     }
                 };
@@ -441,6 +540,49 @@ function cleanupPhysics(engine, render, runner) {
     Matter.Render.stop(render);
     Matter.Runner.stop(runner);
     render.canvas.remove();
+}
+
+function createPhysicsVideo(videoElement) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+
+    // Rita videon på canvas
+    ctx.drawImage(videoElement, 0, 0);
+
+    // Samla punkter från canvas (liknande som med bilder)
+    const points = [];
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    // Sampla punkter
+    for (let y = 0; y < canvas.height; y += 5) {
+        for (let x = 0; x < canvas.width; x += 5) {
+            const alpha = data[((y * canvas.width + x) * 4) + 3];
+            if (alpha > 127) {
+                points.push({ x: x, y: y });
+            }
+        }
+    }
+
+    // Skapa fysikobjekt
+    const body = Bodies.fromVertices(
+        Math.random() * (window.innerWidth - 200) + 100,
+        100,
+        [points.map(p => ({ x: p.x, y: p.y }))],
+        {
+            render: {
+                sprite: {
+                    texture: videoElement.src,
+                    xScale: 1,
+                    yScale: 1
+                }
+            }
+        }
+    );
+
+    Composite.add(engine.world, body);
 }
 
 
