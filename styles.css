@@ -1,3 +1,36 @@
+:root {
+    @media (min-width: 480px) {
+        --general-text: 12px;
+        --general-big-text: 14px;
+    }
+
+    @media (min-width: 768px) {
+        --general-text: 12px;
+        --general-big-text: 14px;
+    }
+
+    @media (min-width: 1024px) {
+        --general-text: 14px;
+        --general-big-text: 16px;
+    }
+
+    @media (min-width: 1440px) {
+        --general-text: 16px;
+        --general-big-text: 18px;
+    }
+
+    @media (min-width: 1920px) {
+        --general-text: 29px;
+        --general-big-text: 32px;
+        --margin-top: 20px;
+    }
+
+    @media (min-width: 2500px) {
+        --general-text: 30px;
+        --general-big-text: 36px;
+    }
+}
+
 @font-face {
     font-family: 'Hypermarket-Regular';
     src:url('fonts/Hypermarket-Regular.ttf') format('truetype');
@@ -13,6 +46,8 @@ body {
     margin: 0;  
     padding: 0;
     overflow-x: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 
 .click-to-copy {
@@ -25,6 +60,7 @@ body {
 }
 
 .back_arrow{
+    width: 5vh;
     position: fixed;
     cursor: pointer;
     top: 5vh;
@@ -35,7 +71,7 @@ body {
 
 h1 {
     font-size: 24px;
-    margin: 15px;
+    margin: 0;
     font-family: 'Hypermarket-Regular', sans-serif;
 }
 
@@ -48,7 +84,7 @@ h1 {
 
 .subtitle {
     font-size: 16px;
-    margin: 5px 0 5px;
+    margin: 0;
     font-family: 'Hypermarket-Regular', sans-serif;
 }
 
@@ -65,7 +101,7 @@ h1 {
 
 h2 {
     font-size: 20px;
-    margin-top: 10px 0;
+    margin: 0;
     font-family: 'Hypermarket-Regular', sans-serif;
 }
 
@@ -81,8 +117,7 @@ h2 {
 }
 
 p{
-    margin: 5px 0;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    margin: 0;    font-family: 'Hypermarket-Regular', sans-serif;
 }
 
 table {
@@ -120,29 +155,22 @@ th:nth-child(3), td:nth-child(3) {
     width: 40%;               /* 40% for third column (Program/Area) */
 }
 
-.barcode {
+.barcode img{
+    width: 30vh;
     mix-blend-mode: darken; /* Apply the darken effect */
-    margin-top: 15px;
+    margin-top: 1vh;
 }
 
 .barcode p {
     margin: 5px 0;
     font-family: 'Hypermarket-Regular', sans-serif;
+    font-size: var(--general-text);
 }
 
-.barcode img {
-    height: auto;
-    width: 58%;
-}
-
-.control_code{
-    display: none;
-    text-align: left;
-}
 
 .thank-you {
     margin-top: 20px;
-    font-size: 16px;
+    font-size: var(--general-text);
     font-family: 'Hypermarket-Regular', sans-serif;
     text-align: middle;
 }
@@ -218,26 +246,6 @@ th:nth-child(3), td:nth-child(3) {
     height: 352px;
 }
 
-@media (max-width: 768px) {
-    .portfolio {
-        display: block;
-        max-width: 1111111px;
-        margin: 7px auto;
-        padding: 18px;
-        position: relative;
-        overflow: hidden;
-        
-    }
-
-    .video{ 
-        width: 80vw;
-    }
-
-    .Kogmusic{
-        height: 152px;
-    }
-}
-
 .video-info-box {
     position: fixed;
     display: none;
@@ -253,7 +261,7 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 .info-content {
-    font-size: 14px;
+    font-size: var(--general-text)
 }
 
 .Contribution{
@@ -274,7 +282,7 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 .video-description {
-    font-size: 12px;
+    font-size: var(--general-text);
     margin: 5px 0 10px;
     opacity: 0.9;
     font-style: italic;
@@ -324,7 +332,7 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 .white_title {
-    font-size: 24px;
+    font-size: var(--general-big-text);
     margin: 15px;
     font-family: 'Hypermarket-Regular', sans-serif;
     color: #ffff;
@@ -364,30 +372,78 @@ th:nth-child(3), td:nth-child(3) {
     z-index: 1000;
     display: none;
     transform-origin: center center;
-    filter: blur(10px);
+    /* filter: blur(10px); */
     transition: filter 0.5s ease;
 }
 
 .portfolio {
-    display: block;
-    max-width: 366px;
-    margin: 7px auto;
-    padding: 20px;
-    position: relative; /* Needed for correct positioning of the pseudo-element */
-    overflow: hidden; /* Ensure the mask stays within the container */
+    display: flex;
+    position: fixed;
+    margin-top: 3vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vh;
+    height: 90vh;
+    overflow: hidden;
     transition: filter 5s ease;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: stretch;
 }
 
-/* Add a pseudo-element for the background */
-.portfolio::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('KvittoSmallKludd3.png') no-repeat center center;
-    background-size: cover;
-    z-index: -1; /* Ensure the background is behind the content */
+.kvitto {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
+.kvitto-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    height: 90vh;
+    max-width: 30vh;
+}
+
+.kvitto-image {
+    height: 90vh;
+    position: absolute;
+    z-index: -1;
+}
+
+.subtitle {
+    font-size: var(--general-text);
+}
+
+.info p {
+    font-size: var(--general-text);
+}
+
+a {
+    font-size: var(--general-text);
+}
+
+h1 {
+    font-size: var(--general-big-text);
+}
+
+table th, table td {
+    font-size: var(--general-text);
+}
+
+@media (max-width: 768px) {
+
+
+    .video{ 
+        width: 80vw;
+    }
+
+    .Kogmusic{
+        height: 152px;
+    }
 }

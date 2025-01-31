@@ -1,5 +1,5 @@
 // Event listeners för navigering
-const portfolio = document.querySelector(".portfolio");
+const portfolio = document.querySelector(".kvitto");
 const KognitivetVideoLink = document.getElementsByClassName("KognitivetVideoLink");
 const KognitivetMusicLink = document.getElementsByClassName("KognitivetMusicLink");
 const Kognitivet_Video_and_Music_Link = document.getElementsByClassName("Kognitivet_Video_and_Music_Link");
@@ -23,7 +23,6 @@ async function playTransitionAnimation(callback) {
         callback();
         return;
     }
-    portfolio.style.filter = 'blur(100px)';
     // Använd första source (crumble.webm)
     crumbleVideo.load();
     crumbleVideo.style.display = 'block';
@@ -35,7 +34,6 @@ async function playTransitionAnimation(callback) {
     
     try {
         await crumbleVideo.play();
-        crumbleVideo.style.filter = 'blur(0px)';
         await new Promise(resolve => {
             crumbleVideo.onended = resolve;
         });
@@ -55,9 +53,7 @@ async function playTransitionAnimationReverse(callback) {
         callback();
         return;
     }
-    crumbleVideo.style.filter = 'blur(0px)';
-    crumbleVideoReverse.style.filter = 'blur(0px)';
-    portfolio.style.filter = 'blur(100px)';
+
 
     
     // Använd första source (crumble.webm)
