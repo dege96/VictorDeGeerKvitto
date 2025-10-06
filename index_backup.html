@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="Victor De Geer is a creative designer and developer, specializing in UX/UI design, web development, and multimedia production. Explore his portfolio and projects.">
+        <meta name="keywords" content="Victor De Geer, designer, developer, UX design, web design, music production, video production, Adobe, Figma, Framer, HTML, CSS, JS, creative portfolio">
+        <meta name="author" content="Victor De Geer">
+    
+        <!-- Open Graph Meta Tags for Social Media -->
+        <meta property="og:title" content="Victor De Geer - Creative Designer & Developer">
+        <meta property="og:description" content="Victor De Geer is a creative designer & developer with expertise in UX/UI design, web programming, and multimedia production. Check out his portfolio!">
+        <meta property="og:image" content="kvittopreview.png"> <!-- Replace with a relevant image for preview -->
+        <meta property="og:url" content="https://vdgportfolio.netlify.app/"> <!-- Replace with your website URL -->
+    
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Victor De Geer - Creative Designer & Developer">
+        <meta name="twitter:description" content="Victor De Geer is a creative designer & developer with expertise in UX/UI design, web programming, and multimedia production. Check out his portfolio!">
+        <meta name="twitter:image" content="kvittopreview.png"> <!-- Replace with a relevant image for Twitter preview -->
+
+
+    <!-- Title of the page -->
+    <title>Victor De Geer - Creative Designer & Developer</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="canonical" href="https://vdgportfolio.netlify.app/">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+    <!-- Lägg till direkt efter body-taggen öppnas, före allt annat innehåll -->
+    <video class="crumbleVideoClass" id="crumbleVideo" playsinline>
+        <source src="Pre-comp2.mp4" type="video/mp4" id="videoSource">
+    </video>
+
+    <video class="crumbleVideoClass" id="crumbleVideoReverse" playsinline>
+        <source src="crumble_reverse.webm" type="video/webm" id="videoSourceReverse">
+    </video>
+
+    <div id="video-info-box" class="video-info-box">
+        <div class="info-content">
+            <h3 class="Contribution">Contribution</h3>
+            <ul>
+                <li>Music</li>
+                <li>Filming</li>
+                <li>Editing</li>
+                <li>Directing</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="copied-message" style="display: none; 
+    position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.548); color: white; padding: 10px 20px; border-radius: 5px; font-size: 16px; z-index: 9999;">
+    Copied to clipboard!
+    </div>
+
+    <div id="VideosKognitivetContainer">
+        <p class="white_title"> Video production</p>
+        <div id="VideosKognitivet">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+
+
+
+            <div id="IgVideo10">
+                <video class="video" controls poster="videos/10.jpg" 
+                    data-music="true" 
+                    data-filming="false" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/10.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo9">
+                <video class="video" controls poster="videos/9.jpg"
+                    data-music="true" 
+                    data-filming="false" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/9.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo2">
+                <video class="video" controls poster="videos/2.jpg"
+                    data-music="false" 
+                    data-filming="true" 
+                    data-editing="true" 
+                    data-directing="true">
+                    <source src="videos/2.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo3">
+                <video class="video" controls
+                    data-music="true" 
+                    data-filming="true" 
+                    data-editing="true" 
+                    data-directing="true">
+                    <source src="videos/3.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo4">
+                <video class="video" controls poster="videos/4.jpg"
+                    data-music="true" 
+                    data-filming="true" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/4.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo5">
+                <video class="video" controls poster="videos/5.jpg"
+                    data-music="false" 
+                    data-filming="false" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/5.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo6">
+                <video class="video" controls poster="videos/6.jpg"
+                    data-music="true" 
+                    data-filming="true" 
+                    data-editing="true" 
+                    data-directing="true">
+                    <source src="videos/6.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo7">
+                <video class="video" controls poster="videos/7.jpg"
+                    data-music="true" 
+                    data-filming="false" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/7.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo1">
+                <video class="video" controls poster="videos/1.jpg"
+                    data-music="false" 
+                    data-filming="true" 
+                    data-editing="true" 
+                    data-directing="true">
+                    <source src="videos/1.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IgVideo11">
+                <video class="video" controls poster="videos/11.jpg"
+                    data-music="false" 
+                    data-filming="false" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/11.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div id="IphoneVideo1">
+                <video class="IphoneVideo" controls
+                    data-music="false" 
+                    data-filming="false" 
+                    data-editing="true" 
+                    data-directing="false">
+                    <source src="videos/12.mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="MusicKognitivetContainer">
+        <p class="white_title"> Music production</p>
+        <div id="MusicKognitivet">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/0DN0ota0SoWObQbHLvVPxk?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/08CaH2QJfcoFULIWj4VFNC?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/6PdGPH9fZEpUlRyHv7ztTU?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/72HGg1NlNMp7dRnTBl8kJv?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>            </div>
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/2eAzgdDwYmcaG8NDTQD3Ds?utm_source=generator&theme=0" width="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>        
+            </div>
+
+            <div >
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/77pCYVdGV0SAXV0BiprMmk?utm_source=generator&theme=0" width="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>        </div>
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/6pVltIfOHACjrSxWU5w8pT?utm_source=generator&theme=0" width="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>        </div>
+
+            <div>
+                <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/15GgVydavTS9Kgx1Yy8lvR?utm_source=generator&theme=0" width="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>        </div>
+            </div>
+    </div>
+
+    <div id="ImageDesignContainer">
+        <p class="white_title"> Image Design/Vector graphics</p>
+        <div id="ImageDesign">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+
+            <div class="image-project">
+                <img src="images/FB 2021.png" alt="Flashback 2021 Logo" class="design-image">
+            </div>
+            
+            <div class="image-project">
+                <img src="images/Flashback 360.png" alt="Flashback 360 Logo" class="design-image">
+            </div>
+
+            <div class="image-project">
+                <img src="images/gameboy.png" alt="Gameboy Design" class="design-image">
+            </div>
+
+            <div class="image-project">
+                <img src="images/rockstar8.1.png" alt="Rockstar Design" class="design-image">
+            </div>
+
+            <div class="image-project">
+                <img src="images/T-mud.png" alt="T-mud Design" class="design-image">
+            </div>
+
+            <div class="image-project">
+                <img src="images/terran.png" alt="Terran Logo" class="design-image">
+            </div>
+        </div>
+    </div>
+
+    <div class="kvitto">
+        <div class="kvitto-container">
+            <img src="KvittoSmallKludd3.png" alt="Kvitto" class="kvitto-image">
+        <div class="portfolio">
+            <h1>VICTOR DE GEER</h1>
+            <h2 class="subtitle">Creative designer & developer</h2>
+            <p class="contact">
+                <p><a href="mailto:victordegeer96@gmail.com">victordegeer96@gmail.com</a><br>
+    <!--             <p> <span id="copy-text" class="click-to-copy" onclick="copyToClipboard('0761914617')">0761914617</span><br> -->
+            </p>
+    
+    
+    <!--         <h2>Portfolio</h2> -->
+            <div class="info">
+                <p>Date: 2024-11-17 &nbsp;&nbsp;&nbsp; 12:51</p>
+                <p>Sign:</p>
+            </div>
+    
+            <img src="line.svg" alt="line" class="line">
+            <div class="table1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="generalText">Skills</th>
+                            <th class="generalText">Years</th>
+                            <th class="generalText">Program</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a class="UXUILink">UX/UI Design</a></td>
+                            <td>5,00</td>
+                            <td>Figma, Framer</td>
+                        </tr>
+                        <tr>
+                            <td><a class="WebProgrammingLink">Web programming</a></td>
+                            <td>3,00</td>
+                            <td>JS, HTML, CSS</td>
+                        </tr>
+                        <tr>
+                            <td><a class="ImageDesignLink">Image design</a></td>
+                            <td>3,00</td>
+                            <td>Photoshop</td>
+                        </tr>
+                        <tr>
+                            <td><a class="ImageDesignLink">Vector graphics</a></td>
+                            <td>4,00</td>
+                            <td>Illustrator</td>
+                        </tr>
+                        <tr>
+                            <td><a class="KognitivetVideoLink">Video production</a></td>
+                            <td>3,00</td>
+                            <td>Premiere</td>
+                        </tr>
+                        <tr>
+                            <td>Animation</td>
+                            <td>1,00</td>
+                            <td>After Effects/</td>
+                        </tr>
+                        <tr>
+                            <td><a class="KognitivetMusicLink">Music production</a></td>
+                            <td>8,00</td>
+                            <td><a class="KognitivetMusicLink">FL Studio</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <img src="line.svg" alt="line" class="line">
+    
+            <div class="table1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Projects</th>
+                            <th>Years</th>
+                            <th>Area</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr>
+                            <td><a href="https://www.saab.com/newsroom/stories/2023/february/decisive-advantage-human-machine-collaboration">Saab AB</a></td>
+                            <td>1,20</td>
+                            <td>UX Design</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://hasamsredovisning.se/">HaSams AB</a></td>
+                            <td>0,20</td>
+                            <td>Web development</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://dgd.solutions/">DG Development</a></td>
+                            <td>0,20</td>
+                            <td>Web development</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://info.terran.ai/">Terran</a></td>
+                            <td>1,00</td>
+                            <td>Design/Animation</td>
+                        </tr>
+                        <tr>
+                            <td><a class="Kognitivet_Video_and_Music_Link">Kognitivet</a></td>
+                            <td>2,00</td>
+                            <td><a class="KognitivetMusicLink"> Music</a> &<a class="KognitivetVideoLink"> Video production</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <img src="line.svg" alt="line" class="line">
+
+        </div>
+        <div class="barcode">
+            <img src="barcode.png" alt="barcode">
+                <p class="thank-you">Let's connect!</p>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>
+

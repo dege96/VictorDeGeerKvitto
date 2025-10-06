@@ -50,6 +50,7 @@ body {
     width: 100vw;
 }
 
+
 .click-to-copy {
     cursor: pointer;
     transition: all 0.2s ease;
@@ -374,6 +375,14 @@ th:nth-child(3), td:nth-child(3) {
     transform-origin: center center;
     /* filter: blur(10px); */
     transition: filter 0.5s ease;
+    
+    /* Match SVG dimensions exactly */
+    width: 100%;
+    height: 100%;
+    max-width: 90vh;
+    max-height: 90vh;
+    object-fit: contain;
+    background-color: black;
 }
 
 .portfolio {
@@ -436,8 +445,54 @@ table th, table td {
     font-size: var(--general-text);
 }
 
-@media (max-width: 768px) {
+/* SVG Kvitto Styles */
+.kvitto-svg-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
 
+.kvitto-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 90vh;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.kvitto-svg-fallback {
+    width: 100%;
+    height: 100%;
+    max-width: 90vh;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .kvitto-svg-container {
+        padding: 20px;
+    }
+    
+    .kvitto-svg,
+    .kvitto-svg-fallback {
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+    
+    /* Match video to SVG on mobile */
+    .crumbleVideoClass {
+        max-width: 95vw;
+        max-height: 95vh;
+    }
 
     .video{ 
         width: 80vw;
@@ -445,5 +500,23 @@ table th, table td {
 
     .Kogmusic{
         height: 152px;
+    }
+}
+
+@media (max-width: 480px) {
+    .kvitto-svg-container {
+        padding: 10px;
+    }
+    
+    .kvitto-svg,
+    .kvitto-svg-fallback {
+        max-width: 98vw;
+        max-height: 98vh;
+    }
+    
+    /* Match video to SVG on small mobile */
+    .crumbleVideoClass {
+        max-width: 98vw;
+        max-height: 98vh;
     }
 }

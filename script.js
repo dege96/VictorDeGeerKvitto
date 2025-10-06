@@ -1,5 +1,5 @@
 // Event listeners för navigering
-const portfolio = document.querySelector(".kvitto");
+const portfolio = document.querySelector(".kvitto-svg-container");
 const KognitivetVideoLink = document.getElementsByClassName("KognitivetVideoLink");
 const KognitivetMusicLink = document.getElementsByClassName("KognitivetMusicLink");
 const Kognitivet_Video_and_Music_Link = document.getElementsByClassName("Kognitivet_Video_and_Music_Link");
@@ -17,23 +17,48 @@ if (!crumbleVideo || !crumbleVideoReverse) {
     console.error('Could not find crumbleVideo element');
 }
 
+// Global flagga för att förhindra samtidiga animationer
+let isTransitionPlaying = false;
+
 // Hjälpfunktion för att spela animationen och hantera övergångar
 async function playTransitionAnimation(callback) {
     if (!crumbleVideo) {
         callback();
         return;
     }
-    // Använd första source (crumble.webm)
-    crumbleVideo.load();
-    crumbleVideo.style.display = 'block';
 
-    
-    crumbleVideo.addEventListener('loadeddata', () => {
-        portfolio.style.display = 'none';
-    });
+    // Om en animation redan spelar, ignorera denna förfrågan
+    if (isTransitionPlaying) {
+        console.log('Animation already playing, skipping...');
+        return;
+    }
+
+    isTransitionPlaying = true;
+
+    // Om video redan spelar, vänta tills den är klar eller avbryt den
+    if (!crumbleVideo.paused) {
+        try {
+            crumbleVideo.pause();
+        } catch (e) {
+            // Ignorera fel vid paus
+        }
+    }
+
+    // Reset video state
+    crumbleVideo.currentTime = 0;
+    crumbleVideo.style.display = 'block';
     
     try {
         await crumbleVideo.play();
+        
+        // Fadea ut portfolio över 0,3s när videon börjar spela
+        portfolio.style.opacity = '0';
+        
+        // Göm portfolio helt efter fade-animationen är klar
+        setTimeout(() => {
+            portfolio.style.display = 'none';
+        }, 300);
+        
         await new Promise(resolve => {
             crumbleVideo.onended = resolve;
         });
@@ -44,8 +69,11 @@ async function playTransitionAnimation(callback) {
     } catch (error) {
         console.error('Video playback failed:', error);
         callback();
+    } finally {
+        isTransitionPlaying = false;
     }
 }
+
 
 // Hjälpfunktion för att spela animationen och hantera övergångar
 async function playTransitionAnimationReverse(callback) {
@@ -54,10 +82,25 @@ async function playTransitionAnimationReverse(callback) {
         return;
     }
 
+    // Om en animation redan spelar, ignorera denna förfrågan
+    if (isTransitionPlaying) {
+        console.log('Animation already playing, skipping reverse...');
+        return;
+    }
 
-    
-    // Använd första source (crumble.webm)
-    crumbleVideoReverse.load();
+    isTransitionPlaying = true;
+
+    // Om video redan spelar, vänta tills den är klar eller avbryt den
+    if (!crumbleVideoReverse.paused) {
+        try {
+            crumbleVideoReverse.pause();
+        } catch (e) {
+            // Ignorera fel vid paus
+        }
+    }
+
+    // Reset video state
+    crumbleVideoReverse.currentTime = 0;
     crumbleVideoReverse.style.display = 'block';
     portfolio.style.display = 'none';
     
@@ -73,6 +116,8 @@ async function playTransitionAnimationReverse(callback) {
     } catch (error) {
         console.error('Reverse video playback failed:', error);
         callback();
+    } finally {
+        isTransitionPlaying = false;
     }
 }
 
@@ -120,7 +165,17 @@ BackArrows.forEach((BackArrow) => {
 
     // Spela reverse animationen och visa portfolio efter
     await playTransitionAnimationReverse(() => {
-        portfolio.style.display = "block";
+        portfolio.style.display = "flex";
+        portfolio.style.position = "fixed";
+        portfolio.style.top = "50%";
+        portfolio.style.left = "50%";
+        portfolio.style.transform = "translate(-50%, -50%)";
+        portfolio.style.width = "100vw";
+        portfolio.style.height = "100vh";
+        portfolio.style.alignItems = "center";
+        portfolio.style.justifyContent = "center";
+        portfolio.style.zIndex = "1";
+        portfolio.style.opacity = "1";
     });
   });
 });
@@ -130,6 +185,7 @@ for (let i = 0; i < KognitivetVideoLink.length; i++) {
   KognitivetVideoLink[i].addEventListener('click', (event) => {
     console.log("KognitivetVideoLink clicked");
     playTransitionAnimation(() => {
+        // Visa efter animationen är klar
         VideosKognitivetContainer.style.display = "flex";
     });
   });
@@ -139,6 +195,7 @@ for (let i = 0; i < KognitivetMusicLink.length; i++) {
   KognitivetMusicLink[i].addEventListener('click', (event) => {
     console.log("KognitivetMusicLink clicked");
     playTransitionAnimation(() => {
+        // Visa efter animationen är klar
         MusicKognitivetContainer.style.display = "flex";
     });
   });
@@ -148,6 +205,7 @@ for (let i = 0; i < Kognitivet_Video_and_Music_Link.length; i++) {
   Kognitivet_Video_and_Music_Link[i].addEventListener('click', (event) => {
     console.log("Kognitivet_Video_and_Music_Link clicked");
     playTransitionAnimation(() => {
+        // Visa efter animationen är klar
         MusicKognitivetContainer.style.display = "flex";
         VideosKognitivetContainer.style.display = "flex";
     });
@@ -158,6 +216,7 @@ for (let i = 0; i < ImageDesignLink.length; i++) {
     ImageDesignLink[i].addEventListener('click', (event) => {
         console.log("ImageDesignLink clicked");
         playTransitionAnimation(() => {
+            // Visa efter animationen är klar
             ImageDesignContainer.style.display = "flex";
             setTimeout(initPhysics, 200);
         });
@@ -581,5 +640,196 @@ function createPhysicsVideo(videoElement) {
     Composite.add(engine.world, body);
 }
 
+// SVG Interactivity
+document.addEventListener('DOMContentLoaded', function() {
+    const svgObject = document.querySelector('.kvitto-svg');
+    
+    if (svgObject) {
+        svgObject.addEventListener('load', function() {
+            const svgDoc = svgObject.contentDocument;
+            if (svgDoc) {
+                // Lägg till klick-händelser på SVG-elementen
+                addSVGInteractivity(svgDoc);
+            }
+        });
+    }
+});
 
+function addSVGInteractivity(svgDoc) {
+    // Hitta alla rektanglar som ska fungera som hover-områden
+    const hoverRects = svgDoc.querySelectorAll('rect.st2');
+    
+    hoverRects.forEach(rect => {
+        // Lägg till hover-effekt på rektangeln
+        rect.style.cursor = 'pointer';
+        rect.style.transition = 'opacity 0.3s ease';
+        
+        rect.addEventListener('mouseenter', function() {
+            // Hitta den överordnade gruppen
+            const parentGroup = this.closest('g');
+            if (parentGroup) {
+                // Hitta alla text-element i denna grupp
+                const textElements = parentGroup.querySelectorAll('text, tspan');
+                textElements.forEach(text => {
+                    text.style.opacity = '0.3';
+                });
+            }
+        });
+        
+        rect.addEventListener('mouseleave', function() {
+            // Hitta den överordnade gruppen
+            const parentGroup = this.closest('g');
+            if (parentGroup) {
+                // Återställ alla text-element i denna grupp
+                const textElements = parentGroup.querySelectorAll('text, tspan');
+                textElements.forEach(text => {
+                    text.style.opacity = '1';
+                });
+            }
+        });
+        
+        // Lägg till klick-händelser på rektangeln
+        rect.addEventListener('click', function() {
+            const parentGroup = this.closest('g');
+            if (parentGroup) {
+                const textElements = parentGroup.querySelectorAll('text, tspan');
+                let groupText = '';
+                textElements.forEach(text => {
+                    groupText += text.textContent + ' ';
+                });
+                
+                // Hantera klick baserat på textinnehåll
+                if (groupText.includes('UX/UI Design') || groupText.includes('UX')) {
+                    showImageDesignContainer();
+                } else if (groupText.includes('Web development') || groupText.includes('Web')) {
+                    showImageDesignContainer(); // Du kan ändra detta till en web-specifik container
+                } else if (groupText.includes('Vector graphics')) {
+                    showImageDesignContainer();
+                } else if (groupText.includes('Video production') || groupText.includes('Video')) {
+                    showVideosKognitivetContainer();
+                } else if (groupText.includes('Music production') || groupText.includes('Music')) {
+                    showMusicKognitivetContainer();
+                } else if (groupText.includes('Animation')) {
+                    showImageDesignContainer(); // Du kan ändra detta till en animation-specifik container
+                }
+            }
+        });
+    });
+    
+    // Hitta klickbara element i SVG:en baserat på textinnehåll eller ID:n
+    const clickableElements = svgDoc.querySelectorAll('text, tspan, g[id*="UX"], g[id*="Web"], g[id*="Image"], g[id*="Video"], g[id*="Music"], g[id*="Animation"]');
+    
+    clickableElements.forEach(element => {
+        const text = element.textContent || element.innerHTML;
+        
+        // Lägg till hover-effekt
+        element.style.cursor = 'pointer';
+        element.style.transition = 'opacity 0.3s ease';
+        
+        element.addEventListener('mouseenter', function() {
+            this.style.opacity = '0.6';
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            this.style.opacity = '1';
+        });
+        
+        // Lägg till klick-händelser baserat på textinnehåll
+        element.addEventListener('click', function() {
+            if (text.includes('UX/UI Design') || text.includes('UX')) {
+                showImageDesignContainer();
+            } else if (text.includes('Web programming') || text.includes('Web')) {
+                showImageDesignContainer(); // Du kan ändra detta till en web-specifik container
+            } else if (text.includes('Image design') || text.includes('Vector graphics')) {
+                showImageDesignContainer();
+            } else if (text.includes('Video production') || text.includes('Video')) {
+                showVideosKognitivetContainer();
+            } else if (text.includes('Music production') || text.includes('Music')) {
+                showMusicKognitivetContainer();
+            } else if (text.includes('Animation')) {
+                showImageDesignContainer(); // Du kan ändra detta till en animation-specifik container
+            }
+        });
+    });
+    
+    // Lägg till klick på projekt-länkar
+    const projectElements = svgDoc.querySelectorAll('text, tspan');
+    projectElements.forEach(element => {
+        const text = element.textContent || element.innerHTML;
+        
+        if (text.includes('Saab') || text.includes('HaSams') || text.includes('DG Development') || text.includes('Terran') || text.includes('Kognitivet')) {
+            element.style.cursor = 'pointer';
+            element.style.transition = 'opacity 0.3s ease';
+            
+            element.addEventListener('mouseenter', function() {
+                this.style.opacity = '0.7';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.opacity = '1';
+            });
+            
+            element.addEventListener('click', function() {
+                if (text.includes('Saab')) {
+                    window.open('https://www.saab.com/newsroom/stories/2023/february/decisive-advantage-human-machine-collaboration', '_blank');
+                } else if (text.includes('HaSams')) {
+                    window.open('https://hasamsredovisning.se/', '_blank');
+                } else if (text.includes('DG Development')) {
+                    window.open('https://dgd.solutions/', '_blank');
+                } else if (text.includes('Terran')) {
+                    window.open('https://info.terran.ai/', '_blank');
+                } else if (text.includes('Kognitivet')) {
+                    // Visa både video och musik
+                    showVideosKognitivetContainer();
+                }
+            });
+        }
+    });
+    
+    // Lägg till klick på email
+    const emailElements = svgDoc.querySelectorAll('text, tspan');
+    emailElements.forEach(element => {
+        const text = element.textContent || element.innerHTML;
+        
+        if (text.includes('@') || text.includes('victordegeer96@gmail.com')) {
+            element.style.cursor = 'pointer';
+            element.style.transition = 'opacity 0.3s ease';
+            
+            element.addEventListener('mouseenter', function() {
+                this.style.opacity = '0.7';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.opacity = '1';
+            });
+            
+            element.addEventListener('click', function() {
+                window.location.href = 'mailto:victordegeer96@gmail.com';
+            });
+        }
+    });
+}
+
+// Hjälpfunktioner för att visa olika containers
+function showImageDesignContainer() {
+    playTransitionAnimation(() => {
+        // Visa efter animationen är klar
+        ImageDesignContainer.style.display = "flex";
+        setTimeout(initPhysics, 200);
+    });
+}
+
+function showVideosKognitivetContainer() {
+    playTransitionAnimation(() => {
+        // Visa efter animationen är klar
+        VideosKognitivetContainer.style.display = "flex";
+    });
+}
+
+function showMusicKognitivetContainer() {
+    playTransitionAnimation(() => {
+        // Visa efter animationen är klar
+        MusicKognitivetContainer.style.display = "flex";
+    });
+}
 
