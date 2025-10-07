@@ -1,31 +1,32 @@
 :root {
-    @media (min-width: 480px) {
-        --general-text: 12px;
-        --general-big-text: 14px;
-    }
+    --general-text: 12px;
+    --general-big-text: 14px;
+}
 
-    @media (min-width: 768px) {
-        --general-text: 12px;
-        --general-big-text: 14px;
-    }
-
-    @media (min-width: 1024px) {
+@media (min-width: 1024px) {
+    :root {
         --general-text: 14px;
         --general-big-text: 16px;
     }
+}
 
-    @media (min-width: 1440px) {
+@media (min-width: 1440px) {
+    :root {
         --general-text: 16px;
         --general-big-text: 18px;
     }
+}
 
-    @media (min-width: 1920px) {
+@media (min-width: 1920px) {
+    :root {
         --general-text: 29px;
         --general-big-text: 32px;
         --margin-top: 20px;
     }
+}
 
-    @media (min-width: 2500px) {
+@media (min-width: 2500px) {
+    :root {
         --general-text: 30px;
         --general-big-text: 36px;
     }
@@ -33,9 +34,14 @@
 
 @font-face {
     font-family: 'Hypermarket-Regular';
-    src:url('fonts/Hypermarket-Regular.ttf') format('truetype');
+    src: url('fonts/hypermarket-regular.eot'); /* IE9 Compat Modes */
+    src: url('fonts/hypermarket-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('fonts/hypermarket-regular.woff2') format('woff2'), /* Modern Browsers */
+         url('fonts/hypermarket-regular.woff') format('woff'), /* Pretty Modern Browsers */
+         url('fonts/hypermarket-regular.ttf') format('truetype'); /* Safari, Android, iOS */
     font-weight: normal;
     font-style: normal;
+    font-display: swap; /* För bättre prestanda */
 }
 
 body {
@@ -87,10 +93,6 @@ h1 {
     font-size: 16px;
     margin: 0;
     font-family: 'Hypermarket-Regular', sans-serif;
-}
-
-.contact{
-
 }
 
 .contact span {
@@ -205,6 +207,36 @@ th:nth-child(3), td:nth-child(3) {
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: row;
+    align-items: center;
+    align-content: center;
+    padding: 10vh;
+}
+
+#WebDesignContainer{
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    padding: 10vh;
+}
+
+#UXDesignContainer{
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    padding: 10vh;
+}
+
+#AnimationDesignContainer{
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
     align-content: center;
     padding: 10vh;
@@ -339,7 +371,12 @@ th:nth-child(3), td:nth-child(3) {
     color: #ffff;
 }
 
-#ImageDesignContainer .back_arrow {
+#ImageDesignContainer .back_arrow,
+#VideosKognitivetContainer .back_arrow,
+#MusicKognitivetContainer .back_arrow,
+#WebDesignContainer .back_arrow,
+#UXDesignContainer .back_arrow,
+#AnimationDesignContainer .back_arrow {
     position: fixed;
     cursor: pointer;
     top: 5vh;
@@ -350,14 +387,46 @@ th:nth-child(3), td:nth-child(3) {
 
 .image-projects-container,
 .ux-projects-container,
-.web-projects-container {
-    display: none;
+.web-projects-container,
+.animation-frames-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vh;
+    width: 100%;
 }
 
 .ux-image,
-.web-image {
-    display: none;
+.web-image,
+.animation-frame {
+    max-width: 30vw;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
 }
+
+.ux-image:hover,
+.web-image:hover,
+.animation-frame:hover {
+    transform: scale(1.05);
+}
+
+.web-project,
+.ux-project,
+.animation-project {
+    margin: 20px;
+    text-align: center;
+}
+
+.web-project h3,
+.ux-project h3,
+.animation-project h3 {
+    color: white;
+    font-family: 'Hypermarket-Regular', sans-serif;
+    margin-bottom: 15px;
+}
+
 
 .ux-project,
 .web-project,

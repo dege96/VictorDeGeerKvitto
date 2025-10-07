@@ -1,4 +1,6 @@
 // Event listeners för navigering
+console.log("🚀 Script loading...");
+
 const portfolio = document.querySelector(".kvitto-svg-container");
 const KognitivetVideoLink = document.getElementsByClassName("KognitivetVideoLink");
 const KognitivetMusicLink = document.getElementsByClassName("KognitivetMusicLink");
@@ -6,9 +8,21 @@ const Kognitivet_Video_and_Music_Link = document.getElementsByClassName("Kogniti
 const VideosKognitivetContainer = document.getElementById("VideosKognitivetContainer");
 const MusicKognitivetContainer = document.getElementById("MusicKognitivetContainer");
 const ImageDesignContainer = document.getElementById("ImageDesignContainer");
+const WebDesignContainer = document.getElementById("WebDesignContainer");
+const UXDesignContainer = document.getElementById("UXDesignContainer");
+const AnimationDesignContainer = document.getElementById("AnimationDesignContainer");
 const ImageDesignLink = document.getElementsByClassName("ImageDesignLink");
 const BackArrows = document.querySelectorAll(".back_arrow");
 const crumbleVideos = document.querySelectorAll(".crumbleVideoClass");
+
+// Logga container-status vid sidladdning
+console.log("📊 Container status check:");
+console.log("VideosKognitivetContainer:", VideosKognitivetContainer?.style.display || "not found");
+console.log("MusicKognitivetContainer:", MusicKognitivetContainer?.style.display || "not found");
+console.log("ImageDesignContainer:", ImageDesignContainer?.style.display || "not found");
+console.log("WebDesignContainer:", WebDesignContainer?.style.display || "not found");
+console.log("UXDesignContainer:", UXDesignContainer?.style.display || "not found");
+console.log("AnimationDesignContainer:", AnimationDesignContainer?.style.display || "not found");
 
 // Ta bort video-skapandet från början av filen och ersätt med:
 const crumbleVideo = document.getElementById('crumbleVideo');
@@ -144,11 +158,15 @@ BackArrows.forEach((BackArrow) => {
     const containers = [
         VideosKognitivetContainer,
         MusicKognitivetContainer,
-        ImageDesignContainer
+        ImageDesignContainer,
+        WebDesignContainer,
+        UXDesignContainer,
+        AnimationDesignContainer
     ];
     
     containers.forEach(container => {
         if (container) {
+            console.log("🔙 Hiding container:", container.id);
             container.style.display = "none";
         }
     });
@@ -700,9 +718,9 @@ function addSVGInteractivity(svgDoc) {
                 
                 // Hantera klick baserat på textinnehåll
                 if (groupText.includes('UX/UI Design') || groupText.includes('UX')) {
-                    showImageDesignContainer();
+                    showUXDesignContainer();
                 } else if (groupText.includes('Web development') || groupText.includes('Web')) {
-                    showImageDesignContainer(); // Du kan ändra detta till en web-specifik container
+                    showWebDesignContainer();
                 } else if (groupText.includes('Vector graphics')) {
                     showImageDesignContainer();
                 } else if (groupText.includes('Video production') || groupText.includes('Video')) {
@@ -710,7 +728,7 @@ function addSVGInteractivity(svgDoc) {
                 } else if (groupText.includes('Music production') || groupText.includes('Music')) {
                     showMusicKognitivetContainer();
                 } else if (groupText.includes('Animation')) {
-                    showImageDesignContainer(); // Du kan ändra detta till en animation-specifik container
+                    showAnimationDesignContainer(); 
                 }
             }
         });
@@ -739,8 +757,8 @@ function addSVGInteractivity(svgDoc) {
             if (text.includes('UX/UI Design') || text.includes('UX')) {
                 showImageDesignContainer();
             } else if (text.includes('Web programming') || text.includes('Web')) {
-                showImageDesignContainer(); // Du kan ändra detta till en web-specifik container
-            } else if (text.includes('Image design') || text.includes('Vector graphics')) {
+                showWebDesignContainer(); // Du kan ändra detta till en web-specifik container
+            } else if (text.includes('Image design')) {
                 showImageDesignContainer();
             } else if (text.includes('Video production') || text.includes('Video')) {
                 showVideosKognitivetContainer();
@@ -757,7 +775,7 @@ function addSVGInteractivity(svgDoc) {
     projectElements.forEach(element => {
         const text = element.textContent || element.innerHTML;
         
-        if (text.includes('Saab') || text.includes('HaSams') || text.includes('DG Development') || text.includes('Terran') || text.includes('Kognitivet')) {
+        if (text.includes('Skärholmens Pall') || text.includes('HaSams') || text.includes('DG Development') || text.includes('Terran') || text.includes('Kognitivet')) {
             element.style.cursor = 'pointer';
             element.style.transition = 'opacity 0.3s ease';
             
@@ -770,17 +788,14 @@ function addSVGInteractivity(svgDoc) {
             });
             
             element.addEventListener('click', function() {
-                if (text.includes('Saab')) {
-                    window.open('https://www.saab.com/newsroom/stories/2023/february/decisive-advantage-human-machine-collaboration', '_blank');
+                if (text.includes('Skärholmens Pall')) {
+                    window.open('https://www.skarholmenspall.se/', '_blank');
                 } else if (text.includes('HaSams')) {
                     window.open('https://hasamsredovisning.se/', '_blank');
                 } else if (text.includes('DG Development')) {
                     window.open('https://dgd.solutions/', '_blank');
                 } else if (text.includes('Terran')) {
                     window.open('https://info.terran.ai/', '_blank');
-                } else if (text.includes('Kognitivet')) {
-                    // Visa både video och musik
-                    showVideosKognitivetContainer();
                 }
             });
         }
@@ -812,23 +827,56 @@ function addSVGInteractivity(svgDoc) {
 
 // Hjälpfunktioner för att visa olika containers
 function showImageDesignContainer() {
+    console.log("🖼️ showImageDesignContainer() called");
     playTransitionAnimation(() => {
         // Visa efter animationen är klar
+        console.log("🖼️ Setting ImageDesignContainer to flex");
         ImageDesignContainer.style.display = "flex";
         setTimeout(initPhysics, 200);
     });
 }
 
 function showVideosKognitivetContainer() {
+    console.log("🎥 showVideosKognitivetContainer() called");
     playTransitionAnimation(() => {
         // Visa efter animationen är klar
+        console.log("🎥 Setting VideosKognitivetContainer to flex");
         VideosKognitivetContainer.style.display = "flex";
     });
 }
 
-function showMusicKognitivetContainer() {
+function showWebDesignContainer() {
+    console.log("🌐 showWebDesignContainer() called");
     playTransitionAnimation(() => {
         // Visa efter animationen är klar
+        console.log("🌐 Setting WebDesignContainer to flex");
+        WebDesignContainer.style.display = "flex";
+    });
+}
+
+function showUXDesignContainer() {
+    console.log("🎨 showUXDesignContainer() called");
+    playTransitionAnimation(() => {
+        // Visa efter animationen är klar
+        console.log("🎨 Setting UXDesignContainer to flex");
+        UXDesignContainer.style.display = "flex";
+    });
+}
+
+function showAnimationDesignContainer() {
+    console.log("🎬 showAnimationDesignContainer() called");
+    playTransitionAnimation(() => {
+        // Visa efter animationen är klar
+        console.log("🎬 Setting AnimationDesignContainer to flex");
+        AnimationDesignContainer.style.display = "flex";
+    });
+}
+
+function showMusicKognitivetContainer() {
+    console.log("🎵 showMusicKognitivetContainer() called");
+    playTransitionAnimation(() => {
+        // Visa efter animationen är klar
+        console.log("🎵 Setting MusicKognitivetContainer to flex");
         MusicKognitivetContainer.style.display = "flex";
     });
 }
