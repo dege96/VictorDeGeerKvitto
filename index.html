@@ -12,7 +12,7 @@
         <meta property="og:title" content="Victor De Geer - Creative Designer & Developer">
         <meta property="og:description" content="Victor De Geer is a creative designer & developer with expertise in UX/UI design, web programming, and multimedia production. Check out his portfolio!">
         <meta property="og:image" content="kvittopreview.png"> <!-- Replace with a relevant image for preview -->
-        <meta property="og:url" content="https://https://victordegeer.se/"> <!-- Replace with your website URL -->
+        <meta property="og:url" content="https://https://victordegeer.se/">
     
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
@@ -26,9 +26,12 @@
 
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="canonical" href="https://https://victordegeer.se//">
+    <link rel="canonical" href="https://victordegeer.se/">
 
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Preload font för bättre prestanda -->
+    <link rel="preload" href="fonts/hypermarket-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
@@ -232,19 +235,42 @@
             <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
             
             <div class="web-project">
-                <img src="webdev/cocacolapepsi.gif" alt="Coca Cola vs Pepsi" class="web-image">
-                <p class="video-description">Coca Cola vs Pepsi - Interactive Web Experience</p>
+                <img src="webdev/3D_models/cocacolapepsi__framebyframe_animation.gif" alt="Coca Cola vs Pepsi">
+                <h3>Coca Cola vs Pepsi</h3>
+                <p class="video-description">Interactive web experience comparing two iconic brands with dynamic animations and user engagement features.</p>
             </div>
             
             <div class="web-project">
                 <h3>Skärholmens Pall</h3>
                 <div class="web-projects-container">
-                    <img src="webdev/skarholmens_pall/2FA.png" alt="2FA Authentication" class="web-image">
-                    <img src="webdev/skarholmens_pall/inlogg.png" alt="Login System" class="web-image">
-                    <img src="webdev/skarholmens_pall/Skapa_utbetalning.png" alt="Payment Creation" class="web-image">
-                    <img src="webdev/skarholmens_pall/Utbetalning_info.png" alt="Payment Information" class="web-image">
+                    <img src="webdev/skarholmens_pall/2FA.png" alt="2FA Authentication">
+                    <img src="webdev/skarholmens_pall/inlogg.png" alt="Login System">
                 </div>
-                <p class="video-description">Full-stack web application with authentication and payment system</p>
+                <p class="video-description">Full-stack web application with secure authentication system and payment processing capabilities.</p>
+            </div>
+            
+            <div class="web-project">
+                <h3>Payment System</h3>
+                <div class="web-projects-container">
+                    <img src="webdev/skarholmens_pall/Skapa_utbetalning.png" alt="Payment Creation">
+                    <img src="webdev/skarholmens_pall/Utbetalning_info.png" alt="Payment Information">
+                </div>
+                <p class="video-description">Advanced payment processing interface with real-time validation and secure transaction handling.</p>
+            </div>
+            
+            <div class="web-project">
+                <h3>Portfolio Website</h3>
+                <p class="video-description">This responsive portfolio website built with modern web technologies, featuring interactive SVG animations and dynamic content loading.</p>
+            </div>
+            
+            <div class="web-project">
+                <h3>Interactive Elements</h3>
+                <p class="video-description">Custom JavaScript interactions, smooth animations, and responsive design patterns for optimal user experience across all devices.</p>
+            </div>
+            
+            <div class="web-project">
+                <h3>Modern Web Stack</h3>
+                <p class="video-description">Built using HTML5, CSS3, JavaScript ES6+, with responsive design principles and modern web development best practices.</p>
             </div>
         </div>
     </div>
@@ -273,7 +299,7 @@
             
             <div class="animation-project">
                 <video class="video" controls>
-                    <source src="animations/flashback 2021(.mp4">
+                    <source src="animations/flashback 2021.mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p class="video-description">Flashback 2021 - Animation Project</p>
@@ -286,22 +312,7 @@
                 </video>
                 <p class="video-description">Search Animation</p>
             </div>
-            
-            <div class="animation-project">
-                <h3>Pre-comp Animation Frames</h3>
-                <div class="animation-frames-container">
-                    <img src="animations/Pre-comp/Pre-comp4.png" alt="Frame 4" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp5.png" alt="Frame 5" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp6.png" alt="Frame 6" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp7.png" alt="Frame 7" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp8.png" alt="Frame 8" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp9.png" alt="Frame 9" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp10.png" alt="Frame 10" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp11.png" alt="Frame 11" class="animation-frame">
-                    <img src="animations/Pre-comp/Pre-comp12.png" alt="Frame 12" class="animation-frame">
-                </div>
-                <p class="video-description">Animation sequence frames</p>
-            </div>
+        
         </div>
     </div>
 

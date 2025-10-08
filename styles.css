@@ -42,6 +42,8 @@
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* För bättre prestanda */
+    font-variation-settings: normal;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 body {
@@ -80,13 +82,6 @@ h1 {
     font-size: 24px;
     margin: 0;
     font-family: 'Hypermarket-Regular', sans-serif;
-}
-
-.white_title{
-    font-size: 24px;
-    margin: 15px;
-    font-family: 'Hypermarket-Regular', sans-serif;
-    color: #ffff;
 }
 
 .subtitle {
@@ -214,12 +209,17 @@ th:nth-child(3), td:nth-child(3) {
 
 #WebDesignContainer{
     display: none;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    padding: 10vh;
+    padding: 5vh 10vh;
+    background-color: #000000;
+}
+
+#WebDesign {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 12vh; /* Space for fixed title and back arrow */
 }
 
 #UXDesignContainer{
@@ -327,6 +327,25 @@ th:nth-child(3), td:nth-child(3) {
     .ux-image, .web-image, .design-image { 
         width: 80vw;
     }
+    
+    #WebDesign {
+        grid-template-columns: 1fr;
+        gap: 1.5vh;
+        padding: 2vh;
+    }
+    
+    .web-project {
+        min-height: auto;
+        padding: 1.5vh;
+    }
+    
+    .web-project h3 {
+        font-size: 1.1em;
+    }
+    
+    .web-project .video-description {
+        font-size: 0.85em;
+    }
 }
 
 
@@ -366,9 +385,15 @@ th:nth-child(3), td:nth-child(3) {
 
 .white_title {
     font-size: var(--general-big-text);
-    margin: 15px;
+    margin: 0;
     font-family: 'Hypermarket-Regular', sans-serif;
     color: #ffff;
+    position: fixed;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
 }
 
 #ImageDesignContainer .back_arrow,
@@ -412,14 +437,62 @@ th:nth-child(3), td:nth-child(3) {
     transform: scale(1.05);
 }
 
-.web-project,
+/* Web Development Project Cards */
+.web-project {
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 2vh;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.web-project:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.web-project h3 {
+    color: #333;
+    font-family: 'Hypermarket-Regular', sans-serif;
+    margin: 0 0 1vh 0;
+    font-size: 1.2em;
+}
+
+.web-project .video-description {
+    color: #666;
+    font-family: 'Hypermarket-Regular', sans-serif;
+    font-size: 0.9em;
+    margin: 1vh 0 0 0;
+    line-height: 1.4;
+}
+
+.web-project img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1vh;
+}
+
+/* Different heights for masonry effect */
+.web-project:nth-child(1) { min-height: 250px; }
+.web-project:nth-child(2) { min-height: 300px; }
+.web-project:nth-child(3) { min-height: 200px; }
+.web-project:nth-child(4) { min-height: 280px; }
+.web-project:nth-child(5) { min-height: 220px; }
+.web-project:nth-child(6) { min-height: 260px; }
+
+/* Other project styles */
 .ux-project,
 .animation-project {
     margin: 20px;
     text-align: center;
 }
 
-.web-project h3,
 .ux-project h3,
 .animation-project h3 {
     color: white;
@@ -429,7 +502,6 @@ th:nth-child(3), td:nth-child(3) {
 
 
 .ux-project,
-.web-project,
 .image-project {
     margin: 10px;
 }
