@@ -91,7 +91,7 @@ foreach ($file in $videoFiles) {
     
     try {
         # Kör FFmpeg
-        $process = Start-Process -FilePath "ffmpeg" -ArgumentList $ffmpegArgs -Wait -PassThru -NoNewWindow -RedirectStandardOutput "nul" -RedirectStandardError "nul"
+        $process = Start-Process -FilePath "ffmpeg" -ArgumentList $ffmpegArgs -Wait -PassThru -NoNewWindow -RedirectStandardOutput "nul" -RedirectStandardError "error.log"
         
         if ($process.ExitCode -eq 0) {
             # Kontrollera output-fil
