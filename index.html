@@ -30,10 +30,13 @@
 
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Preload font för bättre prestanda -->
+    <!-- Preload kritiska resurser för bättre prestanda -->
     <link rel="preload" href="fonts/hypermarket-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="kvitto.svg" as="image">
+    <link rel="preload" href="Pre-comp.mp4" as="video">
+    <link rel="preload" href="Pre-comp-reverse.mp4" as="video">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- Matter.js will be loaded dynamically when needed -->
 </head>
 <body>
     <!-- Lägg till direkt efter body-taggen öppnas, före allt annat innehåll -->
@@ -66,7 +69,7 @@
     <div id="VideosKognitivetContainer">
         <p class="white_title"> Video production</p>
         <div id="VideosKognitivet">
-            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
 
 
 
@@ -75,7 +78,8 @@
                     data-music="true" 
                     data-filming="false" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/10.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -86,7 +90,8 @@
                     data-music="true" 
                     data-filming="false" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/9.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -97,7 +102,8 @@
                     data-music="false" 
                     data-filming="true" 
                     data-editing="true" 
-                    data-directing="true">
+                    data-directing="true"
+                    loading="lazy" preload="none">
                     <source src="videos/2.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -108,7 +114,8 @@
                     data-music="true" 
                     data-filming="true" 
                     data-editing="true" 
-                    data-directing="true">
+                    data-directing="true"
+                    loading="lazy" preload="none">
                     <source src="videos/3.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -119,7 +126,8 @@
                     data-music="true" 
                     data-filming="true" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/4.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -130,7 +138,8 @@
                     data-music="false" 
                     data-filming="false" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/5.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -141,7 +150,8 @@
                     data-music="true" 
                     data-filming="true" 
                     data-editing="true" 
-                    data-directing="true">
+                    data-directing="true"
+                    loading="lazy" preload="none">
                     <source src="videos/6.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -152,7 +162,8 @@
                     data-music="true" 
                     data-filming="false" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/7.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -163,7 +174,8 @@
                     data-music="false" 
                     data-filming="true" 
                     data-editing="true" 
-                    data-directing="true">
+                    data-directing="true"
+                    loading="lazy" preload="none">
                     <source src="videos/1.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -174,7 +186,8 @@
                     data-music="false" 
                     data-filming="false" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/11.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -185,7 +198,8 @@
                     data-music="false" 
                     data-filming="false" 
                     data-editing="true" 
-                    data-directing="false">
+                    data-directing="false"
+                    loading="lazy" preload="none">
                     <source src="videos/12.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -197,7 +211,7 @@
     <div id="MusicKognitivetContainer">
         <p class="white_title"> Music production</p>
         <div id="MusicKognitivet">
-            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
 
             <div>
                 <iframe class="Kogmusic" style="border-radius:12px" src="https://open.spotify.com/embed/track/0DN0ota0SoWObQbHLvVPxk?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -232,19 +246,28 @@
     <div id="WebDesignContainer">
         <p class="white_title">Web Development</p>
         <div id="WebDesign">
-            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
             
             <div class="web-project">
-                <img src="webdev/3D_models/cocacolapepsi__framebyframe_animation.gif" alt="Coca Cola vs Pepsi">
+                <picture>
+                    <source srcset="webdev/3D_models/cocacolapepsi__framebyframe_animation.webp" type="image/webp">
+                    <img src="webdev/3D_models/cocacolapepsi__framebyframe_animation.gif" alt="Coca Cola vs Pepsi" loading="lazy">
+                </picture>
                 <h3>Coca Cola vs Pepsi</h3>
                 <p class="video-description">Interactive web experience comparing two iconic brands with dynamic animations and user engagement features.</p>
             </div>
             
             <div class="web-project">
-                <h3>Skärholmens Pall</h3>
+                <h3>Skarholmens Pall</h3>
                 <div class="web-projects-container">
-                    <img src="webdev/skarholmens_pall/2FA.png" alt="2FA Authentication">
-                    <img src="webdev/skarholmens_pall/inlogg.png" alt="Login System">
+                    <picture>
+                        <source srcset="webdev/skarholmens_pall/2FA.webp" type="image/webp">
+                        <img src="webdev/skarholmens_pall/2FA.png" alt="2FA Authentication" loading="lazy">
+                    </picture>
+                    <picture>
+                        <source srcset="webdev/skarholmens_pall/inlogg.webp" type="image/webp">
+                        <img src="webdev/skarholmens_pall/inlogg.png" alt="Login System" loading="lazy">
+                    </picture>
                 </div>
                 <p class="video-description">Full-stack web application with secure authentication system and payment processing capabilities.</p>
             </div>
@@ -252,8 +275,14 @@
             <div class="web-project">
                 <h3>Payment System</h3>
                 <div class="web-projects-container">
-                    <img src="webdev/skarholmens_pall/Skapa_utbetalning.png" alt="Payment Creation">
-                    <img src="webdev/skarholmens_pall/Utbetalning_info.png" alt="Payment Information">
+                    <picture>
+                        <source srcset="webdev/skarholmens_pall/Skapa_utbetalning.webp" type="image/webp">
+                        <img src="webdev/skarholmens_pall/Skapa_utbetalning.png" alt="Payment Creation" loading="lazy">
+                    </picture>
+                    <picture>
+                        <source srcset="webdev/skarholmens_pall/Utbetalning_info.webp" type="image/webp">
+                        <img src="webdev/skarholmens_pall/Utbetalning_info.png" alt="Payment Information" loading="lazy">
+                    </picture>
                 </div>
                 <p class="video-description">Advanced payment processing interface with real-time validation and secure transaction handling.</p>
             </div>
@@ -278,15 +307,13 @@
     <div id="UXDesignContainer">
         <p class="white_title">UX/UI Design</p>
         <div id="UXDesign">
-            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
             
             <div class="ux-project">
-                <img src="UX/saab.png" alt="SAAB UX Design" class="ux-image">
-                <p class="video-description">SAAB - User Experience Design</p>
-            </div>
-            
-            <div class="ux-project">
-                <img src="UX/terran.jpg" alt="Terran UX Design" class="ux-image">
+                <picture>
+                    <source srcset="UX/terran.webp" type="image/webp">
+                    <img src="UX/terran.jpg" alt="Terran UX Design" class="ux-image" loading="lazy">
+                </picture>
                 <p class="video-description">Terran - Interface Design</p>
             </div>
         </div>
@@ -295,10 +322,10 @@
     <div id="AnimationDesignContainer">
         <p class="white_title">Animation</p>
         <div id="AnimationDesign">
-            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
             
             <div class="animation-project">
-                <video class="video" controls>
+                <video class="video" controls loading="lazy" preload="none">
                     <source src="animations/flashback 2021.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -306,7 +333,7 @@
             </div>
             
             <div class="animation-project">
-                <video class="video" controls>
+                <video class="video" controls loading="lazy" preload="none">
                     <source src="animations/search1.mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -319,30 +346,48 @@
     <div id="ImageDesignContainer">
         <p class="white_title"> Image Design/Vector graphics</p>
         <div id="ImageDesign">
-            <img src="arrow-left.svg" alt="left arrow" class="back_arrow">
+            <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
 
             <div class="image-project">
-                <img src="images/FB 2021.png" alt="Flashback 2021 Logo" class="design-image">
+                <picture>
+                    <source srcset="images/FB 2021.webp" type="image/webp">
+                    <img src="images/FB 2021.png" alt="Flashback 2021 Logo" class="design-image" loading="lazy">
+                </picture>
             </div>
             
             <div class="image-project">
-                <img src="images/Flashback 360.png" alt="Flashback 360 Logo" class="design-image">
+                <picture>
+                    <source srcset="images/Flashback 360.webp" type="image/webp">
+                    <img src="images/Flashback 360.png" alt="Flashback 360 Logo" class="design-image" loading="lazy">
+                </picture>
             </div>
 
             <div class="image-project">
-                <img src="images/gameboy.png" alt="Gameboy Design" class="design-image">
+                <picture>
+                    <source srcset="images/gameboy.webp" type="image/webp">
+                    <img src="images/gameboy.png" alt="Gameboy Design" class="design-image" loading="lazy">
+                </picture>
             </div>
 
             <div class="image-project">
-                <img src="images/rockstar8.1.png" alt="Rockstar Design" class="design-image">
+                <picture>
+                    <source srcset="images/rockstar8.1.webp" type="image/webp">
+                    <img src="images/rockstar8.1.png" alt="Rockstar Design" class="design-image" loading="lazy">
+                </picture>
             </div>
 
             <div class="image-project">
-                <img src="images/T-mud.png" alt="T-mud Design" class="design-image">
+                <picture>
+                    <source srcset="images/T-mud.webp" type="image/webp">
+                    <img src="images/T-mud.png" alt="T-mud Design" class="design-image" loading="lazy">
+                </picture>
             </div>
 
             <div class="image-project">
-                <img src="images/terran.png" alt="Terran Logo" class="design-image">
+                <picture>
+                    <source srcset="images/terran.webp" type="image/webp">
+                    <img src="images/terran.png" alt="Terran Logo" class="design-image" loading="lazy">
+                </picture>
             </div>
         </div>
     </div>

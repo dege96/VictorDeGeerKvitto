@@ -233,10 +233,12 @@ for (let i = 0; i < Kognitivet_Video_and_Music_Link.length; i++) {
 for (let i = 0; i < ImageDesignLink.length; i++) {
     ImageDesignLink[i].addEventListener('click', (event) => {
         console.log("ImageDesignLink clicked");
-        playTransitionAnimation(() => {
+        playTransitionAnimation(async () => {
             // Visa efter animationen är klar
             ImageDesignContainer.style.display = "flex";
-            setTimeout(initPhysics, 200);
+            setTimeout(async () => {
+                await initPhysics();
+            }, 200);
         });
     });
 }
@@ -290,8 +292,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Lazy load Matter.js
+async function loadMatterJS() {
+    if (!window.Matter) {
+        console.log("🔄 Loading Matter.js dynamically...");
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js';
+        await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+        console.log("✅ Matter.js loaded successfully");
+    }
+}
+
 // Physics engine initialisering och setup
-function initPhysics() {
+async function initPhysics() {
+    // Ladda Matter.js först om det inte redan är laddat
+    await loadMatterJS();
+    
     // Matter.js moduler
     const Engine = Matter.Engine,
           Render = Matter.Render,
@@ -775,7 +795,7 @@ function addSVGInteractivity(svgDoc) {
     projectElements.forEach(element => {
         const text = element.textContent || element.innerHTML;
         
-        if (text.includes('Skärholmens Pall') || text.includes('HaSams') || text.includes('DG Development') || text.includes('Terran') || text.includes('Kognitivet')) {
+        if (text.includes('Skarholmens Pall') || text.includes('HaSams') || text.includes('DG Development') || text.includes('Terran') || text.includes('Kognitivet')) {
             element.style.cursor = 'pointer';
             element.style.transition = 'opacity 0.3s ease';
             
@@ -788,7 +808,7 @@ function addSVGInteractivity(svgDoc) {
             });
             
             element.addEventListener('click', function() {
-                if (text.includes('Skärholmens Pall')) {
+                if (text.includes('Skarholmens Pall')) {
                     window.open('https://www.skarholmenspall.se/', '_blank');
                 } else if (text.includes('HaSams')) {
                     window.open('https://hasamsredovisning.se/', '_blank');
@@ -828,11 +848,13 @@ function addSVGInteractivity(svgDoc) {
 // Hjälpfunktioner för att visa olika containers
 function showImageDesignContainer() {
     console.log("🖼️ showImageDesignContainer() called");
-    playTransitionAnimation(() => {
+    playTransitionAnimation(async () => {
         // Visa efter animationen är klar
         console.log("🖼️ Setting ImageDesignContainer to flex");
         ImageDesignContainer.style.display = "flex";
-        setTimeout(initPhysics, 200);
+        setTimeout(async () => {
+            await initPhysics();
+        }, 200);
     });
 }
 
