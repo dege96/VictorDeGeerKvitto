@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- SEO Meta Tags -->
         <meta name="description" content="Victor De Geer is a creative designer and developer, specializing in UX/UI design, web development, and multimedia production. Explore his portfolio and projects.">
         <meta name="keywords" content="Victor De Geer, designer, developer, UX design, web design, music production, video production, Adobe, Figma, Framer, HTML, CSS, JS, creative portfolio">
@@ -35,9 +39,9 @@
     <link rel="preload" href="kvitto.svg" as="image">
     <link rel="preload" href="Pre-comp.mp4" as="video">
     <link rel="preload" href="Pre-comp-reverse.mp4" as="video">
-
     <!-- Matter.js will be loaded dynamically when needed -->
 </head>
+
 <body>
     <!-- Lägg till direkt efter body-taggen öppnas, före allt annat innehåll -->
     <video class="crumbleVideoClass" id="crumbleVideo" playsinline>
@@ -70,8 +74,6 @@
         <p class="white_title"> Video production</p>
         <div id="VideosKognitivet">
             <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
-
-
 
             <div id="IgVideo10">
                 <video class="video" controls poster="videos/10.jpg" 
@@ -248,59 +250,14 @@
         <div id="WebDesign">
             <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
             
-            <div class="web-project">
-                <picture>
-                    <source srcset="webdev/3D_models/cocacolapepsi__framebyframe_animation.webp" type="image/webp">
-                    <img src="webdev/3D_models/cocacolapepsi__framebyframe_animation.gif" alt="Coca Cola vs Pepsi" loading="lazy">
-                </picture>
-                <h3>Coca Cola vs Pepsi</h3>
-                <p class="video-description">Interactive web experience comparing two iconic brands with dynamic animations and user engagement features.</p>
-            </div>
+            <!-- Projekt previews kommer att genereras dynamiskt av JavaScript -->
+            <div id="project-previews"></div>
             
-            <div class="web-project">
-                <h3>Skarholmens Pall</h3>
-                <div class="web-projects-container">
-                    <picture>
-                        <source srcset="webdev/skarholmens_pall/2FA.webp" type="image/webp">
-                        <img src="webdev/skarholmens_pall/2FA.png" alt="2FA Authentication" loading="lazy">
-                    </picture>
-                    <picture>
-                        <source srcset="webdev/skarholmens_pall/inlogg.webp" type="image/webp">
-                        <img src="webdev/skarholmens_pall/inlogg.png" alt="Login System" loading="lazy">
-                    </picture>
-                </div>
-                <p class="video-description">Full-stack web application with secure authentication system and payment processing capabilities.</p>
+            <!-- Detaljerad projektvy (dold initialt) -->
+            <div id="project-detail" style="display: none;">
+                <div id="project-detail-content"></div>
             </div>
-            
-            <div class="web-project">
-                <h3>Payment System</h3>
-                <div class="web-projects-container">
-                    <picture>
-                        <source srcset="webdev/skarholmens_pall/Skapa_utbetalning.webp" type="image/webp">
-                        <img src="webdev/skarholmens_pall/Skapa_utbetalning.png" alt="Payment Creation" loading="lazy">
-                    </picture>
-                    <picture>
-                        <source srcset="webdev/skarholmens_pall/Utbetalning_info.webp" type="image/webp">
-                        <img src="webdev/skarholmens_pall/Utbetalning_info.png" alt="Payment Information" loading="lazy">
-                    </picture>
-                </div>
-                <p class="video-description">Advanced payment processing interface with real-time validation and secure transaction handling.</p>
-            </div>
-            
-            <div class="web-project">
-                <h3>Portfolio Website</h3>
-                <p class="video-description">This responsive portfolio website built with modern web technologies, featuring interactive SVG animations and dynamic content loading.</p>
-            </div>
-            
-            <div class="web-project">
-                <h3>Interactive Elements</h3>
-                <p class="video-description">Custom JavaScript interactions, smooth animations, and responsive design patterns for optimal user experience across all devices.</p>
-            </div>
-            
-            <div class="web-project">
-                <h3>Modern Web Stack</h3>
-                <p class="video-description">Built using HTML5, CSS3, JavaScript ES6+, with responsive design principles and modern web development best practices.</p>
-            </div>
+
         </div>
     </div>
 
@@ -325,19 +282,27 @@
             <img src="arrow-left.svg" alt="left arrow" class="back_arrow" loading="lazy">
             
             <div class="animation-project">
-                <video class="video" controls loading="lazy" preload="none">
-                    <source src="animations/flashback 2021.mp4">
+                <video class="video" autoplay muted playsinline loop style="pointer-events: none;" loading="lazy" preload="auto">
+                    <source src="animations/victordegeer.mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p class="video-description">Flashback 2021 - Animation Project</p>
             </div>
             
             <div class="animation-project">
-                <video class="video" controls loading="lazy" preload="none">
+                <video class="video" autoplay muted playsinline loop style="pointer-events: none;" loading="lazy" preload="auto">
                     <source src="animations/search1.mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p class="video-description">Search Animation</p>
+            </div>
+
+            <div class="animation-project">
+                <video class="video" autoplay muted playsinline loop style="pointer-events: none;" loading="lazy" preload="auto">
+                    <source src="animations/kvitto.mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="video-description">Pre-comp Animation</p>
             </div>
         
         </div>
@@ -418,7 +383,6 @@
                 </picture>
             </div>
 
-
             <div class="image-project">
                 <picture>
                     <source srcset="images/kvitto.webp" type="image/webp">
@@ -462,8 +426,6 @@
             <img src="kvitto.svg" alt="Victor De Geer Portfolio" class="kvitto-svg-fallback">
         </object>
     </div>
-
-
 
 <script src="script.js"></script>
 </body>

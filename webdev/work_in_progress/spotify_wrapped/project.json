@@ -1,0 +1,12 @@
+{
+  "title": "Make Your Own Spotify Wrapped",
+  "description": "Generate your own personalized Spotify Wrapped experience with custom data visualization and music insights.",
+  "technologies": ["React", "Spotify API", "Data Visualization", "JavaScript", "CSS3"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "This project allows users to create their own personalized Spotify Wrapped experience. By integrating with the Spotify API, it analyzes user's music listening habits and creates beautiful data visualizations. The project demonstrates API integration, data processing, and creative visualization techniques in web development.",
+  "url": "https://spotifyslapped.netlify.app/",
+  "status": "work_in_progress"
+}

@@ -1,0 +1,12 @@
+{
+  "title": "3D Models in the Web",
+  "description": "Showcasing interactive 3D models directly in the browser using modern web technologies and 3D rendering.",
+  "technologies": ["Three.js", "WebGL", "JavaScript", "3D Animation"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "This project demonstrates the power of modern web technologies in displaying interactive 3D models directly in the browser. Using Three.js and WebGL, it showcases how complex 3D content can be rendered smoothly across different devices and browsers. The project highlights the intersection of 3D graphics and web development.",
+  "url": "https://degeer-3d-spline.netlify.app/",
+  "status": "work_in_progress"
+}

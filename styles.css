@@ -47,7 +47,7 @@
 }
 
 body {
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #000;
     background-color:  #000000;
     text-align: center;
@@ -81,18 +81,18 @@ body {
 h1 {
     font-size: 24px;
     margin: 0;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .subtitle {
     font-size: 16px;
     margin: 0;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .contact span {
     display: block;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin:0px;
     padding: 0%;
 }
@@ -100,13 +100,13 @@ h1 {
 h2 {
     font-size: 20px;
     margin: 0;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .info p {
     margin: 5px 0;
     text-align: left;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .line {
@@ -115,7 +115,7 @@ h2 {
 }
 
 p{
-    margin: 0;    font-family: 'Hypermarket-Regular', sans-serif;
+    margin: 0;    font-family: 'Poppins', sans-serif;
 }
 
 table {
@@ -137,7 +137,7 @@ a:hover {
 
 table th, table td {
     text-align: left;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* To ensure the columns align properly, we will explicitly set widths */
@@ -161,7 +161,7 @@ th:nth-child(3), td:nth-child(3) {
 
 .barcode p {
     margin: 5px 0;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: var(--general-text);
 }
 
@@ -169,7 +169,7 @@ th:nth-child(3), td:nth-child(3) {
 .thank-you {
     margin-top: 20px;
     font-size: var(--general-text);
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-align: middle;
 }
 
@@ -211,6 +211,14 @@ th:nth-child(3), td:nth-child(3) {
     display: none;
     padding: 5vh 10vh;
     background-color: #000000;
+}
+
+/* Mobil-optimering för WebDesignContainer */
+@media (max-width: 768px) {
+    #WebDesignContainer {
+        padding: 2vh 1vh;
+        min-height: 100vh;
+    }
 }
 
 #WebDesign {
@@ -331,20 +339,100 @@ th:nth-child(3), td:nth-child(3) {
     #WebDesign {
         grid-template-columns: 1fr;
         gap: 1.5vh;
-        padding: 2vh;
+        padding: 1vh;
+        padding-top: 8vh; /* Mindre padding för mobil */
     }
     
     .web-project {
         min-height: auto;
         padding: 1.5vh;
+        margin: 0.5vh 0;
+        max-width: 100%;
+        width: 100%;
     }
     
     .web-project h3 {
         font-size: 1.1em;
+        margin-bottom: 0.5vh;
     }
     
     .web-project .video-description {
         font-size: 0.85em;
+        line-height: 1.3;
+    }
+    
+    .web-project img {
+        border-radius: 6px;
+        margin-bottom: 0.5vh;
+    }
+    
+    /* Mobil-optimering för projekt-detaljvy */
+    #project-detail {
+        margin-top: 10px;
+        padding: 1.5vh;
+        margin: 0.5vh 0;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.082);
+    }
+    
+    .project-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+    
+    /* .back-to-projects knapp har tagits bort för mobil också */
+    
+    .project-detail-title {
+        font-size: 1.5em;
+        line-height: 1.2;
+    }
+    
+    .project-detail-description {
+        font-size: 1em;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+    
+    .project-detail-backstory {
+        font-size: 0.9em;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+    
+    .project-technologies {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .technology-tag {
+        padding: 4px 12px;
+        font-size: 0.8em;
+    }
+    
+    /* Mobil-optimering för projektlänkar */
+    .project-link-container {
+        margin: 15px 0;
+    }
+    
+    .project-link {
+        padding: 10px 20px;
+        font-size: 0.9em;
+        border-radius: 20px;
+    }
+    
+    .link-icon {
+        font-size: 1em;
+    }
+    
+    /* Mobil-optimering för white_title */
+    .white_title {
+        font-size: 1.5em;
+        top: 2vh;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        padding: 0 2vh;
     }
 }
 
@@ -386,7 +474,7 @@ th:nth-child(3), td:nth-child(3) {
 .white_title {
     font-size: var(--general-big-text);
     margin: 0;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #ffff;
     position: fixed;
     top: 5vh;
@@ -408,6 +496,19 @@ th:nth-child(3), td:nth-child(3) {
     left: 5vw;
     filter: invert(100%);
     z-index: 20; /* Högre än white_title för att säkerställa att pilen alltid är klickbar */
+}
+
+/* Mobil-optimering för back-arrow */
+@media (max-width: 768px) {
+    #WebDesignContainer .back_arrow,
+    #UXDesignContainer .back_arrow,
+    #AnimationDesignContainer .back_arrow {
+        top: 2vh;
+        left: 3vw;
+        width: 24px;
+        height: 24px;
+        padding: 8px; /* Större touch-område */
+    }
 }
 
 .image-projects-container,
@@ -437,7 +538,76 @@ th:nth-child(3), td:nth-child(3) {
     transform: scale(1.05);
 }
 
+/* WIP Badge styling */
+.wip-badge {
+    background-color: #ff6b35;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7em;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+/* Project Group Styling */
+.project-group-header {
+    margin: 3vh 0 2vh 0;
+    text-align: center;
+}
+
+.project-group-header h2 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    margin: 0;
+    padding: 1vh 0;
+    border-bottom: 2px solid #ff6b35;
+    display: inline-block;
+}
+
+/* Project Group Styling - Minimalistisk */
+.project-group-header {
+    margin: 3vh 0 2vh 0;
+    text-align: center;
+}
+
+.project-group-header h2 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    margin: 0;
+    padding: 1vh 0;
+    border-bottom: 2px solid #ff6b35;
+    display: inline-block;
+}
+
+.project-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vh;
+    margin-bottom: 4vh;
+}
+
 /* Web Development Project Cards */
+.project-preview {
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 2vh;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px;
+    width: 100%;
+}
+
 .web-project {
     background-color: #f5f5f5;
     border-radius: 12px;
@@ -451,26 +621,32 @@ th:nth-child(3), td:nth-child(3) {
     justify-content: space-between;
 }
 
+.project-preview:hover,
 .web-project:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+.project-preview h3,
 .web-project h3 {
-    color: #333;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    color: #ffffff75;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
     margin: 0 0 1vh 0;
     font-size: 1.2em;
 }
 
+.project-preview p,
 .web-project .video-description {
     color: #666;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     font-size: 0.9em;
     margin: 1vh 0 0 0;
     line-height: 1.4;
 }
 
+.project-preview img,
 .web-project img {
     width: 100%;
     height: auto;
@@ -496,7 +672,7 @@ th:nth-child(3), td:nth-child(3) {
 .ux-project h3,
 .animation-project h3 {
     color: white;
-    font-family: 'Hypermarket-Regular', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin-bottom: 15px;
 }
 
@@ -642,6 +818,168 @@ table th, table td {
     .Kogmusic{
         height: 152px;
     }
+}
+
+/* Projekt preview stilar */
+.project-preview {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.project-preview:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.project-preview img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.project-preview h3 {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.project-preview p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+/* Projekt detaljer stilar - Minimalistisk */
+#project-detail {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 12px;
+    padding: 2vh;
+    margin: 1vh 0;
+}
+
+.project-detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* .back-to-projects knapp har tagits bort - använder nu smart back-arrow istället */
+
+.project-detail-title {
+    color: white;
+    font-size: 2em;
+    margin: 0;
+}
+
+.project-detail-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.project-detail-backstory {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.project-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.technology-tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+/* Projekt previews container - Minimalistisk */
+#project-previews {
+    background: rgba(255, 255, 255, 0);
+    border-radius: 12px;
+    padding: 2vh;
+    margin: 1vh 0;
+}
+
+/* Mobil-optimering för project-previews */
+@media (max-width: 768px) {
+    #project-previews {
+        background: rgba(255, 255, 255, 0.082);
+        padding: 1.5vh;
+        margin: 0.5vh 0;
+        border-radius: 8px;
+    }
+}
+
+/* Projektlänk stilar - Förbättrad design */
+.project-link-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 107, 53, 0.1);
+    color: #ff6b35;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.project-link:hover {
+    background: rgba(255, 107, 53, 0.2);
+    border-color: rgba(255, 107, 53, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+.project-link:active {
+    transform: translateY(0);
+}
+
+.link-icon {
+    font-size: 1.1em;
+}
+
+.project-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.project-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.project-image:hover {
+    transform: scale(1.05);
 }
 
 @media (max-width: 480px) {

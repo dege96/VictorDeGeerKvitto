@@ -1,0 +1,11 @@
+{
+  "title": "Hasams Redovisning",
+  "description": "Professional accounting and bookkeeping services website with clean design and user-friendly interface.",
+  "technologies": ["HTML5", "CSS3", "JavaScript", "Business Website"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "Hasams Redovisning is a professional business website for accounting services. The project showcases clean, trustworthy design appropriate for financial services, with emphasis on professionalism and user experience. Demonstrates classic business web development with modern design principles.",
+  "status": "completed"
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Skarholmens Pall",
+  "description": "Full-stack web application with secure authentication system and payment processing capabilities.",
+  "technologies": [
+    "Node.js",
+    "Express",
+    "Firebase",
+    "Swish API",
+    "Vanilla JavaScript",
+    "Axios",
+    "TypeScript",
+    "Cert keys"
+  ],
+  "images": [
+    "1_inlogg.webp",
+    "2_2FA.webp", 
+    "3_Skapa_utbetalning.webp",
+    "4_Utbetalning_info.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "Skarholmens Pall is a comprehensive web application designed for managing financial transactions and user authentication. The project features a robust two-factor authentication system, secure payment processing, and an intuitive user interface. Built with modern web technologies, it demonstrates full-stack development capabilities with focus on security and user experience.",
+  "status": "completed"
+}

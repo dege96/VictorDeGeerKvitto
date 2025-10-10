@@ -1,0 +1,12 @@
+{
+  "title": "ATMO STUDIOS - Cloud Based Music Platform",
+  "description": "A web app for streaming and managing music in the cloud with AWS S3 integration and CloudFront CDN.",
+  "technologies": ["React", "AWS S3", "CloudFront", "JavaScript", "Music Streaming"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "ATMO STUDIOS is a cloud-based music platform that demonstrates modern web development with cloud integration. The application streams music from AWS S3 buckets using CloudFront CDN for optimal performance. This project showcases how to build scalable media applications using cloud services and modern web technologies.",
+  "url": "https://musiktjaenst.web.app/",
+  "status": "work_in_progress"
+}

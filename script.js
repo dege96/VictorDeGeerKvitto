@@ -15,6 +15,12 @@ const ImageDesignLink = document.getElementsByClassName("ImageDesignLink");
 const BackArrows = document.querySelectorAll(".back_arrow");
 const crumbleVideos = document.querySelectorAll(".crumbleVideoClass");
 
+// Web Development projekt variabler
+const projectPreviews = document.getElementById("project-previews");
+const projectDetail = document.getElementById("project-detail");
+const projectDetailContent = document.getElementById("project-detail-content");
+let currentProjects = [];
+
 // Logga container-status vid sidladdning
 console.log("📊 Container status check:");
 console.log("VideosKognitivetContainer:", VideosKognitivetContainer?.style.display || "not found");
@@ -154,6 +160,16 @@ BackArrows.forEach((BackArrow) => {
   BackArrow.addEventListener('click', async (event) => {
     console.log("BackArrow clicked");
     
+    // Kolla om vi är i WebDesignContainer och i projekt-detaljvy
+    if (WebDesignContainer && WebDesignContainer.style.display === "flex") {
+        // Kolla om projekt-detaljvyn är synlig
+        if (projectDetail && projectDetail.style.display === "block") {
+            console.log("🔙 Går tillbaka från projekt-detalj till projekt-lista");
+            showProjectPreviews();
+            return; // Avsluta här, gå inte tillbaka till huvudmenyn
+        }
+    }
+    
     // Göm först alla containers
     const containers = [
         VideosKognitivetContainer,
@@ -168,6 +184,11 @@ BackArrows.forEach((BackArrow) => {
         if (container) {
             console.log("🔙 Hiding container:", container.id);
             container.style.display = "none";
+            
+            // Återställ WebDesignContainer till preview-läge
+            if (container.id === "WebDesignContainer") {
+                showProjectPreviews();
+            }
         }
     });
     
@@ -398,6 +419,12 @@ async function initPhysics() {
 
     // Skapa en temporär canvas för att analysera bildens alpha-kanal
     function createPhysicsBody(img) {
+        // Validera att bilden har giltiga dimensioner
+        if (!img.naturalWidth || !img.naturalHeight || img.naturalWidth === 0 || img.naturalHeight === 0) {
+            console.warn('Bild har ogiltiga dimensioner:', img.src, 'naturalWidth:', img.naturalWidth, 'naturalHeight:', img.naturalHeight);
+            return;
+        }
+        
         // Beräkna maximal storlek baserat på både bredd och höjd
         const maxWidth = window.innerWidth / 3;
         const maxHeight = window.innerHeight / 3;
@@ -423,6 +450,13 @@ async function initPhysics() {
         const ctx = canvas.getContext('2d');
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
+        
+        // Validera canvas-storlek innan getImageData
+        if (canvas.width === 0 || canvas.height === 0) {
+            console.warn('Canvas har ogiltiga dimensioner:', canvas.width, 'x', canvas.height);
+            return;
+        }
+        
         ctx.drawImage(img, 0, 0);
         
         // Samla punkter från bildens kanter
@@ -555,10 +589,17 @@ async function initPhysics() {
 
     // Skapa physics bodies för alla bilder
     images.forEach(img => {
-        if (img.complete) {
+        if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
             createPhysicsBody(img);
         } else {
-            img.addEventListener('load', () => createPhysicsBody(img));
+            img.addEventListener('load', () => {
+                // Dubbelkolla att bilden verkligen är laddad med giltiga dimensioner
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                    createPhysicsBody(img);
+                } else {
+                    console.warn('Bild laddades men har ogiltiga dimensioner:', img.src);
+                }
+            });
         }
         img.style.display = 'none';
     });
@@ -636,10 +677,22 @@ function cleanupPhysics(engine, render, runner) {
 }
 
 function createPhysicsVideo(videoElement) {
+    // Validera att videon har giltiga dimensioner
+    if (!videoElement.videoWidth || !videoElement.videoHeight || videoElement.videoWidth === 0 || videoElement.videoHeight === 0) {
+        console.warn('Video har ogiltiga dimensioner:', videoElement.src, 'videoWidth:', videoElement.videoWidth, 'videoHeight:', videoElement.videoHeight);
+        return;
+    }
+    
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = videoElement.videoWidth;
     canvas.height = videoElement.videoHeight;
+    
+    // Validera canvas-storlek innan getImageData
+    if (canvas.width === 0 || canvas.height === 0) {
+        console.warn('Video canvas har ogiltiga dimensioner:', canvas.width, 'x', canvas.height);
+        return;
+    }
 
     // Rita videon på canvas
     ctx.drawImage(videoElement, 0, 0);
@@ -726,32 +779,6 @@ function addSVGInteractivity(svgDoc) {
             }
         });
         
-        // Lägg till klick-händelser på rektangeln
-        rect.addEventListener('click', function() {
-            const parentGroup = this.closest('g');
-            if (parentGroup) {
-                const textElements = parentGroup.querySelectorAll('text, tspan');
-                let groupText = '';
-                textElements.forEach(text => {
-                    groupText += text.textContent + ' ';
-                });
-                
-                // Hantera klick baserat på textinnehåll
-                if (groupText.includes('UX/UI Design') || groupText.includes('UX')) {
-                    showUXDesignContainer();
-                } else if (groupText.includes('Web development') || groupText.includes('Web')) {
-                    showWebDesignContainer();
-                } else if (groupText.includes('Vector graphics')) {
-                    showImageDesignContainer();
-                } else if (groupText.includes('Video production') || groupText.includes('Video')) {
-                    showVideosKognitivetContainer();
-                } else if (groupText.includes('Music production') || groupText.includes('Music')) {
-                    showMusicKognitivetContainer();
-                } else if (groupText.includes('Animation')) {
-                    showAnimationDesignContainer(); 
-                }
-            }
-        });
     });
     
     // Hitta klickbara element i SVG:en baserat på textinnehåll eller ID:n
@@ -780,12 +807,16 @@ function addSVGInteractivity(svgDoc) {
                 showWebDesignContainer(); // Du kan ändra detta till en web-specifik container
             } else if (text.includes('Image design')) {
                 showImageDesignContainer();
+            } else if (text.includes('Vector graphics')) {
+                showImageDesignContainer();
             } else if (text.includes('Video production') || text.includes('Video')) {
                 showVideosKognitivetContainer();
             } else if (text.includes('Music production') || text.includes('Music')) {
                 showMusicKognitivetContainer();
             } else if (text.includes('Animation')) {
-                showImageDesignContainer(); // Du kan ändra detta till en animation-specifik container
+                showAnimationDesignContainer(); // Du kan ändra detta till en animation-specifik container
+            } else if (text.includes('Skärholmens Pall')) {
+                showWebDesignContainer(); // Du kan ändra detta till en animation-specifik container
             }
         });
     });
@@ -845,6 +876,178 @@ function addSVGInteractivity(svgDoc) {
     });
 }
 
+// Web Development projekt funktioner
+async function loadProjects() {
+    try {
+        // Projektgrupper i önskad ordning
+        const projectGroups = [
+            {
+                name: 'Web Applications',
+                folder: 'web_apps',
+                subfolders: ['skarholmens_pall', 'inkopslistan', 'atmo_studios']
+            },
+            {
+                name: 'Web Pages',
+                folder: 'webpages',
+                subfolders: ['dg_development', 'hasams_redovisning']
+            },
+            {
+                name: 'Work In Progress',
+                folder: 'work_in_progress',
+                subfolders: ['3d_models_web', 'spotify_wrapped', '8bit_game']
+            }
+        ];
+        
+        currentProjects = [];
+        
+        for (const group of projectGroups) {
+            for (const subfolder of group.subfolders) {
+                try {
+                    const response = await fetch(`webdev/${group.folder}/${subfolder}/project.json`);
+                    if (response.ok) {
+                        const projectData = await response.json();
+                        projectData.folder = `${group.folder}/${subfolder}`;
+                        projectData.group = group.name;
+                        currentProjects.push(projectData);
+                    }
+                } catch (error) {
+                    console.warn(`Kunde inte ladda projekt från ${group.folder}/${subfolder}:`, error);
+                }
+            }
+        }
+        
+        console.log('Laddade projekt:', currentProjects);
+        renderProjectPreviews();
+    } catch (error) {
+        console.error('Fel vid laddning av projekt:', error);
+    }
+}
+
+function renderProjectPreviews() {
+    if (!projectPreviews) return;
+    
+    projectPreviews.innerHTML = '';
+    
+    // Gruppera projekt efter grupp
+    const groupedProjects = {};
+    currentProjects.forEach((project, index) => {
+        const group = project.group || 'Other';
+        if (!groupedProjects[group]) {
+            groupedProjects[group] = [];
+        }
+        groupedProjects[group].push({ project, index });
+    });
+    
+    // Definiera ordning för grupperna
+    const groupOrder = ['Web Applications', 'Web Pages', 'Work In Progress'];
+    
+    // Rendera varje grupp
+    groupOrder.forEach(groupName => {
+        if (groupedProjects[groupName]) {
+            // Skapa grupphuvud
+            const groupHeader = document.createElement('div');
+            groupHeader.className = 'project-group-header';
+            groupHeader.innerHTML = `<h2>${groupName}</h2>`;
+            projectPreviews.appendChild(groupHeader);
+            
+            // Skapa gruppcontainer
+            const groupContainer = document.createElement('div');
+            groupContainer.className = 'project-group';
+            groupContainer.dataset.group = groupName;
+            
+            // Rendera projekt i gruppen
+            groupedProjects[groupName].forEach(({ project, index }) => {
+                const previewElement = document.createElement('div');
+                previewElement.className = 'project-preview';
+                previewElement.dataset.projectIndex = index;
+                
+                const previewImage = project.preview.endsWith('.webp') ? 
+                    project.preview : 
+                    project.preview.replace(/\.(png|jpg|jpeg|gif)$/, '.webp');
+                
+                previewElement.innerHTML = `
+                    <picture>
+                        <source srcset="webdev/${project.folder}/${previewImage}" type="image/webp">
+                        <img src="webdev/${project.folder}/${project.preview}" alt="${project.title}" loading="lazy">
+                    </picture>
+                    <h3>${project.title} ${project.status === 'work_in_progress' ? '<span class="wip-badge">WorkInProgress</span>' : ''}</h3>
+                    <p>${project.description}</p>
+                `;
+                
+                previewElement.addEventListener('click', () => showProjectDetail(index));
+                groupContainer.appendChild(previewElement);
+            });
+            
+            projectPreviews.appendChild(groupContainer);
+        }
+    });
+}
+
+function showProjectDetail(projectIndex) {
+    const project = currentProjects[projectIndex];
+    if (!project) return;
+    
+    // Dölj previews och visa detaljer
+    projectPreviews.style.display = 'none';
+    projectDetail.style.display = 'block';
+    
+    // Projektlänkar baserat på projects.md och JSON-filer
+    const projectLinks = {
+        'Skärholmens Pall': 'https://skarholmenspall.com',
+        'InköpsListan': 'https://inkopslistan-836ab.web.app/lists/0tOpS4Nplc0g4B9J4aaS',
+        'HELFER': 'https://helfer.vercel.app/',
+        'DG Development': 'https://www.dgd.solutions/',
+        'ATMO STUDIOS - Cloud Based Music Platform': 'https://musiktjaenst.web.app/',
+        'Make Your Own Spotify Wrapped': 'https://spotifyslapped.netlify.app/',
+        '3D Models in the Web': 'https://degeer-3d-spline.netlify.app/',
+        'Pepsi vs Coca Cola Interactive': 'https://lovely-biscuit-5a5b09.netlify.app/',
+        'Candy Store': 'https://godis-grisen-8rnk.vercel.app/'
+    };
+    
+    // Generera projektbilder HTML
+    const projectImagesHTML = project.images.map(image => {
+        const webpImage = image.replace(/\.(png|jpg|jpeg|gif)$/, '.webp');
+        return `
+            <picture>
+                <source srcset="webdev/${project.folder}/${webpImage}" type="image/webp">
+                <img src="webdev/${project.folder}/${image}" alt="${project.title}" class="project-image" loading="lazy">
+            </picture>
+        `;
+    }).join('');
+    
+    // Generera teknologier HTML
+    const technologiesHTML = project.technologies.map(tech => 
+        `<span class="technology-tag">${tech}</span>`
+    ).join('');
+    
+    // Generera länk HTML om projektet har en länk
+    const projectLink = projectLinks[project.title];
+    const linkHTML = projectLink ? `
+        <div class="project-link-container">
+            <a href="${projectLink}" target="_blank" rel="noopener noreferrer" class="project-link">
+                <span class="link-icon">🔗</span>
+                Besök webbplatsen
+            </a>
+        </div>
+    ` : '';
+    
+    // Sätt innehåll
+    projectDetailContent.innerHTML = `
+        <div class="project-detail-header">
+            <h2 class="project-detail-title">${project.title}</h2>
+        </div>
+        <div class="project-technologies">${technologiesHTML}</div>
+        <p class="project-detail-description">${project.description}</p>
+        ${linkHTML}
+        <div class="project-images">${projectImagesHTML}</div>
+    `;
+}
+
+function showProjectPreviews() {
+    projectDetail.style.display = 'none';
+    projectPreviews.style.display = 'block';
+}
+
 // Hjälpfunktioner för att visa olika containers
 function showImageDesignContainer() {
     console.log("🖼️ showImageDesignContainer() called");
@@ -869,10 +1072,12 @@ function showVideosKognitivetContainer() {
 
 function showWebDesignContainer() {
     console.log("🌐 showWebDesignContainer() called");
-    playTransitionAnimation(() => {
+    playTransitionAnimation(async () => {
         // Visa efter animationen är klar
         console.log("🌐 Setting WebDesignContainer to flex");
         WebDesignContainer.style.display = "flex";
+        // Ladda projekt när containern visas
+        await loadProjects();
     });
 }
 

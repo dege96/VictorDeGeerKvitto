@@ -1,0 +1,12 @@
+{
+  "title": "DG Development",
+  "description": "A sleek, corporate web presence for a digital solutions company with modern design and professional layout.",
+  "technologies": ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "DG Development is a professional corporate website showcasing digital solutions and services. The project demonstrates clean, modern web design with responsive layout and professional aesthetics. Built with standard web technologies, it represents classic business web development practices.",
+  "url": "https://www.dgd.solutions/",
+  "status": "completed"
+}

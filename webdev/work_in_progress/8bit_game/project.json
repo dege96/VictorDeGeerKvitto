@@ -1,0 +1,11 @@
+{
+  "title": "8-Bit Game",
+  "description": "A retro-style 8-bit game built, featuring pixel art graphics and simple old school game mechanics.",
+  "technologies": ["JavaScript", "Game Development", "Pixel Art"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "This 8-bit game project showcases classic game development techniques using modern web technologies. Built with HTML5 Canvas and JavaScript, it demonstrates how to create engaging retro-style games with pixel art graphics and smooth gameplay. The project highlights the intersection of nostalgia and modern web development.",
+  "status": "work_in_progress"
+}

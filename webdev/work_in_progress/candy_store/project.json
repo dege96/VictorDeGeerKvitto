@@ -1,0 +1,12 @@
+{
+  "title": "Candy Store",
+  "description": "A playful online candy shop demo with modern e-commerce features and interactive shopping experience.",
+  "technologies": ["React", "JavaScript", "CSS3", "E-commerce"],
+  "images": [
+    "preview.webp"
+  ],
+  "preview": "preview.webp",
+  "backstory": "This project showcases a modern e-commerce candy store with interactive features and playful design. Built with React and modern web technologies, it demonstrates how to create engaging shopping experiences for users. The project includes product catalogs, shopping cart functionality, and responsive design principles.",
+  "url": "https://godis-grisen-8rnk.vercel.app/",
+  "status": "completed"
+}
