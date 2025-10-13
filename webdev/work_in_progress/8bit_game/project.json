@@ -1,11 +1,12 @@
 {
-  "title": "8-Bit Game",
-  "description": "A retro-style 8-bit game built, featuring pixel art graphics and simple old school game mechanics.",
-  "technologies": ["JavaScript", "Game Development", "Pixel Art"],
+  "title": "8-Bit Arcade Game",
+  "description": "A retro arcade game in the browser with pixel-perfect 8-bit graphics and classic gameplay, built using HTML5 Canvas and JavaScript. Experience nostalgic arcade action reimagined for modern web technologies!",
+  "technologies": ["JavaScript", "HTML5 Canvas", "Pixel Art", "Game Development"],
   "images": [
     "preview.webp"
   ],
   "preview": "preview.webp",
-  "backstory": "This 8-bit game project showcases classic game development techniques using modern web technologies. Built with HTML5 Canvas and JavaScript, it demonstrates how to create engaging retro-style games with pixel art graphics and smooth gameplay. The project highlights the intersection of nostalgia and modern web development.",
+  "backstory": "This project brings the charm of classic 8-bit arcade games to the modern web. Leveraging HTML5 Canvas and vanilla JavaScript, it offers smooth gameplay, old-school sound effects, and handcrafted pixel art, all delivered seamlessly in your browser. Inspired by gaming nostalgia, it demonstrates how simple technology can still create magical, engaging experiences today.",
+  "url": "https://arcade-game-1.vercel.app/",
   "status": "work_in_progress"
 }

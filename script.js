@@ -994,7 +994,7 @@ function showProjectDetail(projectIndex) {
     // Projektlänkar baserat på projects.md och JSON-filer
     const projectLinks = {
         'Skärholmens Pall': 'https://skarholmenspall.com',
-        'InköpsListan': 'https://inkopslistan-836ab.web.app/lists/0tOpS4Nplc0g4B9J4aaS',
+        'InköpsListan': 'https://inkopslistan-836ab.web.app',
         'HELFER': 'https://helfer.vercel.app/',
         'DG Development': 'https://www.dgd.solutions/',
         'ATMO STUDIOS - Cloud Based Music Platform': 'https://musiktjaenst.web.app/',
@@ -1025,7 +1025,7 @@ function showProjectDetail(projectIndex) {
     const linkHTML = projectLink ? `
         <div class="project-link-container">
             <a href="${projectLink}" target="_blank" rel="noopener noreferrer" class="project-link">
-                <span class="link-icon">🔗</span>
+                <i data-feather="external-link"></i>
                 Besök webbplatsen
             </a>
         </div>
@@ -1034,13 +1034,18 @@ function showProjectDetail(projectIndex) {
     // Sätt innehåll
     projectDetailContent.innerHTML = `
         <div class="project-detail-header">
-            <h2 class="project-detail-title">${project.title}</h2>
+            <h2 class="project-detail-title">${project.title}</h2>${linkHTML}
         </div>
         <div class="project-technologies">${technologiesHTML}</div>
         <p class="project-detail-description">${project.description}</p>
-        ${linkHTML}
+
         <div class="project-images">${projectImagesHTML}</div>
     `;
+    
+    // Initialisera Feather icons efter att innehållet har laddats
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
 }
 
 function showProjectPreviews() {
