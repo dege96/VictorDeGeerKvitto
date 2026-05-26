@@ -202,7 +202,6 @@ th:nth-child(3), td:nth-child(3) {
     flex-direction: row;
     align-items: center;
     align-content: center;
-    padding: 10vh;
 }
 
 #WebDesignContainer{
