@@ -473,6 +473,7 @@ BackArrows.forEach((BackArrow) => {
                 showLaserProjectPreviews();
             }
             if (container.id === "CaseStudyContainer" && caseStudyContent) {
+                destroyCaseToc();
                 caseStudyContent.innerHTML = "";
             }
         }
@@ -1037,9 +1038,224 @@ function renderCaseImageItems(images = [], caseFolder = '') {
     `).join('');
 }
 
+let caseTocObserver = null;
+let caseTocCleanup = null;
+
+function destroyCaseToc() {
+    if (caseTocObserver) {
+        caseTocObserver.disconnect();
+        caseTocObserver = null;
+    }
+    if (caseTocCleanup) {
+        caseTocCleanup();
+        caseTocCleanup = null;
+    }
+}
+
+function isMobileCaseToc() {
+    return window.matchMedia('(max-width: 900px)').matches;
+}
+
+function getCaseTocHighlightId(toc, sectionId) {
+    const link = toc.querySelector(`.case-toc-link[data-case-toc="${sectionId}"]`);
+    if (!link || !link.closest('.case-toc-list--nested')) {
+        return sectionId;
+    }
+
+    const parentItem = link.closest('.case-toc-item');
+    return parentItem?.querySelector(':scope > .case-toc-link')?.dataset.caseToc || sectionId;
+}
+
+function buildCaseNav(data) {
+    const nav = [
+        { id: 'case-overview', label: 'Overview' }
+    ];
+
+    if (data.brief) {
+        nav.push({ id: 'case-brief', label: 'Brief' });
+    }
+
+    if (data.comparisons?.length) {
+        nav.push({
+            id: 'case-comparisons',
+            label: data.comparisonsTitle || 'Concept to live',
+            children: data.comparisons.map((pair, index) => ({
+                id: `case-comparison-${index}`,
+                label: pair.title || `Comparison ${index + 1}`
+            }))
+        });
+    }
+
+    const detailChildren = [];
+    if (data.deliverables?.length) {
+        detailChildren.push({ id: 'case-deliverables', label: 'Deliverables' });
+    }
+    if (data.tools?.length) {
+        detailChildren.push({ id: 'case-tools', label: 'Tools' });
+    }
+    if (data.team?.length) {
+        detailChildren.push({ id: 'case-team', label: 'Team & Collaboration' });
+    }
+    if (detailChildren.length) {
+        nav.push({ id: 'case-details', label: 'Project details', children: detailChildren });
+    }
+
+    if (data.process?.length) {
+        nav.push({
+            id: 'case-process',
+            label: 'Process',
+            children: data.process.map((step, index) => ({
+                id: `case-process-${index}`,
+                label: step.title || `Step ${index + 1}`
+            }))
+        });
+    }
+
+    if (data.gallery?.length) {
+        nav.push({ id: 'case-gallery', label: 'Final Gallery' });
+    }
+    if (data.result) {
+        nav.push({ id: 'case-result', label: 'Result' });
+    }
+    if (data.testimonial) {
+        nav.push({ id: 'case-testimonial', label: 'Client Feedback' });
+    }
+    if (data.learnings) {
+        nav.push({ id: 'case-learnings', label: 'Learnings' });
+    }
+
+    return nav;
+}
+
+function renderCaseTocItems(items = []) {
+    return items.map((item) => `
+        <li class="case-toc-item">
+            <a href="#${item.id}" class="case-toc-link" data-case-toc="${item.id}">${item.label}</a>
+            ${item.children?.length ? `
+                <ol class="case-toc-list case-toc-list--nested">
+                    ${renderCaseTocItems(item.children)}
+                </ol>
+            ` : ''}
+        </li>
+    `).join('');
+}
+
+function renderCaseToc(navItems = []) {
+    if (!navItems.length) return '';
+
+    return `
+        <nav class="case-toc" aria-label="Case study contents">
+            <button type="button" class="case-toc-toggle" aria-expanded="true" aria-controls="case-toc-panel">
+                <span class="case-toc-title">Contents</span>
+                <span class="case-toc-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="case-toc-panel" id="case-toc-panel">
+                <ol class="case-toc-list">
+                    ${renderCaseTocItems(navItems)}
+                </ol>
+            </div>
+        </nav>
+    `;
+}
+
+function initCaseTocScrollSpy(container) {
+    destroyCaseToc();
+
+    const toc = container.querySelector('.case-toc');
+    if (!toc) return;
+
+    const links = [...toc.querySelectorAll('.case-toc-link')];
+    const toggle = toc.querySelector('.case-toc-toggle');
+    const mobileMq = window.matchMedia('(max-width: 900px)');
+    const sectionIds = links.map((link) => link.dataset.caseToc);
+    const sections = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+    const setCollapsed = (collapsed) => {
+        toc.classList.toggle('is-collapsed', collapsed);
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', String(!collapsed));
+        }
+    };
+
+    const applyTocLayout = () => {
+        if (!mobileMq.matches) {
+            setCollapsed(false);
+        }
+    };
+
+    const setActiveLink = (activeId) => {
+        const highlightId = isMobileCaseToc()
+            ? getCaseTocHighlightId(toc, activeId)
+            : activeId;
+
+        links.forEach((link) => {
+            link.classList.toggle('is-active', link.dataset.caseToc === highlightId);
+        });
+    };
+
+    if (toggle) {
+        const onToggleClick = () => {
+            if (!mobileMq.matches) return;
+            setCollapsed(!toc.classList.contains('is-collapsed'));
+        };
+
+        toggle.addEventListener('click', onToggleClick);
+
+        const onMqChange = () => applyTocLayout();
+        mobileMq.addEventListener('change', onMqChange);
+        applyTocLayout();
+
+        caseTocCleanup = () => {
+            toggle.removeEventListener('click', onToggleClick);
+            mobileMq.removeEventListener('change', onMqChange);
+        };
+    }
+
+    links.forEach((link) => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const target = document.getElementById(link.dataset.caseToc);
+            if (!target) return;
+            setActiveLink(link.dataset.caseToc);
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (mobileMq.matches) {
+                setCollapsed(true);
+            }
+        });
+    });
+
+    if (!sections.length) return;
+
+    const visibleSections = new Map();
+
+    caseTocObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                visibleSections.set(entry.target.id, entry.intersectionRatio);
+            } else {
+                visibleSections.delete(entry.target.id);
+            }
+        });
+
+        if (!visibleSections.size) return;
+
+        const activeId = [...visibleSections.entries()]
+            .sort((a, b) => b[1] - a[1])[0][0];
+        setActiveLink(activeId);
+    }, {
+        rootMargin: '-12% 0px -65% 0px',
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
+    });
+
+    sections.forEach((section) => caseTocObserver.observe(section));
+    setActiveLink(sectionIds[0]);
+}
+
 function renderCaseComparisons(comparisons = [], caseFolder = '') {
-    return comparisons.map((pair) => `
-        <article class="case-comparison-pair">
+    return comparisons.map((pair, index) => `
+        <article class="case-comparison-pair" id="case-comparison-${index}">
             ${pair.title ? `<h4 class="case-comparison-title">${pair.title}</h4>` : ''}
             <div class="case-comparison-grid">
                 <div class="case-comparison-item case-comparison-live">
@@ -1060,6 +1276,8 @@ function renderCaseComparisons(comparisons = [], caseFolder = '') {
 function renderCaseStudy(data, caseFolder) {
     if (!caseStudyContent) return;
 
+    destroyCaseToc();
+
     const metaItems = [
         { label: 'Client', value: data.client },
         { label: 'Year', value: data.year },
@@ -1071,104 +1289,117 @@ function renderCaseStudy(data, caseFolder) {
     const deliverables = (data.deliverables || []).map(item => `<li>${item}</li>`).join('');
     const tools = (data.tools || []).map(item => `<li>${item}</li>`).join('');
     const team = (data.team || []).map(item => `<li>${item}</li>`).join('');
-    const processSteps = (data.process || []).map((step) => `
-        <article class="case-process-step">
+    const processSteps = (data.process || []).map((step, index) => `
+        <article class="case-process-step" id="case-process-${index}">
             <h4>${step.title}</h4>
             <p>${step.body}</p>
             ${step.images?.length ? `<div class="case-gallery">${renderCaseImageItems(step.images, caseFolder)}</div>` : ''}
         </article>
     `).join('');
 
+    const navItems = buildCaseNav(data);
+    const hasProjectDetails = deliverables || tools || team;
+
     caseStudyContent.innerHTML = `
-        <article class="case-study">
-            <section class="case-hero">
-                <img src="${caseImageUrl(caseFolder, data.hero)}" alt="${data.title}" loading="lazy">
-                <h1 class="case-title">${data.title}</h1>
-                <p class="case-subtitle">${data.subtitle || ''}</p>
-                <p>${data.summary || ''}</p>
-            </section>
-
-            ${metaItems.length ? `
-                <section class="case-meta-grid">
-                    ${metaItems.map((item) => `
-                        <div class="case-meta-item">
-                            <p class="case-meta-label">${item.label}</p>
-                            <p class="case-meta-value">${item.value}</p>
-                        </div>
-                    `).join('')}
+        <div class="case-study-layout">
+            ${renderCaseToc(navItems)}
+            <article class="case-study">
+                <section class="case-hero" id="case-overview">
+                    <img src="${caseImageUrl(caseFolder, data.hero)}" alt="${data.title}" loading="lazy">
+                    <h1 class="case-title">${data.title}</h1>
+                    <p class="case-subtitle">${data.subtitle || ''}</p>
+                    <p>${data.summary || ''}</p>
                 </section>
-            ` : ''}
 
-            <section class="case-section">
-                <h3>Brief</h3>
-                <p>${data.brief || ''}</p>
-            </section>
+                ${metaItems.length ? `
+                    <section class="case-meta-grid" aria-label="Project metadata">
+                        ${metaItems.map((item) => `
+                            <div class="case-meta-item">
+                                <p class="case-meta-label">${item.label}</p>
+                                <p class="case-meta-value">${item.value}</p>
+                            </div>
+                        `).join('')}
+                    </section>
+                ` : ''}
 
-            ${data.comparisons?.length ? `
-                <section class="case-section case-comparisons">
-                    <h3>${data.comparisonsTitle || 'Concept to live'}</h3>
-                    ${data.comparisonsIntro ? `<p>${data.comparisonsIntro}</p>` : ''}
-                    ${renderCaseComparisons(data.comparisons, caseFolder)}
-                </section>
-            ` : ''}
+                ${data.brief ? `
+                    <section class="case-section" id="case-brief">
+                        <h3>Brief</h3>
+                        <p>${data.brief}</p>
+                    </section>
+                ` : ''}
 
-            ${deliverables ? `
-                <section class="case-section">
-                    <h3>Deliverables</h3>
-                    <ul class="case-list">${deliverables}</ul>
-                </section>
-            ` : ''}
+                ${data.comparisons?.length ? `
+                    <section class="case-section case-comparisons" id="case-comparisons">
+                        <h3>${data.comparisonsTitle || 'Concept to live'}</h3>
+                        ${data.comparisonsIntro ? `<p>${data.comparisonsIntro}</p>` : ''}
+                        ${renderCaseComparisons(data.comparisons, caseFolder)}
+                    </section>
+                ` : ''}
 
-            ${tools ? `
-                <section class="case-section">
-                    <h3>Tools</h3>
-                    <ul class="case-list">${tools}</ul>
-                </section>
-            ` : ''}
+                ${hasProjectDetails ? `
+                    <section class="case-section case-details-group" id="case-details">
+                        <h3>Project details</h3>
+                        ${deliverables ? `
+                            <div class="case-subsection" id="case-deliverables">
+                                <h4>Deliverables</h4>
+                                <ul class="case-list">${deliverables}</ul>
+                            </div>
+                        ` : ''}
+                        ${tools ? `
+                            <div class="case-subsection" id="case-tools">
+                                <h4>Tools</h4>
+                                <ul class="case-list">${tools}</ul>
+                            </div>
+                        ` : ''}
+                        ${team ? `
+                            <div class="case-subsection" id="case-team">
+                                <h4>Team & Collaboration</h4>
+                                <ul class="case-list">${team}</ul>
+                            </div>
+                        ` : ''}
+                    </section>
+                ` : ''}
 
-            ${team ? `
-                <section class="case-section">
-                    <h3>Team & Collaboration</h3>
-                    <ul class="case-list">${team}</ul>
-                </section>
-            ` : ''}
+                ${processSteps ? `
+                    <section class="case-section" id="case-process">
+                        <h3>Process</h3>
+                        ${processSteps}
+                    </section>
+                ` : ''}
 
-            ${processSteps ? `
-                <section class="case-section">
-                    <h3>Process</h3>
-                    ${processSteps}
-                </section>
-            ` : ''}
+                ${data.gallery?.length ? `
+                    <section class="case-section" id="case-gallery">
+                        <h3>Final Gallery</h3>
+                        <div class="case-gallery">${renderCaseImageItems(data.gallery, caseFolder)}</div>
+                    </section>
+                ` : ''}
 
-            ${data.gallery?.length ? `
-                <section class="case-section">
-                    <h3>Final Gallery</h3>
-                    <div class="case-gallery">${renderCaseImageItems(data.gallery, caseFolder)}</div>
-                </section>
-            ` : ''}
+                ${data.result ? `
+                    <section class="case-section" id="case-result">
+                        <h3>Result</h3>
+                        <p>${data.result}</p>
+                    </section>
+                ` : ''}
 
-            ${data.result ? `
-                <section class="case-section">
-                    <h3>Result</h3>
-                    <p>${data.result}</p>
-                </section>
-            ` : ''}
+                ${data.testimonial ? `
+                    <section class="case-section" id="case-testimonial">
+                        <h3>Client Feedback</h3>
+                        <p>${data.testimonial}</p>
+                    </section>
+                ` : ''}
 
-            ${data.testimonial ? `
-                <section class="case-section">
-                    <h3>Client Feedback</h3>
-                    <p>${data.testimonial}</p>
-                </section>
-            ` : ''}
-
-            ${data.learnings ? `
-                <section class="case-section">
-                    <h3>Learnings</h3>
-                    <p>${data.learnings}</p>
-                </section>
-            ` : ''}
-        </article>
+                ${data.learnings ? `
+                    <section class="case-section" id="case-learnings">
+                        <h3>Learnings</h3>
+                        <p>${data.learnings}</p>
+                    </section>
+                ` : ''}
+            </article>
+        </div>
     `;
+
+    initCaseTocScrollSpy(caseStudyContent);
 }
 
 async function loadCaseStudy(kvittoId) {

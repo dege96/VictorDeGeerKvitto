@@ -233,10 +233,228 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 #case-study-content {
-    max-width: 1100px;
+    --case-header-height: 8vh;
+    --case-toc-gap: 1rem;
+    --case-toc-sticky-top: calc(var(--case-header-height) + var(--case-toc-gap));
+    max-width: 1200px;
     margin: 0 auto;
     padding-top: 10vh;
     color: #fff;
+}
+
+.case-study-layout {
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.case-study {
+    min-width: 0;
+}
+
+.case-toc {
+    position: sticky;
+    top: var(--case-toc-sticky-top);
+    align-self: start;
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.case-toc-toggle {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    font: inherit;
+}
+
+.case-toc-chevron {
+    display: none;
+}
+
+.case-toc-title {
+    margin: 0 0 0.75rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.case-toc-toggle .case-toc-title {
+    margin-bottom: 0;
+}
+
+.case-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.case-toc-list--nested {
+    margin-top: 0.35rem;
+    margin-left: 0.65rem;
+    padding-left: 0.65rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.case-toc-item + .case-toc-item {
+    margin-top: 0.35rem;
+}
+
+.case-toc-link {
+    display: block;
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    padding: 0.2rem 0;
+    transition: color 0.15s ease;
+}
+
+.case-toc-link:hover {
+    color: #fff;
+}
+
+.case-toc-link.is-active {
+    color: #fff;
+    font-weight: 600;
+}
+
+.case-toc-list--nested .case-toc-link {
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.case-toc-list--nested .case-toc-link.is-active {
+    color: #9ec5ff;
+}
+
+.case-hero,
+.case-section,
+.case-process-step,
+.case-comparison-pair,
+.case-subsection {
+    scroll-margin-top: var(--case-toc-sticky-top);
+}
+
+.case-details-group h4 {
+    color: #fff;
+    font-size: 1rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.case-details-group h4:first-of-type {
+    margin-top: 0;
+}
+
+.case-subsection + .case-subsection {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 900px) {
+    #case-study-content {
+        --case-toc-gap: 0.75rem;
+    }
+
+    .case-study-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .case-toc {
+        position: sticky;
+        top: var(--case-toc-sticky-top);
+        z-index: 2;
+        padding: 0.55rem 0.75rem;
+        margin: 0 -0.25rem;
+        background: rgb(45 49 55 / 54%);
+        backdrop-filter: blur(15px);
+        max-height: none;
+        overflow: visible;
+    }
+
+    .case-toc-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        cursor: pointer;
+    }
+
+    .case-toc-chevron {
+        display: block;
+        flex-shrink: 0;
+        width: 0.45rem;
+        height: 0.45rem;
+        border-right: 1.5px solid rgba(255, 255, 255, 0.7);
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.7);
+        transform: rotate(45deg);
+        transition: transform 0.2s ease;
+        margin-top: -0.15rem;
+    }
+
+    .case-toc:not(.is-collapsed) .case-toc-chevron {
+        transform: rotate(-135deg);
+        margin-top: 0.15rem;
+    }
+
+    .case-toc.is-collapsed .case-toc-panel {
+        display: none;
+    }
+
+    .case-toc-panel {
+        padding-top: 0.65rem;
+    }
+
+    .case-toc-list--nested {
+        display: none;
+    }
+
+    .case-toc-panel > .case-toc-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .case-toc-item + .case-toc-item {
+        margin-top: 0;
+    }
+
+    .case-toc-link {
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.74rem;
+        white-space: nowrap;
+    }
+
+    .case-toc-link.is-active {
+        background: rgba(158, 197, 255, 0.22);
+    }
+}
+
+@media (min-width: 901px) {
+    .case-toc.is-collapsed .case-toc-panel {
+        display: block;
+    }
+
+    .case-toc-toggle {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .case-toc-toggle .case-toc-title {
+        margin-bottom: 0.75rem;
+    }
 }
 
 .case-hero {
