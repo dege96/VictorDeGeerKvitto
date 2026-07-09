@@ -1,0 +1,103 @@
+{
+  "title": "Stockholm Food & Wine Fair Activation",
+  "subtitle": "Concept-to-install delivery of a branded fair setup with sign and prize wheel.",
+  "client": "Brandyne",
+  "year": "2026",
+  "role": "Concept Designer, Production Designer and Installer",
+  "duration": "1 month",
+  "location": "Stockholm, Sweden",
+  "summary": "This project focused on designing and producing a compact event activation for a trade fair environment. I handled concept work, 3D prototyping, print design, print ordering and final on-site installation.",
+  "brief": "The brief was to create a clear and attractive branded setup for a fair booth, centered around a metal sign and a prize wheel. The process required high visual impact, practical build decisions and fast delivery from idea to live environment.",
+  "deliverables": [
+    "Metal sign design",
+    "Prize wheel design"
+  ],
+  "tools": [
+    "Adobe Illustrator",
+    "Adobe Photoshop",
+    "3D prototyping workflow",
+    "Pre-press preparation"
+  ],
+  "team": [
+    "Solo execution from design to installation"
+  ],
+  "hero": "hela_monter_live.JPG",
+  "comparisonsTitle": "Concept to live",
+  "comparisonsIntro": "Each deliverable is shown with the final on-site result first, followed by the concept visualization used to plan production.",
+  "comparisons": [
+    {
+      "title": "Metal sign",
+      "live": {
+        "src": "skylt_live.png",
+        "caption": "Installed sign at Stockholm Food & Wine."
+      },
+      "concept": {
+        "src": "skylt_koncept_demo.png",
+        "caption": "3D concept used to validate scale and branding."
+      }
+    },
+    {
+      "title": "Prize wheel",
+      "live": {
+        "src": "lyckohjul_live.png",
+        "caption": "Installed prize wheel on the fair floor."
+      },
+      "concept": {
+        "src": "lyckohjul_koncept_demo.png",
+        "caption": "Concept mockup for layout, prizes and visual hierarchy."
+      }
+    }
+  ],
+  "process": [
+    {
+      "title": "1) Print design and pre-press",
+      "body": "After the concept phase, I finalized production-ready files with attention to dimensions, print quality and visual consistency between all physical components."
+    },
+    {
+      "title": "2) Print procurement",
+      "body": "I ordered and coordinated print production for the sign and wheel components, ensuring output quality matched the approved concept."
+    },
+    {
+      "title": "3) On-site installation",
+      "body": "I assembled the final setup on site and adjusted placement and details in real context to ensure both functionality and visual impact in the fair environment.",
+      "images": [
+        {
+          "src": "hela_monter_live.JPG",
+          "caption": "Complete live booth setup."
+        },
+        {
+          "src": "IMG_2517.png",
+          "caption": "Close-up of the finished prize wheel surface and branding."
+        }
+      ]
+    }
+  ],
+  "gallery": [
+    {
+      "src": "hela_monter_live.JPG",
+      "caption": "Full activation on the fair floor."
+    },
+    {
+      "src": "skylt_live.png",
+      "caption": "Installed sign."
+    },
+    {
+      "src": "lyckohjul_live.png",
+      "caption": "Installed prize wheel."
+    },
+    {
+      "src": "IMG_2517.png",
+      "caption": "Detail of prize wheel finish."
+    },
+    {
+      "src": "skylt_koncept_demo.png",
+      "caption": "Sign concept visualization."
+    },
+    {
+      "src": "lyckohjul_koncept_demo.png",
+      "caption": "Prize wheel concept visualization."
+    }
+  ],
+  "result": "The final delivery provided a clean and engaging activation setup that translated well from concept visualizations to the real fair environment, with a consistent look across all printed components.",
+  "testimonial": ""
+}

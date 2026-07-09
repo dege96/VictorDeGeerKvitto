@@ -1,0 +1,157 @@
+{
+  "title": "CLSR Activation Booth",
+  "subtitle": "End-to-end concept, design, print production and on-site installation for a branded event activation.",
+  "client": "Brandyne",
+  "year": "2025",
+  "role": "Creative Lead, Designer and On-site Installer",
+  "duration": "4 months",
+  "location": "Stockholm, Sweden",
+  "summary": "This project covered the full journey from brief to live experience: concept development, low-fi and high-fi prototyping, print-ready design production, and final on-site installation. The goal was to create a cohesive, high-impact activation with a kiosk and a prize wheel that felt premium and engaging for visitors.",
+  "brief": "The assignment was to design and deliver a complete casino-themed activation setup for a live event. I led the creative process from initial concept to final execution, coordinated production with an external build vendor, and ensured all printed assets were production-ready and visually consistent across all touchpoints.",
+  "deliverables": [
+    "Banner design",
+    "Photo booth design",
+    "Kiosk print design",
+    "Prize wheel design",
+    "Wristband print design",
+    "A4 form templates"
+  ],
+  "tools": [
+    "Adobe Illustrator",
+    "Adobe Photoshop",
+    "3D prototyping workflow",
+    "Pre-press preparation"
+  ],
+  "team": [
+    "External production vendor for kiosk and prize wheel build",
+    "On-site collaboration during final installation and wrapping"
+  ],
+  "hero": "hela_monter_live.png",
+  "comparisonsTitle": "Concept to live",
+  "comparisonsIntro": "Final on-site results shown first, with the concept visuals used to plan and approve production.",
+  "comparisons": [
+    {
+      "title": "Bar / kiosk",
+      "live": {
+        "src": "bar_live.png",
+        "caption": "Installed bar and kiosk on site."
+      },
+      "concept": {
+        "src": "demo_bar_print.png",
+        "caption": "High-fidelity mockup of bar print application."
+      }
+    },
+    {
+      "title": "Prize wheel",
+      "live": {
+        "src": "lyckohjul_live.png",
+        "caption": "Installed prize wheel at the event."
+      },
+      "concept": {
+        "src": "demo_lyckohjul.png",
+        "caption": "High-fidelity prize wheel concept."
+      }
+    }
+  ],
+  "process": [
+    {
+      "title": "1) Brief and creative direction",
+      "body": "I translated the event brief into a clear visual direction and structure for the activation space. This phase focused on balancing brand presence, practical visitor flow and production feasibility.",
+      "images": [
+        {
+          "src": "brief.png",
+          "caption": "Initial brief and direction framing."
+        }
+      ]
+    },
+    {
+      "title": "2) Lo-fi exploration and concept iterations",
+      "body": "I explored multiple layouts and interaction ideas in low fidelity to validate format, hierarchy and visual storytelling before moving into detailed production assets.",
+      "images": [
+        {
+          "src": "koncept_lyckohjul.png",
+          "caption": "Early concept exploration for the prize wheel experience."
+        },
+        {
+          "src": "unused_concepts/Tryck Tombola till vicke-1.png",
+          "caption": "Alternative concept direction explored during ideation."
+        }
+      ]
+    },
+    {
+      "title": "3) High-fidelity 3D prototyping",
+      "body": "The chosen concept was refined into high-fidelity mockups to preview scale, composition and branding in context. These visualizations were used to align expectations before print production.",
+      "images": [
+        {
+          "src": "Ninja_Casino_Demo.png",
+          "caption": "Primary rendered concept view."
+        },
+        {
+          "src": "Ninja_Casino_Demo2.png",
+          "caption": "Secondary rendered concept view."
+        }
+      ]
+    },
+    {
+      "title": "4) Print design and pre-press production",
+      "body": "I produced complete print-ready assets for all surfaces and supporting materials, ensuring consistency in typography, color and messaging across the entire activation.",
+      "images": [
+        {
+          "src": "banderoll.png",
+          "caption": "Banner print design."
+        },
+        {
+          "src": "photobooth.png",
+          "caption": "Photo booth surface design."
+        },
+        {
+          "src": "a4-blanketter.png",
+          "caption": "A4 form and support material design."
+        },
+        {
+          "src": "lyckohjul-priser.png",
+          "caption": "Prize wheel segment and prize communication design."
+        },
+        {
+          "src": "reflex_game_design2@0.1x.png",
+          "caption": "Additional game-related print concept."
+        }
+      ]
+    },
+    {
+      "title": "5) Vendor coordination and on-site installation",
+      "body": "After approving final artwork, I ordered print production, coordinated with the fabrication partner, and took part in on-site wrapping and assembly to ensure quality in the final build.",
+      "images": [
+        {
+          "src": "hela_monter_live.png",
+          "caption": "Complete activation on site."
+        }
+      ]
+    }
+  ],
+  "gallery": [
+    {
+      "src": "hela_monter_live.png",
+      "caption": "Full booth on site."
+    },
+    {
+      "src": "bar_live.png",
+      "caption": "Live bar and kiosk."
+    },
+    {
+      "src": "lyckohjul_live.png",
+      "caption": "Live prize wheel."
+    },
+    {
+      "src": "Ninja_Casino_Demo.png",
+      "caption": "Primary concept visualization."
+    },
+    {
+      "src": "Ninja_Casino_Demo2.png",
+      "caption": "Alternative concept angle."
+    }
+  ],
+  "result": "The project delivered a fully coherent, production-ready activation setup with a strong visual identity from concept to execution. All core materials were finalized, printed and installed to support an engaging booth experience on-site.",
+  "testimonial": "",
+  "credits": "Production partner: DGD Development"
+}

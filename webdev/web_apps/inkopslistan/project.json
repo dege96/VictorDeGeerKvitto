@@ -1,12 +1,12 @@
 {
   "title": "InköpsListan",
-  "description": "En smart app för att skapa, importera och hantera recept och inköpslistor från URL:er – med AI-stöd för ingrediensanalys, kategorisering och smidig shoppingupplevelse.",
+  "description": "A web application for creating, importing, and managing recipes and shopping lists from URLs – with AI-powered ingredient analysis, categorization, and a smooth shopping experience.",
   "technologies": ["React", "Database", "AI Integration", "JavaScript", "Typescript", "Scraping"],
   "images": [
     "recipe_mobile_view.webp", "all_recipes_mobile_view.webp", "lista_mobile_view.webp"
   ],
   "preview": "preview.webp",
-  "backstory": "InköpsListan är en innovativ webapplikation som förenklar matinköp genom AI-stöd. Appen kan analysera recept, kategorisera ingredienser automatiskt och skapa optimerade inköpslistor. Byggd med React och Firebase, demonstrerar projektet modern AI-integration i praktiska vardagsapplikationer.",
+  "backstory": "InköpsListan is an innovative web application that simplifies grocery shopping with AI support. The app can analyze recipes, automatically categorize ingredients, and generate optimized shopping lists. Built with React and Firebase, the project demonstrates modern AI integration in practical everyday applications.",
   "url": "https://inkopslistan-836ab.web.app",
   "status": "completed"
 }

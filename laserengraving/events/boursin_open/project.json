@@ -1,0 +1,15 @@
+﻿{
+    "technologies":  [
+                         "Lightburn",
+                         "Laser cutter",
+                         "Event production"
+                     ],
+    "description":  "Eventlampa och material för Boursin Open Golf Tournament.",
+    "preview":  "boursin_open_golf_tournament.JPEG",
+    "images":  [
+                   "boursin_open_golf_tournament.JPEG",
+                   "lampa_boursin.JPG"
+               ],
+    "title":  "Boursin Open Golf Tournament",
+    "status":  "completed"
+}

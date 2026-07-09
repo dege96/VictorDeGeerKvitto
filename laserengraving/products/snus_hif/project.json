@@ -1,0 +1,8 @@
+﻿{
+  "title": "Snusdosor",
+  "description": "Personlig snusdos med HIF-motiv, lasergraverad.",
+  "preview": "snus_HIF.png",
+  "images": ["snus_HIF.png"],
+  "technologies": ["Lightburn", "Laser cutter"],
+  "status": "completed"
+}

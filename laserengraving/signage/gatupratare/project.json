@@ -1,0 +1,8 @@
+﻿{
+  "title": "Gatupratare",
+  "description": "Gatupratare-skylt med lasergraverade detaljer.",
+  "preview": "gatupratare.png",
+  "images": ["gatupratare.png"],
+  "technologies": ["Lightburn", "Laser cutter"],
+  "status": "completed"
+}

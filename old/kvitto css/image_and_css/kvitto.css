@@ -1,0 +1,90 @@
+@charset "utf-8";
+	.line3
+{
+	border-style : Dashed;
+	border-color : #000000;
+	border-color : rgba(0, 0, 0, 1);
+	border-width : 2px;
+}
+.Skills
+{
+	background-image : url(Skills.png);
+	background-repeat : no-repeat;
+}
+.image2
+{
+	background-image : url(image2.png);
+	background-repeat : no-repeat;
+}
+.image
+{
+	background-image : url(image.png);
+	background-repeat : no-repeat;
+}
+.image1
+{
+	background-image : url(image1.png);
+	background-repeat : no-repeat;
+}
+.Music_production
+{
+	background-image : url(Music_production.png);
+	background-repeat : no-repeat;
+}
+.Video_production
+{
+	background-image : url(Video_production.png);
+	background-repeat : no-repeat;
+}
+.Animation
+{
+	background-image : url(Animation.png);
+	background-repeat : no-repeat;
+}
+.UX_x2F_UI_Design
+{
+	background-image : url(UX_x2F_UI_Design.png);
+	background-repeat : no-repeat;
+}
+.Image_design
+{
+	background-image : url(Image_design.png);
+	background-repeat : no-repeat;
+}
+.Vector_graphics
+{
+	background-image : url(Vector_graphics.png);
+	background-repeat : no-repeat;
+}
+.Web_development
+{
+	background-image : url(Web_development.png);
+	background-repeat : no-repeat;
+}
+.Terran
+{
+	background-image : url(Terran.png);
+	background-repeat : no-repeat;
+}
+.DG_Development
+{
+	background-image : url(DG_Development.png);
+	background-repeat : no-repeat;
+}
+.line2_00000062179320171539018460000011494790014242080422_
+{
+	border-style : Dashed;
+	border-color : #000000;
+	border-color : rgba(0, 0, 0, 1);
+	border-width : 2px;
+}
+.Skrholmens_Pall
+{
+	background-image : url(Skrholmens_Pall.png);
+	background-repeat : no-repeat;
+}
+.Example_cases
+{
+	background-image : url(Example_cases.png);
+	background-repeat : no-repeat;
+}

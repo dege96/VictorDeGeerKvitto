@@ -1,0 +1,8 @@
+﻿{
+  "title": "Bordsdekor",
+  "description": "Dekorativ bordsdetalj graverad med laser för events och hemmabruk.",
+  "preview": "bordsdekor.png",
+  "images": ["bordsdekor.png"],
+  "technologies": ["Lightburn", "Trä", "Laser cutter"],
+  "status": "completed"
+}

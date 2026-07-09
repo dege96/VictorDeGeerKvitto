@@ -204,7 +204,9 @@ th:nth-child(3), td:nth-child(3) {
     align-content: center;
 }
 
-#WebDesignContainer{
+#WebDesignContainer,
+#LaserEngravingContainer,
+#CaseStudyContainer{
     display: none;
     padding: 5vh 10vh;
     background-color: #000000;
@@ -212,19 +214,169 @@ th:nth-child(3), td:nth-child(3) {
 
 /* Mobil-optimering för WebDesignContainer */
 @media (max-width: 768px) {
-    #WebDesignContainer {
-        padding: 2vh 1vh;
+    #WebDesignContainer,
+    #LaserEngravingContainer,
+    #CaseStudyContainer {
+        padding: 2vh 2vh;
         min-height: 100vh;
     }
 }
 
-#WebDesign {
+#WebDesign,
+#LaserEngraving {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2vh;
     max-width: 1200px;
     margin: 0 auto;
     padding-top: 10vh; /* Space for fixed header */
+}
+
+#case-study-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 10vh;
+    color: #fff;
+}
+
+.case-hero {
+    margin-bottom: 2rem;
+}
+
+.case-hero img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.case-title {
+    font-size: 2rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.case-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.case-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.case-meta-item {
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 0.75rem;
+}
+
+.case-meta-label {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.case-meta-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.case-section {
+    margin-bottom: 2rem;
+}
+
+.case-section h3 {
+    color: #fff;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.case-section p,
+.case-section li {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+}
+
+.case-list {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.case-process-step {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.case-process-step h4 {
+    color: #fff;
+    margin: 0 0 0.5rem;
+}
+
+.case-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.case-gallery-item img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.case-caption {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 0.4rem;
+}
+
+.case-comparison-pair {
+    margin-bottom: 1.5rem;
+}
+
+.case-comparison-title {
+    color: #fff;
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+}
+
+.case-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.case-comparison-item img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.case-comparison-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.75;
+    margin-bottom: 0.4rem;
+}
+
+.case-comparison-live .case-comparison-label {
+    color: #8fd18f;
+}
+
+.case-comparison-concept .case-comparison-label {
+    color: #9ec5ff;
+}
+
+@media (max-width: 768px) {
+    .case-comparison-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 #UXDesignContainer{
@@ -260,14 +412,64 @@ th:nth-child(3), td:nth-child(3) {
 
 #MusicKognitivet{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 2vh;
+    gap: 4vh;
+    padding-top: 10vh; /* Space for fixed header */
+}
+
+.music-platform-section {
+    width: 100%;
+}
+
+.music-platform-title {
+    margin: 0 0 2vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+
+.music-embeds {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    padding: 2vh;
     gap: 1vh;
-    padding-top: 10vh; /* Space for fixed header */
+}
+
+.music-embeds > div {
+    flex: 1 1 300px;
+    max-width: 400px;
+}
+
+.soundcloud-embeds > div {
+    flex: 1 1 100%;
+}
+
+.soundcloud-attribution {
+    margin: 0.5rem 0 0;
+    font-size: 10px;
+    color: #cccccc;
+    line-break: anywhere;
+    word-break: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif;
+    font-weight: 100;
+}
+
+.soundcloud-attribution a {
+    color: #cccccc;
+    text-decoration: none;
+}
+
+.soundcloud-attribution a:hover {
+    text-decoration: underline;
 }
 
 #KognitivetLink{
@@ -284,6 +486,11 @@ th:nth-child(3), td:nth-child(3) {
 
 .Kogmusic{
     height: 352px;
+}
+
+.Kogmusic.soundcloud-player {
+    height: 166px;
+    border-radius: 12px;
 }
 
 .video-info-box {
@@ -335,7 +542,8 @@ th:nth-child(3), td:nth-child(3) {
         width: 80vw;
     }
     
-    #WebDesign {
+    #WebDesign,
+    #LaserEngraving {
         grid-template-columns: 1fr;
         gap: 1.5vh;
         padding: 1vh;
@@ -366,7 +574,8 @@ th:nth-child(3), td:nth-child(3) {
     }
     
     /* Mobil-optimering för projekt-detaljvy */
-    #project-detail {
+    #project-detail,
+    #laser-project-detail {
         margin-top: 10px;
         padding: 1.5vh;
         margin: 0.5vh 0;
@@ -494,6 +703,8 @@ th:nth-child(3), td:nth-child(3) {
 #VideosKognitivetContainer .back_arrow,
 #MusicKognitivetContainer .back_arrow,
 #WebDesignContainer .back_arrow,
+#LaserEngravingContainer .back_arrow,
+#CaseStudyContainer .back_arrow,
 #UXDesignContainer .back_arrow,
 #AnimationDesignContainer .back_arrow {
     cursor: pointer;
@@ -506,6 +717,8 @@ th:nth-child(3), td:nth-child(3) {
 /* Mobil-optimering för back-arrow */
 @media (max-width: 768px) {
     #WebDesignContainer .back_arrow,
+    #LaserEngravingContainer .back_arrow,
+    #CaseStudyContainer .back_arrow,
     #UXDesignContainer .back_arrow,
     #AnimationDesignContainer .back_arrow {
         top: 2vh;
@@ -572,21 +785,12 @@ th:nth-child(3), td:nth-child(3) {
     display: inline-block;
 }
 
-/* Project Group Styling - Minimalistisk */
-.project-group-header {
-    margin: 3vh 0 2vh 0;
-    text-align: center;
-}
-
-.project-group-header h2 {
-    color: #ffffff;
+.project-object-count {
+    color: #666;
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 1em;
-    margin: 0;
-    padding: 1vh 0;
-    border-bottom: 2px solid #ff6b35;
-    display: inline-block;
+    font-size: 0.8em;
+    font-weight: 500;
+    margin: 0.3vh 0 0.8vh;
 }
 
 .project-group {
@@ -659,6 +863,56 @@ th:nth-child(3), td:nth-child(3) {
     margin-bottom: 1vh;
 }
 
+.project-image-wrap {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1vh;
+}
+
+.project-image-wrap img,
+.project-image-wrap picture {
+    display: block;
+    width: 100%;
+}
+
+.project-image-wrap img {
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 0;
+}
+
+.project-assignment-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7em;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+}
+
+.assignment-product {
+    background-color: #2e7d32;
+}
+
+.assignment-signage {
+    background-color: #1565c0;
+}
+
+.assignment-event {
+    background-color: #c62828;
+}
+
+.project-images .project-image-wrap {
+    margin-bottom: 0;
+}
+
 /* Different heights for masonry effect */
 .web-project:nth-child(1) { min-height: 250px; }
 .web-project:nth-child(2) { min-height: 300px; }
@@ -688,6 +942,7 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 .crumbleVideoClass {
+
     position: fixed;
     top: 50%;
     left: 50%;
@@ -701,8 +956,8 @@ th:nth-child(3), td:nth-child(3) {
     /* Match SVG dimensions exactly */
     width: 100%;
     height: 100%;
-    max-width: 90vh;
-    max-height: 90vh;
+    max-width: 96vh;
+    max-height: 96vh;
     object-fit: contain;
     background-color: black;
 }
@@ -812,8 +1067,8 @@ table th, table td {
     
     /* Match video to SVG on mobile */
     .crumbleVideoClass {
-        max-width: 95vw;
-        max-height: 95vh;
+        max-width: 100vw;
+        max-height: 100vh;
     }
 
     .video{ 
@@ -822,6 +1077,10 @@ table th, table td {
 
     .Kogmusic{
         height: 152px;
+    }
+
+    .Kogmusic.soundcloud-player {
+        height: 166px;
     }
 }
 
@@ -862,7 +1121,8 @@ table th, table td {
 }
 
 /* Projekt detaljer stilar - Minimalistisk */
-#project-detail {
+#project-detail,
+#laser-project-detail {
     margin-top: 20px;
     background: rgba(255, 255, 255, 0);
     border-radius: 12px;
@@ -914,7 +1174,8 @@ table th, table td {
 }
 
 /* Projekt previews container - Minimalistisk */
-#project-previews {
+#project-previews,
+#laser-project-previews {
     background: rgba(255, 255, 255, 0);
     border-radius: 12px;
     padding: 2vh;
@@ -923,7 +1184,8 @@ table th, table td {
 
 /* Mobil-optimering för project-previews */
 @media (max-width: 768px) {
-    #project-previews {
+    #project-previews,
+    #laser-project-previews {
         background: rgba(255, 255, 255, 0.082);
         padding: 1.5vh;
         margin: 0.5vh 0;
@@ -992,10 +1254,6 @@ ease;
     /*backdrop-filter: blur(5px);*/
 }
 
-.project-link:hover {
-    /*background: rgba(0, 255, 0, 0.11);*/
-}   
-
 .project-link:active {
     transform: translateY(0);
 }
@@ -1037,7 +1295,8 @@ ease;
     
     /* Match video to SVG on small mobile */
     .crumbleVideoClass {
-        max-width: 98vw;
-        max-height: 98vh;
+        scale: 1.005;
+        max-width: 100vw;
+        max-height: 100vh;
     }
 }

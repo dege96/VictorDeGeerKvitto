@@ -1,0 +1,12 @@
+{
+  "title": "Helfer AB",
+  "description": "Webbplats för precisionkomponenter och anpassade splines, med fokus på tillverkningskompetens och tydlig produktpresentation.",
+  "technologies": ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
+  "images": [
+    "preview.png"
+  ],
+  "preview": "preview.png",
+  "backstory": "Helfer AB är en företagswebbplats för en tillverkare av precisionkomponenter och splines. Projektet lyfter fram teknisk expertis och anpassade lösningar med en ren, professionell layout som speglar industrikundernas behov.",
+  "url": "https://www.helfer.se/",
+  "status": "completed"
+}

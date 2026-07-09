@@ -1,0 +1,8 @@
+﻿{
+  "title": "Barskyltar",
+  "description": "Skylt för bar med lasergraverad typografi och grafik.",
+  "preview": "barskylt.jpg",
+  "images": ["barskylt.jpg"],
+  "technologies": ["Lightburn", "Trä", "Laser cutter"],
+  "status": "completed"
+}

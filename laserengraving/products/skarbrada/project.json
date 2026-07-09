@@ -1,0 +1,18 @@
+﻿{
+    "technologies":  [
+                         "Lightburn",
+                         "Trä",
+                         "Laser cutter"
+                     ],
+    "description":  "Personliga skärbrädor i trä med lasergravyr och detaljerad ytbehandling.",
+    "preview":  "skärbräda1.png",
+    "images":  [
+                   "skärbräda1.png",
+                   "skärbräda2.JPEG",
+                   "skärbräda3.JPG",
+                   "skärbräda4.png",
+                   "skärbräda5.PNG"
+               ],
+    "title":  "Skärbrädor",
+    "status":  "completed"
+}

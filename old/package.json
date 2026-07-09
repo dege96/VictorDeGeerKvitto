@@ -1,0 +1,7 @@
+{
+  "name": "default",
+  "version": "1.0.0",
+  "scripts": {
+    "git": "git add . && git commit -m \"feat: add new content\" && git push"
+  }
+}

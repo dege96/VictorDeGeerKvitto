@@ -1,0 +1,8 @@
+﻿{
+  "title": "Glasunderlägg",
+  "description": "Glasunderlägg med lasergraverade motiv.",
+  "preview": "glasunderlägg.png",
+  "images": ["glasunderlägg.png"],
+  "technologies": ["Lightburn", "Akryl", "Laser cutter"],
+  "status": "completed"
+}

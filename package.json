@@ -1,0 +1,8 @@
+{
+  "name": "victordegeer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "git": "git add . && git commit -m \"update\" && git push"
+  }
+}

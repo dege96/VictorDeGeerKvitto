@@ -1,5 +1,5 @@
 {
-  "title": "Skarholmens Pall",
+  "title": "Betalportal",
   "description": "Full-stack web application with secure authentication system and payment processing capabilities.",
   "technologies": [
     "Node.js",

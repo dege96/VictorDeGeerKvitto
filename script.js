@@ -9,6 +9,8 @@ const VideosKognitivetContainer = document.getElementById("VideosKognitivetConta
 const MusicKognitivetContainer = document.getElementById("MusicKognitivetContainer");
 const ImageDesignContainer = document.getElementById("ImageDesignContainer");
 const WebDesignContainer = document.getElementById("WebDesignContainer");
+const LaserEngravingContainer = document.getElementById("LaserEngravingContainer");
+const CaseStudyContainer = document.getElementById("CaseStudyContainer");
 const UXDesignContainer = document.getElementById("UXDesignContainer");
 const AnimationDesignContainer = document.getElementById("AnimationDesignContainer");
 const ImageDesignLink = document.getElementsByClassName("ImageDesignLink");
@@ -21,12 +23,110 @@ const projectDetail = document.getElementById("project-detail");
 const projectDetailContent = document.getElementById("project-detail-content");
 let currentProjects = [];
 
+// Laser engraving projekt variabler
+const laserProjectPreviews = document.getElementById("laser-project-previews");
+const laserProjectDetail = document.getElementById("laser-project-detail");
+const laserProjectDetailContent = document.getElementById("laser-project-detail-content");
+let currentLaserProjects = [];
+
+// Case study variabler
+const caseStudyContent = document.getElementById("case-study-content");
+const caseStudyTitle = CaseStudyContainer?.querySelector(".white_title");
+const CASE_STUDIES = {
+    clsr: 'cases/clsr/case.json',
+    Sthlm: 'cases/sthlm_foodwine/case.json'
+};
+const caseStudyCache = {};
+
+const WEB_PROJECT_LINKS = {
+    'Skärholmens Pall': 'https://www.skarholmenspall.se/',
+    'Skarholmens Pall': 'https://skarholmenspall.com',
+    'InköpsListan': 'https://inkopslistan-836ab.web.app',
+    'Helfer AB': 'https://www.helfer.se/',
+    'DG Development': 'https://www.dgd.solutions/',
+    'ATMO STUDIOS - Cloud Based Music Platform': 'https://musiktjaenst.web.app/',
+    'Make Your Own Spotify Wrapped': 'https://spotifyslapped.netlify.app/',
+    'Pepsi vs Coca Cola Interactive': 'https://lovely-biscuit-5a5b09.netlify.app/',
+    'Candy Store': 'https://godis-grisen-8rnk.vercel.app/',
+    'Arcade Game': 'https://arcade-game-1.vercel.app/'
+};
+
+const webProjectGallery = {
+    basePath: 'webdev',
+    groups: [
+        {
+            name: 'Web Applications',
+            folder: 'web_apps',
+            subfolders: ['skarholmens_pall', 'inkopslistan', 'atmo_studios']
+        },
+        {
+            name: 'Websites',
+            folder: 'webpages',
+            subfolders: ['dg_development', 'hasams_redovisning', 'helfer', 'skarholmens_pall']
+        },
+        {
+            name: 'Hobby Projects',
+            folder: 'work_in_progress',
+            subfolders: ['3d_models_web', 'spotify_wrapped', '8bit_game']
+        }
+    ],
+    groupOrder: ['Web Applications', 'Websites', 'Hobby Projects'],
+    projectLinks: WEB_PROJECT_LINKS,
+    getProjects: () => currentProjects,
+    setProjects: (projects) => { currentProjects = projects; },
+    elements: {
+        previews: projectPreviews,
+        detail: projectDetail,
+        detailContent: projectDetailContent
+    }
+};
+
+const laserProjectGallery = {
+    basePath: 'laserengraving',
+    useWebp: false,
+    assignmentTypes: {
+        products: { label: 'Produkt', className: 'assignment-product' },
+        signage: { label: 'Skylt', className: 'assignment-signage' },
+        events: { label: 'Event', className: 'assignment-event' }
+    },
+    groups: [
+        {
+            name: 'Laserprojekt',
+            sources: [
+                {
+                    folder: 'events',
+                    subfolders: ['boursin_open']
+                },
+                {
+                    folder: 'signage',
+                    subfolders: ['barskylt', 'gatupratare']
+                },
+                {
+                    folder: 'products',
+                    subfolders: ['skarbrada', 'bordsdekor', 'glasunderlagg', 'snus_hif']
+                }
+            ]
+        }
+    ],
+    groupOrder: ['Laserprojekt'],
+    projectLinks: {},
+    getProjects: () => currentLaserProjects,
+    setProjects: (projects) => { currentLaserProjects = projects; },
+    elements: {
+        previews: laserProjectPreviews,
+        detail: laserProjectDetail,
+        detailContent: laserProjectDetailContent
+    }
+};
+
 // Logga container-status vid sidladdning
 console.log("📊 Container status check:");
 console.log("VideosKognitivetContainer:", VideosKognitivetContainer?.style.display || "not found");
 console.log("MusicKognitivetContainer:", MusicKognitivetContainer?.style.display || "not found");
 console.log("ImageDesignContainer:", ImageDesignContainer?.style.display || "not found");
 console.log("WebDesignContainer:", WebDesignContainer?.style.display || "not found");
+console.log("LaserEngravingContainer:", LaserEngravingContainer?.style.display || "not found");
+console.log("CaseStudyContainer:", CaseStudyContainer?.style.display || "not found");
 console.log("UXDesignContainer:", UXDesignContainer?.style.display || "not found");
 console.log("AnimationDesignContainer:", AnimationDesignContainer?.style.display || "not found");
 
@@ -37,8 +137,158 @@ if (!crumbleVideo || !crumbleVideoReverse) {
     console.error('Could not find crumbleVideo element');
 }
 
+function preloadCrumbleVideos() {
+    [crumbleVideo, crumbleVideoReverse].filter(Boolean).forEach((video) => {
+        video.preload = 'auto';
+        video.load();
+    });
+}
+
+function waitForCrumbleVideoReady(video) {
+    if (!video || video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+        return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+        const finish = () => {
+            video.removeEventListener('canplaythrough', finish);
+            video.removeEventListener('error', finish);
+            resolve();
+        };
+        video.addEventListener('canplaythrough', finish, { once: true });
+        video.addEventListener('error', finish, { once: true });
+        video.load();
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', preloadCrumbleVideos);
+} else {
+    preloadCrumbleVideos();
+}
+
 // Global flagga för att förhindra samtidiga animationer
 let isTransitionPlaying = false;
+
+const KVITTO_TEXT_FADE_MS = 400;
+
+function getKvittoSvgDoc() {
+    const svgObject = document.querySelector('.kvitto-svg');
+    if (!svgObject?.contentDocument) return null;
+    return svgObject.contentDocument;
+}
+
+function getKvittoTextLayer(svgDoc = getKvittoSvgDoc()) {
+    return svgDoc?.getElementById('text') ?? null;
+}
+
+function prepareKvittoTextLayer(svgDoc) {
+    const textLayer = getKvittoTextLayer(svgDoc);
+    if (!textLayer) return;
+    textLayer.style.transition = `opacity ${KVITTO_TEXT_FADE_MS}ms ease`;
+    if (!textLayer.style.opacity) textLayer.style.opacity = '1';
+}
+
+function waitForOpacityTransition(element) {
+    return new Promise((resolve) => {
+        let done = false;
+        const finish = () => {
+            if (done) return;
+            done = true;
+            element.removeEventListener('transitionend', onEnd);
+            resolve();
+        };
+        const onEnd = (event) => {
+            if (event.target === element && event.propertyName === 'opacity') finish();
+        };
+        element.addEventListener('transitionend', onEnd);
+        setTimeout(finish, KVITTO_TEXT_FADE_MS + 80);
+    });
+}
+
+async function fadeKvittoTextOut() {
+    const textLayer = getKvittoTextLayer();
+    if (!textLayer) return;
+    prepareKvittoTextLayer();
+    const fade = waitForOpacityTransition(textLayer);
+    textLayer.style.opacity = '0';
+    await fade;
+}
+
+async function fadeKvittoTextIn() {
+    const textLayer = getKvittoTextLayer();
+    if (!textLayer) return;
+    prepareKvittoTextLayer();
+    const fade = waitForOpacityTransition(textLayer);
+    textLayer.style.opacity = '1';
+    await fade;
+}
+
+function waitForNextFrame() {
+    return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+const PAGE_FADE_TOTAL_MS = 2000;
+const PAGE_FADE_ITEM_MS = 650;
+
+function getContainerFadeItems(container) {
+    if (!container) return [];
+
+    const selectors = [
+        '.back_arrow',
+        '.project-group-header',
+        '.project-preview',
+        '.project-detail-header',
+        '.project-technologies',
+        '.project-detail-description',
+        '.project-image-wrap',
+        '.project-image',
+        '.technology-tag',
+        '.video',
+        '.IphoneVideo',
+        'h1', 'h2', 'h3', 'p', 'a', 'button', 'li', 'img', 'video', 'table', 'tr', 'td', 'th'
+    ].join(', ');
+
+    const nodes = Array.from(new Set(container.querySelectorAll(selectors)));
+    if (nodes.length === 0) return Array.from(container.children);
+
+    return nodes.filter((el) => el.offsetParent !== null);
+}
+
+function fadeInContainerElements(container, totalMs = PAGE_FADE_TOTAL_MS) {
+    const items = getContainerFadeItems(container);
+    if (!items.length) return;
+
+    const stepMs = Math.max(20, Math.floor(totalMs / Math.max(items.length, 1)));
+    const cleanupAfter = totalMs + PAGE_FADE_ITEM_MS + 120;
+
+    items.forEach((item) => {
+        item.style.transition = 'none';
+        item.style.transitionDelay = '0ms';
+        item.style.opacity = '0';
+    });
+
+    requestAnimationFrame(() => {
+        items.forEach((item, index) => {
+            item.style.transition = `opacity ${PAGE_FADE_ITEM_MS}ms ease`;
+            item.style.transitionDelay = `${Math.min(index * stepMs, totalMs)}ms`;
+            item.style.opacity = '1';
+        });
+    });
+
+    setTimeout(() => {
+        items.forEach((item) => {
+            item.style.transition = '';
+            item.style.transitionDelay = '';
+        });
+    }, cleanupAfter);
+}
+
+function hideKvittoTextInstant() {
+    const textLayer = getKvittoTextLayer();
+    if (!textLayer) return;
+    textLayer.style.transition = 'none';
+    textLayer.style.opacity = '0';
+}
 
 // Hjälpfunktion för att spela animationen och hantera övergångar
 async function playTransitionAnimation(callback) {
@@ -64,30 +314,41 @@ async function playTransitionAnimation(callback) {
         }
     }
 
-    // Reset video state
-    crumbleVideo.currentTime = 0;
-    crumbleVideo.style.display = 'block';
-    
     try {
+        if (portfolio) {
+            portfolio.style.transition = '';
+            portfolio.style.display = 'flex';
+            portfolio.style.opacity = '1';
+        }
+
+        // Text fadear ut innan Pre-comp.mp4 startar
+        await fadeKvittoTextOut();
+
+        await waitForCrumbleVideoReady(crumbleVideo);
+        crumbleVideo.currentTime = 0;
+        crumbleVideo.style.display = 'block';
         await crumbleVideo.play();
-        
-        // Fadea ut portfolio över 0,3s när videon börjar spela
-        portfolio.style.opacity = '0';
-        
-        // Göm portfolio helt efter fade-animationen är klar
-        setTimeout(() => {
-            portfolio.style.display = 'none';
-        }, 300);
-        
+
         await new Promise(resolve => {
             crumbleVideo.onended = resolve;
         });
-        
+
+        // Dölj kvitto innan videon tas bort – annars blinkar papperslagret
+        // en frame när videon försvinner och SVG:n syns igen under den.
+        if (portfolio) {
+            portfolio.style.transition = 'none';
+            portfolio.style.opacity = '0';
+            portfolio.style.display = 'none';
+        }
+
         crumbleVideo.style.display = 'none';
-        callback();
         crumbleVideo.currentTime = 0;
+
+        callback();
     } catch (error) {
         console.error('Video playback failed:', error);
+        const textLayer = getKvittoTextLayer();
+        if (textLayer) textLayer.style.opacity = '1';
         callback();
     } finally {
         isTransitionPlaying = false;
@@ -119,23 +380,33 @@ async function playTransitionAnimationReverse(callback) {
         }
     }
 
-    // Reset video state
-    crumbleVideoReverse.currentTime = 0;
-    crumbleVideoReverse.style.display = 'block';
-    portfolio.style.display = 'none';
-    
+    hideKvittoTextInstant();
+    if (portfolio) portfolio.style.display = 'none';
+
     try {
+        await waitForCrumbleVideoReady(crumbleVideoReverse);
+        crumbleVideoReverse.currentTime = 0;
+        crumbleVideoReverse.style.display = 'block';
         await crumbleVideoReverse.play();
         await new Promise(resolve => {
             crumbleVideoReverse.onended = resolve;
         });
-        
-        crumbleVideoReverse.style.display = 'none';
+
+        // Visa SVG-lagret först och ta bort videon först nästa frame
+        // för att undvika ett svart glapp mellan lagerbytet.
         callback();
+        await waitForNextFrame();
+
+        crumbleVideoReverse.style.display = 'none';
         crumbleVideoReverse.currentTime = 0;
+
+        // Text fadear in först när Pre-comp-reverse.mp4 är klar
+        await fadeKvittoTextIn();
     } catch (error) {
         console.error('Reverse video playback failed:', error);
         callback();
+        await waitForNextFrame();
+        await fadeKvittoTextIn();
     } finally {
         isTransitionPlaying = false;
     }
@@ -162,11 +433,19 @@ BackArrows.forEach((BackArrow) => {
     
     // Kolla om vi är i WebDesignContainer och i projekt-detaljvy
     if (WebDesignContainer && WebDesignContainer.style.display === "flex") {
-        // Kolla om projekt-detaljvyn är synlig
         if (projectDetail && projectDetail.style.display === "block") {
-            console.log("🔙 Går tillbaka från projekt-detalj till projekt-lista");
+            console.log("🔙 Går tillbaka från web-projekt-detalj till projekt-lista");
             showProjectPreviews();
-            return; // Avsluta här, gå inte tillbaka till huvudmenyn
+            return;
+        }
+    }
+
+    // Kolla om vi är i LaserEngravingContainer och i projekt-detaljvy
+    if (LaserEngravingContainer && LaserEngravingContainer.style.display === "flex") {
+        if (laserProjectDetail && laserProjectDetail.style.display === "block") {
+            console.log("🔙 Går tillbaka från laser-projekt-detalj till projekt-lista");
+            showLaserProjectPreviews();
+            return;
         }
     }
     
@@ -176,6 +455,8 @@ BackArrows.forEach((BackArrow) => {
         MusicKognitivetContainer,
         ImageDesignContainer,
         WebDesignContainer,
+        LaserEngravingContainer,
+        CaseStudyContainer,
         UXDesignContainer,
         AnimationDesignContainer
     ];
@@ -185,9 +466,14 @@ BackArrows.forEach((BackArrow) => {
             console.log("🔙 Hiding container:", container.id);
             container.style.display = "none";
             
-            // Återställ WebDesignContainer till preview-läge
             if (container.id === "WebDesignContainer") {
                 showProjectPreviews();
+            }
+            if (container.id === "LaserEngravingContainer") {
+                showLaserProjectPreviews();
+            }
+            if (container.id === "CaseStudyContainer" && caseStudyContent) {
+                caseStudyContent.innerHTML = "";
             }
         }
     });
@@ -204,6 +490,7 @@ BackArrows.forEach((BackArrow) => {
 
     // Spela reverse animationen och visa portfolio efter
     await playTransitionAnimationReverse(() => {
+        portfolio.style.transition = "";
         portfolio.style.display = "flex";
         portfolio.style.position = "fixed";
         portfolio.style.top = "50%";
@@ -226,6 +513,7 @@ for (let i = 0; i < KognitivetVideoLink.length; i++) {
     playTransitionAnimation(() => {
         // Visa efter animationen är klar
         VideosKognitivetContainer.style.display = "flex";
+        fadeInContainerElements(VideosKognitivetContainer);
     });
   });
 }
@@ -236,6 +524,7 @@ for (let i = 0; i < KognitivetMusicLink.length; i++) {
     playTransitionAnimation(() => {
         // Visa efter animationen är klar
         MusicKognitivetContainer.style.display = "flex";
+        fadeInContainerElements(MusicKognitivetContainer);
     });
   });
 }
@@ -247,6 +536,8 @@ for (let i = 0; i < Kognitivet_Video_and_Music_Link.length; i++) {
         // Visa efter animationen är klar
         MusicKognitivetContainer.style.display = "flex";
         VideosKognitivetContainer.style.display = "flex";
+        fadeInContainerElements(MusicKognitivetContainer);
+        fadeInContainerElements(VideosKognitivetContainer);
     });
   });
 }
@@ -257,6 +548,7 @@ for (let i = 0; i < ImageDesignLink.length; i++) {
         playTransitionAnimation(async () => {
             // Visa efter animationen är klar
             ImageDesignContainer.style.display = "flex";
+            fadeInContainerElements(ImageDesignContainer);
             setTimeout(async () => {
                 await initPhysics();
             }, 200);
@@ -731,296 +1023,450 @@ function createPhysicsVideo(videoElement) {
     Composite.add(engine.world, body);
 }
 
-// SVG Interactivity
+function caseImageUrl(caseFolder, fileName) {
+    const folderPath = caseFolder.split('/').map(encodeURIComponent).join('/');
+    return `${folderPath}/${encodeURIComponent(fileName)}`;
+}
+
+function renderCaseImageItems(images = [], caseFolder = '') {
+    return images.map((image) => `
+        <div class="case-gallery-item">
+            <img src="${caseImageUrl(caseFolder, image.src)}" alt="${image.caption || 'Case image'}" loading="lazy">
+            ${image.caption ? `<p class="case-caption">${image.caption}</p>` : ''}
+        </div>
+    `).join('');
+}
+
+function renderCaseComparisons(comparisons = [], caseFolder = '') {
+    return comparisons.map((pair) => `
+        <article class="case-comparison-pair">
+            ${pair.title ? `<h4 class="case-comparison-title">${pair.title}</h4>` : ''}
+            <div class="case-comparison-grid">
+                <div class="case-comparison-item case-comparison-live">
+                    <span class="case-comparison-label">Live</span>
+                    <img src="${caseImageUrl(caseFolder, pair.live.src)}" alt="${pair.live.caption || 'Live result'}" loading="lazy">
+                    ${pair.live.caption ? `<p class="case-caption">${pair.live.caption}</p>` : ''}
+                </div>
+                <div class="case-comparison-item case-comparison-concept">
+                    <span class="case-comparison-label">Concept</span>
+                    <img src="${caseImageUrl(caseFolder, pair.concept.src)}" alt="${pair.concept.caption || 'Concept'}" loading="lazy">
+                    ${pair.concept.caption ? `<p class="case-caption">${pair.concept.caption}</p>` : ''}
+                </div>
+            </div>
+        </article>
+    `).join('');
+}
+
+function renderCaseStudy(data, caseFolder) {
+    if (!caseStudyContent) return;
+
+    const metaItems = [
+        { label: 'Client', value: data.client },
+        { label: 'Year', value: data.year },
+        { label: 'Role', value: data.role },
+        { label: 'Duration', value: data.duration },
+        { label: 'Location', value: data.location }
+    ].filter(item => item.value && item.value !== 'TODO');
+
+    const deliverables = (data.deliverables || []).map(item => `<li>${item}</li>`).join('');
+    const tools = (data.tools || []).map(item => `<li>${item}</li>`).join('');
+    const team = (data.team || []).map(item => `<li>${item}</li>`).join('');
+    const processSteps = (data.process || []).map((step) => `
+        <article class="case-process-step">
+            <h4>${step.title}</h4>
+            <p>${step.body}</p>
+            ${step.images?.length ? `<div class="case-gallery">${renderCaseImageItems(step.images, caseFolder)}</div>` : ''}
+        </article>
+    `).join('');
+
+    caseStudyContent.innerHTML = `
+        <article class="case-study">
+            <section class="case-hero">
+                <img src="${caseImageUrl(caseFolder, data.hero)}" alt="${data.title}" loading="lazy">
+                <h1 class="case-title">${data.title}</h1>
+                <p class="case-subtitle">${data.subtitle || ''}</p>
+                <p>${data.summary || ''}</p>
+            </section>
+
+            ${metaItems.length ? `
+                <section class="case-meta-grid">
+                    ${metaItems.map((item) => `
+                        <div class="case-meta-item">
+                            <p class="case-meta-label">${item.label}</p>
+                            <p class="case-meta-value">${item.value}</p>
+                        </div>
+                    `).join('')}
+                </section>
+            ` : ''}
+
+            <section class="case-section">
+                <h3>Brief</h3>
+                <p>${data.brief || ''}</p>
+            </section>
+
+            ${data.comparisons?.length ? `
+                <section class="case-section case-comparisons">
+                    <h3>${data.comparisonsTitle || 'Concept to live'}</h3>
+                    ${data.comparisonsIntro ? `<p>${data.comparisonsIntro}</p>` : ''}
+                    ${renderCaseComparisons(data.comparisons, caseFolder)}
+                </section>
+            ` : ''}
+
+            ${deliverables ? `
+                <section class="case-section">
+                    <h3>Deliverables</h3>
+                    <ul class="case-list">${deliverables}</ul>
+                </section>
+            ` : ''}
+
+            ${tools ? `
+                <section class="case-section">
+                    <h3>Tools</h3>
+                    <ul class="case-list">${tools}</ul>
+                </section>
+            ` : ''}
+
+            ${team ? `
+                <section class="case-section">
+                    <h3>Team & Collaboration</h3>
+                    <ul class="case-list">${team}</ul>
+                </section>
+            ` : ''}
+
+            ${processSteps ? `
+                <section class="case-section">
+                    <h3>Process</h3>
+                    ${processSteps}
+                </section>
+            ` : ''}
+
+            ${data.gallery?.length ? `
+                <section class="case-section">
+                    <h3>Final Gallery</h3>
+                    <div class="case-gallery">${renderCaseImageItems(data.gallery, caseFolder)}</div>
+                </section>
+            ` : ''}
+
+            ${data.result ? `
+                <section class="case-section">
+                    <h3>Result</h3>
+                    <p>${data.result}</p>
+                </section>
+            ` : ''}
+
+            ${data.testimonial ? `
+                <section class="case-section">
+                    <h3>Client Feedback</h3>
+                    <p>${data.testimonial}</p>
+                </section>
+            ` : ''}
+
+            ${data.learnings ? `
+                <section class="case-section">
+                    <h3>Learnings</h3>
+                    <p>${data.learnings}</p>
+                </section>
+            ` : ''}
+        </article>
+    `;
+}
+
+async function loadCaseStudy(kvittoId) {
+    if (!CASE_STUDIES[kvittoId]) return null;
+    if (caseStudyCache[kvittoId]) return caseStudyCache[kvittoId];
+
+    const url = CASE_STUDIES[kvittoId];
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Could not load case study: ${url}`);
+    }
+
+    const data = await response.json();
+    const caseFolder = url.split('/').slice(0, -1).join('/');
+    const result = { data, caseFolder };
+    caseStudyCache[kvittoId] = result;
+    return result;
+}
+
+function showCaseStudy(kvittoId) {
+    console.log(`📚 showCaseStudy() called for ${kvittoId}`);
+    playTransitionAnimation(async () => {
+        try {
+            const payload = await loadCaseStudy(kvittoId);
+            if (!payload) return;
+            if (caseStudyTitle) caseStudyTitle.textContent = payload.data.title || 'Case study';
+            renderCaseStudy(payload.data, payload.caseFolder);
+            CaseStudyContainer.style.display = "flex";
+            fadeInContainerElements(CaseStudyContainer);
+        } catch (error) {
+            console.error(`Kunde inte visa case study för ${kvittoId}:`, error);
+        }
+    });
+}
+
+function openWebProjectByTitle(projectTitle) {
+    console.log(`🌐 Opening web project from kvitto: ${projectTitle}`);
+    playTransitionAnimation(async () => {
+        WebDesignContainer.style.display = "flex";
+        await loadProjects();
+        const projectIndex = currentProjects.findIndex(project => project.title === projectTitle);
+        if (projectIndex >= 0) {
+            showProjectDetail(projectIndex);
+        } else {
+            console.warn(`Projekt hittades inte: ${projectTitle}`);
+            showProjectPreviews();
+        }
+        fadeInContainerElements(WebDesignContainer);
+    });
+}
+
+// SVG Interactivity — klick styrs via lager-id i kvitto.svg (paths, inte <text>)
+const KVITTO_ROW_ACTIONS = {
+    web_x5F_dev: () => showWebDesignContainer(),
+    visual_x5F_design: () => showImageDesignContainer(),
+    video: () => showVideosKognitivetContainer(),
+    laser: () => showLaserEngravingContainer(),
+    music: () => showMusicKognitivetContainer(),
+    skarholmens: () => openWebProjectByTitle('Skarholmens Pall'),
+    DG_x5F_dev: () => openWebProjectByTitle('DG Development'),
+    clsr: () => showCaseStudy('clsr'),
+    Sthlm: () => showCaseStudy('Sthlm'),
+};
+
+const KVITTO_EMAIL_ID = 'email';
+
 document.addEventListener('DOMContentLoaded', function() {
     const svgObject = document.querySelector('.kvitto-svg');
-    
-    if (svgObject) {
-        svgObject.addEventListener('load', function() {
-            const svgDoc = svgObject.contentDocument;
-            if (svgDoc) {
-                // Lägg till klick-händelser på SVG-elementen
-                addSVGInteractivity(svgDoc);
-            }
-        });
-    }
+    if (!svgObject) return;
+
+    const setup = () => {
+        const svgDoc = svgObject.contentDocument;
+        if (svgDoc) {
+            prepareKvittoTextLayer(svgDoc);
+            addSVGInteractivity(svgDoc);
+        }
+    };
+
+    svgObject.addEventListener('load', setup);
+    if (svgObject.contentDocument) setup();
 });
 
+function bindKvittoRow(svgDoc, groupId, onClick) {
+    const group = svgDoc.getElementById(groupId);
+    if (!group) return;
+
+    const hitTarget = group.querySelector('rect.st5') || group;
+    const visualPaths = group.querySelectorAll('path');
+
+    hitTarget.style.cursor = 'pointer';
+    hitTarget.style.pointerEvents = 'all';
+
+    visualPaths.forEach((path) => {
+        path.style.transition = 'opacity 0.3s ease';
+        path.style.pointerEvents = 'all';
+    });
+
+    const dim = () => visualPaths.forEach((path) => { path.style.opacity = '0.45'; });
+    const reset = () => visualPaths.forEach((path) => { path.style.opacity = '1'; });
+
+    hitTarget.addEventListener('mouseenter', dim);
+    hitTarget.addEventListener('mouseleave', reset);
+    hitTarget.addEventListener('click', onClick);
+}
+
 function addSVGInteractivity(svgDoc) {
-    // Hitta alla rektanglar som ska fungera som hover-områden
-    const hoverRects = svgDoc.querySelectorAll('rect.st2');
-    
-    hoverRects.forEach(rect => {
-        // Lägg till hover-effekt på rektangeln
+    Object.entries(KVITTO_ROW_ACTIONS).forEach(([groupId, action]) => {
+        bindKvittoRow(svgDoc, groupId, action);
+    });
+
+    bindKvittoRow(svgDoc, KVITTO_EMAIL_ID, () => {
+        window.location.href = 'mailto:victordegeer96@gmail.com';
+    });
+
+    // Bakåtkompatibilitet om äldre kvitto med text + st2 finns kvar
+    svgDoc.querySelectorAll('rect.st2').forEach((rect) => {
+        const parentGroup = rect.closest('g');
+        if (!parentGroup) return;
         rect.style.cursor = 'pointer';
-        rect.style.transition = 'opacity 0.3s ease';
-        
-        rect.addEventListener('mouseenter', function() {
-            // Hitta den överordnade gruppen
-            const parentGroup = this.closest('g');
-            if (parentGroup) {
-                // Hitta alla text-element i denna grupp
-                const textElements = parentGroup.querySelectorAll('text, tspan');
-                textElements.forEach(text => {
-                    text.style.opacity = '0.3';
-                });
-            }
+        rect.addEventListener('mouseenter', () => {
+            parentGroup.querySelectorAll('text, tspan').forEach((el) => { el.style.opacity = '0.3'; });
         });
-        
-        rect.addEventListener('mouseleave', function() {
-            // Hitta den överordnade gruppen
-            const parentGroup = this.closest('g');
-            if (parentGroup) {
-                // Återställ alla text-element i denna grupp
-                const textElements = parentGroup.querySelectorAll('text, tspan');
-                textElements.forEach(text => {
-                    text.style.opacity = '1';
-                });
-            }
+        rect.addEventListener('mouseleave', () => {
+            parentGroup.querySelectorAll('text, tspan').forEach((el) => { el.style.opacity = '1'; });
         });
-        
-    });
-    
-    // Hitta klickbara element i SVG:en baserat på textinnehåll eller ID:n
-    const clickableElements = svgDoc.querySelectorAll('text, tspan, g[id*="UX"], g[id*="Web"], g[id*="Image"], g[id*="Video"], g[id*="Music"], g[id*="Animation"]');
-    
-    clickableElements.forEach(element => {
-        const text = element.textContent || element.innerHTML;
-        
-        // Lägg till hover-effekt
-        element.style.cursor = 'pointer';
-        element.style.transition = 'opacity 0.3s ease';
-        
-        element.addEventListener('mouseenter', function() {
-            this.style.opacity = '0.6';
-        });
-        
-        element.addEventListener('mouseleave', function() {
-            this.style.opacity = '1';
-        });
-        
-        // Lägg till klick-händelser baserat på textinnehåll
-        element.addEventListener('click', function() {
-            if (text.includes('UX/UI Design') || text.includes('UX')) {
-                showImageDesignContainer();
-            } else if (text.includes('Web programming') || text.includes('Web')) {
-                showWebDesignContainer(); // Du kan ändra detta till en web-specifik container
-            } else if (text.includes('Image design')) {
-                showImageDesignContainer();
-            } else if (text.includes('Vector graphics')) {
-                showImageDesignContainer();
-            } else if (text.includes('Video production') || text.includes('Video')) {
-                showVideosKognitivetContainer();
-            } else if (text.includes('Music production') || text.includes('Music')) {
-                showMusicKognitivetContainer();
-            } else if (text.includes('Animation')) {
-                showAnimationDesignContainer(); // Du kan ändra detta till en animation-specifik container
-            } else if (text.includes('Skärholmens Pall')) {
-                showWebDesignContainer(); // Du kan ändra detta till en animation-specifik container
-            }
-        });
-    });
-    
-    // Lägg till klick på projekt-länkar
-    const projectElements = svgDoc.querySelectorAll('text, tspan');
-    projectElements.forEach(element => {
-        const text = element.textContent || element.innerHTML;
-        
-        if (text.includes('Skarholmens Pall') || text.includes('HaSams') || text.includes('DG Development') || text.includes('Terran') || text.includes('Kognitivet')) {
-            element.style.cursor = 'pointer';
-            element.style.transition = 'opacity 0.3s ease';
-            
-            element.addEventListener('mouseenter', function() {
-                this.style.opacity = '0.7';
-            });
-            
-            element.addEventListener('mouseleave', function() {
-                this.style.opacity = '1';
-            });
-            
-            element.addEventListener('click', function() {
-                if (text.includes('Skarholmens Pall')) {
-                    window.open('https://www.skarholmenspall.se/', '_blank');
-                } else if (text.includes('HaSams')) {
-                    window.open('https://hasamsredovisning.se/', '_blank');
-                } else if (text.includes('DG Development')) {
-                    window.open('https://dgd.solutions/', '_blank');
-                } else if (text.includes('Terran')) {
-                    window.open('https://info.terran.ai/', '_blank');
-                }
-            });
-        }
-    });
-    
-    // Lägg till klick på email
-    const emailElements = svgDoc.querySelectorAll('text, tspan');
-    emailElements.forEach(element => {
-        const text = element.textContent || element.innerHTML;
-        
-        if (text.includes('@') || text.includes('victordegeer96@gmail.com')) {
-            element.style.cursor = 'pointer';
-            element.style.transition = 'opacity 0.3s ease';
-            
-            element.addEventListener('mouseenter', function() {
-                this.style.opacity = '0.7';
-            });
-            
-            element.addEventListener('mouseleave', function() {
-                this.style.opacity = '1';
-            });
-            
-            element.addEventListener('click', function() {
-                window.location.href = 'mailto:victordegeer96@gmail.com';
-            });
-        }
     });
 }
 
-// Web Development projekt funktioner
-async function loadProjects() {
+function projectImageUrl(basePath, folder, fileName) {
+    const folderPath = folder.split('/').map(encodeURIComponent).join('/');
+    return `${basePath}/${folderPath}/${encodeURIComponent(fileName)}`;
+}
+
+function projectImageHtml(basePath, folder, fileName, {
+    alt = '',
+    className = '',
+    useWebp = true,
+    assignmentLabel = '',
+    assignmentClass = ''
+} = {}) {
+    const src = projectImageUrl(basePath, folder, fileName);
+    const classAttr = className ? ` class="${className}"` : '';
+    let imageMarkup;
+    if (!useWebp) {
+        imageMarkup = `<img src="${src}" alt="${alt}"${classAttr} loading="lazy">`;
+    } else {
+        const webpFileName = fileName.replace(/\.(png|jpg|jpeg|gif)$/i, '.webp');
+        const webpSrc = projectImageUrl(basePath, folder, webpFileName);
+        imageMarkup = `
+            <picture>
+                <source srcset="${webpSrc}" type="image/webp">
+                <img src="${src}" alt="${alt}"${classAttr} loading="lazy">
+            </picture>
+        `;
+    }
+
+    if (!assignmentLabel) return imageMarkup;
+
+    return `
+        <div class="project-image-wrap">
+            <span class="project-assignment-badge ${assignmentClass}">${assignmentLabel}</span>
+            ${imageMarkup}
+        </div>
+    `;
+}
+
+function projectImageOptionsFromProject(project, gallery) {
+    if (!project.assignmentLabel) return {};
+    return {
+        assignmentLabel: project.assignmentLabel,
+        assignmentClass: project.assignmentClass
+    };
+}
+
+function getGalleryGroupSources(group) {
+    if (group.sources) return group.sources;
+    return [{ folder: group.folder, subfolders: group.subfolders }];
+}
+
+function formatObjectCount(count) {
+    return count === 1 ? '1 objekt' : `${count} objekt`;
+}
+
+// Projektgalleri (delat av Web Development och Laser engraving)
+async function loadProjectGallery(gallery) {
+    const { basePath, groups, elements } = gallery;
+    if (!elements.previews) return;
+
     try {
-        // Projektgrupper i önskad ordning
-        const projectGroups = [
-            {
-                name: 'Web Applications',
-                folder: 'web_apps',
-                subfolders: ['skarholmens_pall', 'inkopslistan', 'atmo_studios']
-            },
-            {
-                name: 'Web Pages',
-                folder: 'webpages',
-                subfolders: ['dg_development', 'hasams_redovisning']
-            },
-            {
-                name: 'Work In Progress',
-                folder: 'work_in_progress',
-                subfolders: ['3d_models_web', 'spotify_wrapped', '8bit_game']
-            }
-        ];
-        
-        currentProjects = [];
-        
-        for (const group of projectGroups) {
-            for (const subfolder of group.subfolders) {
-                try {
-                    const response = await fetch(`webdev/${group.folder}/${subfolder}/project.json`);
-                    if (response.ok) {
-                        const projectData = await response.json();
-                        projectData.folder = `${group.folder}/${subfolder}`;
-                        projectData.group = group.name;
-                        currentProjects.push(projectData);
+        const projects = [];
+
+        for (const group of groups) {
+            for (const source of getGalleryGroupSources(group)) {
+                for (const subfolder of source.subfolders) {
+                    try {
+                        const response = await fetch(`${basePath}/${source.folder}/${subfolder}/project.json`);
+                        if (response.ok) {
+                            const projectData = await response.json();
+                            projectData.folder = `${source.folder}/${subfolder}`;
+                            projectData.group = group.name;
+                            const assignment = gallery.assignmentTypes?.[source.folder];
+                            if (assignment) {
+                                projectData.assignmentLabel = assignment.label;
+                                projectData.assignmentClass = assignment.className;
+                            }
+                            if (!projectData.preview || !/\.(png|jpe?g|gif|webp)$/i.test(projectData.preview)) {
+                                projectData.preview = projectData.images?.[0];
+                            }
+                            projects.push(projectData);
+                        }
+                    } catch (error) {
+                        console.warn(`Kunde inte ladda projekt från ${basePath}/${source.folder}/${subfolder}:`, error);
                     }
-                } catch (error) {
-                    console.warn(`Kunde inte ladda projekt från ${group.folder}/${subfolder}:`, error);
                 }
             }
         }
-        
-        console.log('Laddade projekt:', currentProjects);
-        renderProjectPreviews();
+
+        gallery.setProjects(projects);
+        console.log(`Laddade projekt (${basePath}):`, projects);
+        renderProjectGalleryPreviews(gallery);
     } catch (error) {
-        console.error('Fel vid laddning av projekt:', error);
+        console.error(`Fel vid laddning av projekt (${basePath}):`, error);
     }
 }
 
-function renderProjectPreviews() {
-    if (!projectPreviews) return;
-    
-    projectPreviews.innerHTML = '';
-    
-    // Gruppera projekt efter grupp
+function renderProjectGalleryPreviews(gallery) {
+    const { groupOrder, basePath, elements } = gallery;
+    const useWebp = gallery.useWebp !== false;
+    const projects = gallery.getProjects();
+    if (!elements.previews) return;
+
+    elements.previews.innerHTML = '';
+
     const groupedProjects = {};
-    currentProjects.forEach((project, index) => {
+    projects.forEach((project, index) => {
         const group = project.group || 'Other';
-        if (!groupedProjects[group]) {
-            groupedProjects[group] = [];
-        }
+        if (!groupedProjects[group]) groupedProjects[group] = [];
         groupedProjects[group].push({ project, index });
     });
-    
-    // Definiera ordning för grupperna
-    const groupOrder = ['Web Applications', 'Web Pages', 'Work In Progress'];
-    
-    // Rendera varje grupp
+
     groupOrder.forEach(groupName => {
-        if (groupedProjects[groupName]) {
-            // Skapa grupphuvud
-            const groupHeader = document.createElement('div');
-            groupHeader.className = 'project-group-header';
-            groupHeader.innerHTML = `<h2>${groupName}</h2>`;
-            projectPreviews.appendChild(groupHeader);
-            
-            // Skapa gruppcontainer
-            const groupContainer = document.createElement('div');
-            groupContainer.className = 'project-group';
-            groupContainer.dataset.group = groupName;
-            
-            // Rendera projekt i gruppen
-            groupedProjects[groupName].forEach(({ project, index }) => {
-                const previewElement = document.createElement('div');
-                previewElement.className = 'project-preview';
-                previewElement.dataset.projectIndex = index;
-                
-                const previewImage = project.preview.endsWith('.webp') ? 
-                    project.preview : 
-                    project.preview.replace(/\.(png|jpg|jpeg|gif)$/, '.webp');
-                
-                previewElement.innerHTML = `
-                    <picture>
-                        <source srcset="webdev/${project.folder}/${previewImage}" type="image/webp">
-                        <img src="webdev/${project.folder}/${project.preview}" alt="${project.title}" loading="lazy">
-                    </picture>
-                    <h3>${project.title} ${project.status === 'work_in_progress' ? '<span class="wip-badge">WorkInProgress</span>' : ''}</h3>
-                    <p>${project.description}</p>
-                `;
-                
-                previewElement.addEventListener('click', () => showProjectDetail(index));
-                groupContainer.appendChild(previewElement);
-            });
-            
-            projectPreviews.appendChild(groupContainer);
-        }
+        if (!groupedProjects[groupName]) return;
+
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'project-group-header';
+        groupHeader.innerHTML = `<h2>${groupName}</h2>`;
+        elements.previews.appendChild(groupHeader);
+
+        const groupContainer = document.createElement('div');
+        groupContainer.className = 'project-group';
+        groupContainer.dataset.group = groupName;
+
+        groupedProjects[groupName].forEach(({ project, index }) => {
+            const previewElement = document.createElement('div');
+            previewElement.className = 'project-preview';
+            previewElement.dataset.projectIndex = index;
+
+            const imageCount = project.images?.length || 0;
+            const imageOptions = { alt: project.title, useWebp, ...projectImageOptionsFromProject(project, gallery) };
+            previewElement.innerHTML = `
+                ${projectImageHtml(basePath, project.folder, project.preview, imageOptions)}
+                <h3>${project.title} ${project.status === 'work_in_progress' ? '<span class="wip-badge">WorkInProgress</span>' : ''}</h3>
+                <p>${project.description}</p>
+            `;
+
+            previewElement.addEventListener('click', () => showProjectGalleryDetail(gallery, index));
+            groupContainer.appendChild(previewElement);
+        });
+
+        elements.previews.appendChild(groupContainer);
     });
+
+    fadeInContainerElements(elements.previews);
 }
 
-function showProjectDetail(projectIndex) {
-    const project = currentProjects[projectIndex];
-    if (!project) return;
-    
-    // Dölj previews och visa detaljer
-    projectPreviews.style.display = 'none';
-    projectDetail.style.display = 'block';
-    
-    // Projektlänkar baserat på projects.md och JSON-filer
-    const projectLinks = {
-        'Skärholmens Pall': 'https://skarholmenspall.com',
-        'InköpsListan': 'https://inkopslistan-836ab.web.app',
-        'HELFER': 'https://helfer.vercel.app/',
-        'DG Development': 'https://www.dgd.solutions/',
-        'ATMO STUDIOS - Cloud Based Music Platform': 'https://musiktjaenst.web.app/',
-        'Make Your Own Spotify Wrapped': 'https://spotifyslapped.netlify.app/',
-        '3D Models in the Web': 'https://degeer-3d-spline.netlify.app/',
-        'Pepsi vs Coca Cola Interactive': 'https://lovely-biscuit-5a5b09.netlify.app/',
-        'Candy Store': 'https://godis-grisen-8rnk.vercel.app/'
-    };
-    
-    // Generera projektbilder HTML
-    const projectImagesHTML = project.images.map(image => {
-        const webpImage = image.replace(/\.(png|jpg|jpeg|gif)$/, '.webp');
-        return `
-            <picture>
-                <source srcset="webdev/${project.folder}/${webpImage}" type="image/webp">
-                <img src="webdev/${project.folder}/${image}" alt="${project.title}" class="project-image" loading="lazy">
-            </picture>
-        `;
-    }).join('');
-    
-    // Generera teknologier HTML
-    const technologiesHTML = project.technologies.map(tech => 
+function showProjectGalleryDetail(gallery, projectIndex) {
+    const project = gallery.getProjects()[projectIndex];
+    const { basePath, projectLinks, elements } = gallery;
+    const useWebp = gallery.useWebp !== false;
+    if (!project || !elements.detail || !elements.detailContent) return;
+
+    elements.previews.style.display = 'none';
+    elements.detail.style.display = 'block';
+
+    const assignmentOptions = projectImageOptionsFromProject(project, gallery);
+    const projectImagesHTML = project.images.map(image =>
+        projectImageHtml(basePath, project.folder, image, {
+            alt: project.title,
+            className: 'project-image',
+            useWebp,
+            ...assignmentOptions
+        })
+    ).join('');
+
+    const technologiesHTML = project.technologies.map(tech =>
         `<span class="technology-tag">${tech}</span>`
     ).join('');
-    
-    // Generera länk HTML om projektet har en länk
+
     const projectLink = projectLinks[project.title];
     const linkHTML = projectLink ? `
         <div class="project-link-container">
@@ -1030,27 +1476,61 @@ function showProjectDetail(projectIndex) {
             </a>
         </div>
     ` : '';
-    
-    // Sätt innehåll
-    projectDetailContent.innerHTML = `
+
+    elements.detailContent.innerHTML = `
         <div class="project-detail-header">
             <h2 class="project-detail-title">${project.title}</h2>${linkHTML}
         </div>
         <div class="project-technologies">${technologiesHTML}</div>
         <p class="project-detail-description">${project.description}</p>
-
         <div class="project-images">${projectImagesHTML}</div>
     `;
-    
-    // Initialisera Feather icons efter att innehållet har laddats
+
     if (typeof feather !== 'undefined') {
         feather.replace();
     }
+
+    fadeInContainerElements(elements.detailContent);
+}
+
+function showProjectGalleryPreviews(gallery) {
+    const { elements } = gallery;
+    if (!elements.detail || !elements.previews) return;
+    elements.detail.style.display = 'none';
+    elements.previews.style.display = 'block';
+    fadeInContainerElements(elements.previews);
+}
+
+async function loadProjects() {
+    await loadProjectGallery(webProjectGallery);
+}
+
+function renderProjectPreviews() {
+    renderProjectGalleryPreviews(webProjectGallery);
+}
+
+function showProjectDetail(projectIndex) {
+    showProjectGalleryDetail(webProjectGallery, projectIndex);
 }
 
 function showProjectPreviews() {
-    projectDetail.style.display = 'none';
-    projectPreviews.style.display = 'block';
+    showProjectGalleryPreviews(webProjectGallery);
+}
+
+async function loadLaserProjects() {
+    await loadProjectGallery(laserProjectGallery);
+}
+
+function renderLaserProjectPreviews() {
+    renderProjectGalleryPreviews(laserProjectGallery);
+}
+
+function showLaserProjectDetail(projectIndex) {
+    showProjectGalleryDetail(laserProjectGallery, projectIndex);
+}
+
+function showLaserProjectPreviews() {
+    showProjectGalleryPreviews(laserProjectGallery);
 }
 
 // Hjälpfunktioner för att visa olika containers
@@ -1060,6 +1540,7 @@ function showImageDesignContainer() {
         // Visa efter animationen är klar
         console.log("🖼️ Setting ImageDesignContainer to flex");
         ImageDesignContainer.style.display = "flex";
+        fadeInContainerElements(ImageDesignContainer);
         setTimeout(async () => {
             await initPhysics();
         }, 200);
@@ -1072,17 +1553,27 @@ function showVideosKognitivetContainer() {
         // Visa efter animationen är klar
         console.log("🎥 Setting VideosKognitivetContainer to flex");
         VideosKognitivetContainer.style.display = "flex";
+        fadeInContainerElements(VideosKognitivetContainer);
     });
 }
 
 function showWebDesignContainer() {
     console.log("🌐 showWebDesignContainer() called");
     playTransitionAnimation(async () => {
-        // Visa efter animationen är klar
         console.log("🌐 Setting WebDesignContainer to flex");
         WebDesignContainer.style.display = "flex";
-        // Ladda projekt när containern visas
         await loadProjects();
+        fadeInContainerElements(WebDesignContainer);
+    });
+}
+
+function showLaserEngravingContainer() {
+    console.log("🔥 showLaserEngravingContainer() called");
+    playTransitionAnimation(async () => {
+        console.log("🔥 Setting LaserEngravingContainer to flex");
+        LaserEngravingContainer.style.display = "flex";
+        await loadLaserProjects();
+        fadeInContainerElements(LaserEngravingContainer);
     });
 }
 
@@ -1092,6 +1583,7 @@ function showUXDesignContainer() {
         // Visa efter animationen är klar
         console.log("🎨 Setting UXDesignContainer to flex");
         UXDesignContainer.style.display = "flex";
+        fadeInContainerElements(UXDesignContainer);
     });
 }
 
@@ -1101,6 +1593,7 @@ function showAnimationDesignContainer() {
         // Visa efter animationen är klar
         console.log("🎬 Setting AnimationDesignContainer to flex");
         AnimationDesignContainer.style.display = "flex";
+        fadeInContainerElements(AnimationDesignContainer);
     });
 }
 
@@ -1110,6 +1603,7 @@ function showMusicKognitivetContainer() {
         // Visa efter animationen är klar
         console.log("🎵 Setting MusicKognitivetContainer to flex");
         MusicKognitivetContainer.style.display = "flex";
+        fadeInContainerElements(MusicKognitivetContainer);
     });
 }
 

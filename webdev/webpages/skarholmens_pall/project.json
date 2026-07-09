@@ -1,0 +1,12 @@
+{
+  "title": "Skärholmens Pall",
+  "description": "Företagswebbplats för palllogistik med fokus på cirkulära flöden, klimatrapportering och kostnadsfri flödesanalys.",
+  "technologies": ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
+  "images": [
+    "preview.png"
+  ],
+  "preview": "preview.png",
+  "backstory": "Skärholmens Pall är en professionell webbplats för ett etablerat pallföretag med över 40 års erfarenhet. Sidan presenterar tjänster som pallflöden, säkerhetslager, klimatdata och certifieringar, med tydlig struktur och modern design anpassad för B2B-besökare.",
+  "url": "https://www.skarholmenspall.se/",
+  "status": "completed"
+}
