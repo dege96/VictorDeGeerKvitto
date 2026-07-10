@@ -29,6 +29,11 @@ const laserProjectDetail = document.getElementById("laser-project-detail");
 const laserProjectDetailContent = document.getElementById("laser-project-detail-content");
 let currentLaserProjects = [];
 
+// Image Design projekt variabler
+const designProjectPreviews = document.getElementById("design-project-previews");
+let currentDesignProjects = [];
+let caseStudyReturnContainer = null;
+
 // Case study variabler
 const caseStudyContent = document.getElementById("case-study-content");
 const caseStudyTitle = CaseStudyContainer?.querySelector(".white_title");
@@ -36,11 +41,14 @@ const CASE_STUDIES = {
     clsr: 'cases/clsr/case.json',
     Sthlm: 'cases/sthlm_foodwine/case.json'
 };
+const DESIGN_CASE_IDS = {
+    clsr: 'clsr',
+    sthlm_foodwine: 'Sthlm'
+};
 const caseStudyCache = {};
 
 const WEB_PROJECT_LINKS = {
     'Skärholmens Pall': 'https://www.skarholmenspall.se/',
-    'Skarholmens Pall': 'https://skarholmenspall.com',
     'InköpsListan': 'https://inkopslistan-836ab.web.app',
     'Helfer AB': 'https://www.helfer.se/',
     'DG Development': 'https://www.dgd.solutions/',
@@ -116,6 +124,37 @@ const laserProjectGallery = {
         previews: laserProjectPreviews,
         detail: laserProjectDetail,
         detailContent: laserProjectDetailContent
+    }
+};
+
+const designProjectGallery = {
+    basePath: 'cases',
+    manifestFile: 'case.json',
+    useWebp: false,
+    openCaseStudyDirectly: true,
+    caseStudyReturnContainer: () => ImageDesignContainer,
+    mapManifest: (data, subfolder) => ({
+        title: data.title,
+        description: data.summary || data.subtitle || '',
+        technologies: data.tools || [],
+        images: (data.gallery || []).map((item) => item.src),
+        preview: data.hero,
+        caseId: DESIGN_CASE_IDS[subfolder],
+        status: 'completed'
+    }),
+    groups: [
+        {
+            name: 'Designprojekt',
+            folder: '',
+            subfolders: ['clsr', 'sthlm_foodwine']
+        }
+    ],
+    groupOrder: ['Designprojekt'],
+    projectLinks: {},
+    getProjects: () => currentDesignProjects,
+    setProjects: (projects) => { currentDesignProjects = projects; },
+    elements: {
+        previews: designProjectPreviews
     }
 };
 
@@ -448,6 +487,20 @@ BackArrows.forEach((BackArrow) => {
             return;
         }
     }
+
+    // Kolla om vi är i CaseStudyContainer och ska tillbaka till föregående container
+    if (CaseStudyContainer && CaseStudyContainer.style.display === "flex" && caseStudyReturnContainer) {
+        console.log("🔙 Går tillbaka från case study till föregående container");
+        CaseStudyContainer.style.display = "none";
+        if (caseStudyContent) {
+            destroyCaseToc();
+            caseStudyContent.innerHTML = "";
+        }
+        caseStudyReturnContainer.style.display = "flex";
+        fadeInContainerElements(caseStudyReturnContainer);
+        caseStudyReturnContainer = null;
+        return;
+    }
     
     // Göm först alla containers
     const containers = [
@@ -479,15 +532,7 @@ BackArrows.forEach((BackArrow) => {
         }
     });
     
-    // Städa upp physics om det behövs
-    if (window.currentPhysics) {
-        cleanupPhysics(
-            window.currentPhysics.engine,
-            window.currentPhysics.render,
-            window.currentPhysics.runner
-        );
-        window.currentPhysics = null;
-    }
+    caseStudyReturnContainer = null;
 
     // Spela reverse animationen och visa portfolio efter
     await playTransitionAnimationReverse(() => {
@@ -546,14 +591,7 @@ for (let i = 0; i < Kognitivet_Video_and_Music_Link.length; i++) {
 for (let i = 0; i < ImageDesignLink.length; i++) {
     ImageDesignLink[i].addEventListener('click', (event) => {
         console.log("ImageDesignLink clicked");
-        playTransitionAnimation(async () => {
-            // Visa efter animationen är klar
-            ImageDesignContainer.style.display = "flex";
-            fadeInContainerElements(ImageDesignContainer);
-            setTimeout(async () => {
-                await initPhysics();
-            }, 200);
-        });
+        showImageDesignContainer();
     });
 }
 
@@ -605,424 +643,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-// Lazy load Matter.js
-async function loadMatterJS() {
-    if (!window.Matter) {
-        console.log("🔄 Loading Matter.js dynamically...");
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js';
-        await new Promise((resolve, reject) => {
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-        });
-        console.log("✅ Matter.js loaded successfully");
-    }
-}
-
-// Physics engine initialisering och setup
-async function initPhysics() {
-    // Ladda Matter.js först om det inte redan är laddat
-    await loadMatterJS();
-    
-    // Matter.js moduler
-    const Engine = Matter.Engine,
-          Render = Matter.Render,
-          Runner = Matter.Runner,
-          Bodies = Matter.Bodies,
-          Composite = Matter.Composite,
-          Mouse = Matter.Mouse,
-          MouseConstraint = Matter.MouseConstraint;
-
-    // Skapa physics engine och setup
-    const engine = Engine.create();
-    const container = document.getElementById('ImageDesign');
-
-    // Renderer setup
-    const render = Render.create({
-        element: container,
-        engine: engine,
-        options: {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            wireframes: false,
-            background: 'transparent'
-        }
-    });
-
-    // Mouse interaction setup
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-            stiffness: 0.01,
-            render: { visible: false },
-            angularStiffness: 0.01,
-            length: 0.1,
-            damping: 1
-        },
-        collisionFilter: {
-            mask: 0x0001
-        },
-        stiffness: 0.1,
-        maxForce: 0.1
-    });
-
-    Composite.add(engine.world, mouseConstraint);
-    render.mouse = mouse;
-
-    // Skapa väggar för physics world
-    const walls = [
-        // Botten vägg
-        Bodies.rectangle(window.innerWidth/2, window.innerHeight + 30, window.innerWidth, 60, { 
-            isStatic: true,
-            render: { visible: false },
-            friction: 0.5,
-            restitution: 0.1,
-            slop: 0.1,        // Minska genomträngning
-            density: 1,       // Öka densitet för bättre kollision
-            chamfer: { radius: 0 }
-        }),
-        // Vänster vägg
-        Bodies.rectangle(-50, window.innerHeight/2, 100, window.innerHeight, { 
-            isStatic: true,
-            render: { visible: false },
-            friction: 0.5,
-            restitution: 0.1
-        }),
-        // Höger vägg
-        Bodies.rectangle(window.innerWidth + 50, window.innerHeight/2, 100, window.innerHeight, { 
-            isStatic: true,
-            render: { visible: false },
-            friction: 0.5,
-            restitution: 0.1
-        })
-    ];
-
-    Composite.add(engine.world, walls);
-
-    // Deklarera arrays och hämta bilder
-    const bodies = [];
-    const images = document.querySelectorAll('.design-image');
-    const originalSizes = new Map();
-
-    // Lägg till i början av initPhysics
-    let isAnyCentered = false;
-
-    // Skapa en temporär canvas för att analysera bildens alpha-kanal
-    function createPhysicsBody(img) {
-        // Validera att bilden har giltiga dimensioner
-        if (!img.naturalWidth || !img.naturalHeight || img.naturalWidth === 0 || img.naturalHeight === 0) {
-            console.warn('Bild har ogiltiga dimensioner:', img.src, 'naturalWidth:', img.naturalWidth, 'naturalHeight:', img.naturalHeight);
-            return;
-        }
-        
-        // Beräkna maximal storlek baserat på både bredd och höjd
-        const maxWidth = window.innerWidth / 3;
-        const maxHeight = window.innerHeight / 3;
-        const aspectRatio = img.naturalWidth / img.naturalHeight;
-        
-        // Beräkna dimensioner som passar inom båda begränsningarna
-        let width = Math.min(img.naturalWidth, maxWidth);
-        let height = width / aspectRatio;
-        
-        // Om höjden är för stor, justera baserat på höjd istället
-        if (height > maxHeight) {
-            height = maxHeight;
-            width = height * aspectRatio;
-        }
-        
-        // Spara original storlek
-        originalSizes.set(img.src, { width, height });
-        
-        const startY = 100;
-
-        // Skapa en temporär canvas för att analysera bildens alpha-kanal
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        
-        // Validera canvas-storlek innan getImageData
-        if (canvas.width === 0 || canvas.height === 0) {
-            console.warn('Canvas har ogiltiga dimensioner:', canvas.width, 'x', canvas.height);
-            return;
-        }
-        
-        ctx.drawImage(img, 0, 0);
-        
-        // Samla punkter från bildens kanter
-        const points = [];
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        
-        // Sampla punkter med ett intervall för bättre prestanda
-        const sampleInterval = 5;
-        for (let y = 0; y < canvas.height; y += sampleInterval) {
-            for (let x = 0; x < canvas.width; x += sampleInterval) {
-                const alpha = data[((y * canvas.width + x) * 4) + 3];
-                if (alpha > 127) { // Om pixeln inte är transparent
-                    points.push({ x: x, y: y });
-                }
-            }
-        }
-
-        // Använd Matter.Bodies.fromVertices direkt med punkterna
-        const body = Bodies.fromVertices(
-            Math.random() * (window.innerWidth - width - 200) + width/2 + 100,
-            startY,
-            [points.map(p => ({
-                x: p.x * (width / img.naturalWidth),
-                y: p.y * (height / img.naturalHeight)
-            }))],
-            {
-                render: {
-                    sprite: {
-                        texture: img.src,
-                        xScale: width / img.naturalWidth,
-                        yScale: height / img.naturalHeight
-                    }
-                },
-                restitution: 0.2,
-                friction: 0.1,
-                density: 0.001,
-                frictionAir: 0.01,
-                slop: 0.05,
-                collisionFilter: {
-                    category: 0x0001,
-                    mask: 0xFFFFFFFF
-                }
-            }
-        );
-
-        // Lägg till dubbelklick detektion
-        let mouseDownTime = 0;
-        let isDragging = false;
-
-        Matter.Events.on(mouseConstraint, 'mousedown', function(event) {
-            const mousePosition = event.mouse.position;
-            
-            if (Matter.Bounds.contains(body.bounds, mousePosition)) {
-                mouseDownTime = Date.now();
-                isDragging = false;
-            }
-        });
-
-        Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
-            if (mouseDownTime > 0) {
-                isDragging = true;
-            }
-        });
-
-        Matter.Events.on(mouseConstraint, 'mouseup', function(event) {
-            const mouseUpTime = Date.now();
-            const clickDuration = mouseUpTime - mouseDownTime;
-            
-            if (!isDragging && clickDuration < 150 && !isAnyCentered) { // Lägg till kontroll för isAnyCentered
-                const originalSize = originalSizes.get(body.render.sprite.texture);
-                const scaleFactor = 1.2;
-                
-                isAnyCentered = true; // Sätt flaggan när en bild centreras
-                
-                // Spara ursprungliga värden
-                const startAngle = body.angle;
-                const startPos = { x: body.position.x, y: body.position.y };
-                const targetPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-                
-                const animationDuration = 500;
-                const startTime = Date.now();
-                
-                // Stoppa all rörelse
-                Matter.Body.setVelocity(body, { x: 0, y: 0 });
-                Matter.Body.setAngularVelocity(body, 0);
-                body.isStatic = true;
-                
-                // Animera allt tillsammans
-                const animate = () => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / animationDuration, 1);
-                    
-                    const easeProgress = 1 - Math.pow(1 - progress, 3);
-                    
-                    // Animera rotation
-                    const currentAngle = startAngle + (0 - startAngle) * easeProgress;
-                    Matter.Body.setAngle(body, currentAngle);
-                    
-                    // Animera position
-                    const currentX = startPos.x + (targetPos.x - startPos.x) * easeProgress;
-                    const currentY = startPos.y + (targetPos.y - startPos.y) * easeProgress;
-                    Matter.Body.setPosition(body, { x: currentX, y: currentY });
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        setTimeout(() => {
-                            Matter.Body.setPosition(body, {
-                                x: window.innerWidth / 2,
-                                y: window.innerHeight / 2
-                            });
-                            Matter.Body.scale(body, 1, 1);
-                            body.isStatic = false;
-                            isAnyCentered = false; // Återställ flaggan när animeringen är klar
-                        }, 1000);
-                    }
-                };
-                
-                animate();
-            }
-            
-            mouseDownTime = 0;
-            isDragging = false;
-        });
-
-        bodies.push(body);
-        Composite.add(engine.world, body);
-    }
-
-    // Skapa physics bodies för alla bilder
-    images.forEach(img => {
-        if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
-            createPhysicsBody(img);
-        } else {
-            img.addEventListener('load', () => {
-                // Dubbelkolla att bilden verkligen är laddad med giltiga dimensioner
-                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-                    createPhysicsBody(img);
-                } else {
-                    console.warn('Bild laddades men har ogiltiga dimensioner:', img.src);
-                }
-            });
-        }
-        img.style.display = 'none';
-    });
-
-    // Hover effekt för bilderen 
-    Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
-        const mousePosition = event.mouse.position;
-        bodies.forEach(body => {
-            const distance = Matter.Vector.magnitude(Matter.Vector.sub(body.position, mousePosition));
-            if (distance < 100) {
-                Matter.Body.applyForce(body, body.position, {
-                    x: 0,
-                    y: -0.003
-                });
-            }
-        });
-    });
-
-    // Rotationshantering för bilder
-    Matter.Events.on(mouseConstraint, 'mousedown', function(event) {
-        const mousePosition = event.mouse.position;
-        bodies.forEach(body => {
-            const vertices = body.vertices;
-            const center = body.position;
-            
-            const distanceToCenter = Matter.Vector.magnitude(
-                Matter.Vector.sub(mousePosition, center)
-            );
-            
-            if (distanceToCenter > Math.min(body.bounds.max.x - body.bounds.min.x, 
-                                          body.bounds.max.y - body.bounds.min.y) * 0.4) {
-                body.inertia = body.mass * 1000;
-            }
-        });
-    });
-
-    // Återställ rotation vid släpp
-    Matter.Events.on(mouseConstraint, 'mouseup', function() {
-        bodies.forEach(body => {
-            body.inertia = Infinity;
-        });
-    });
-
-    // Gravitation setup
-    engine.world.gravity.y = 1;
-    engine.world.gravity.scale = 0.001;  // Dubbla gravitationen tillbaka till original
-
-    // Spara runner referensen
-    const runner = Runner.create();
-    Runner.run(runner, engine);
-    Render.run(render);
-
-    // Spara referenser globalt
-    window.currentPhysics = {
-        engine: engine,
-        render: render,
-        runner: runner
-    };
-
-    // Window resize hantering
-    window.addEventListener('resize', function() {
-        render.canvas.width = window.innerWidth;
-        render.canvas.height = window.innerHeight;
-        Matter.Render.setPixelRatio(render, window.devicePixelRatio);
-    });
-}
-
-// Lägg till en cleanup funktion
-function cleanupPhysics(engine, render, runner) {
-    Matter.World.clear(engine.world);
-    Matter.Engine.clear(engine);
-    Matter.Render.stop(render);
-    Matter.Runner.stop(runner);
-    render.canvas.remove();
-}
-
-function createPhysicsVideo(videoElement) {
-    // Validera att videon har giltiga dimensioner
-    if (!videoElement.videoWidth || !videoElement.videoHeight || videoElement.videoWidth === 0 || videoElement.videoHeight === 0) {
-        console.warn('Video har ogiltiga dimensioner:', videoElement.src, 'videoWidth:', videoElement.videoWidth, 'videoHeight:', videoElement.videoHeight);
-        return;
-    }
-    
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = videoElement.videoWidth;
-    canvas.height = videoElement.videoHeight;
-    
-    // Validera canvas-storlek innan getImageData
-    if (canvas.width === 0 || canvas.height === 0) {
-        console.warn('Video canvas har ogiltiga dimensioner:', canvas.width, 'x', canvas.height);
-        return;
-    }
-
-    // Rita videon på canvas
-    ctx.drawImage(videoElement, 0, 0);
-
-    // Samla punkter från canvas (liknande som med bilder)
-    const points = [];
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    // Sampla punkter
-    for (let y = 0; y < canvas.height; y += 5) {
-        for (let x = 0; x < canvas.width; x += 5) {
-            const alpha = data[((y * canvas.width + x) * 4) + 3];
-            if (alpha > 127) {
-                points.push({ x: x, y: y });
-            }
-        }
-    }
-
-    // Skapa fysikobjekt
-    const body = Bodies.fromVertices(
-        Math.random() * (window.innerWidth - 200) + 100,
-        100,
-        [points.map(p => ({ x: p.x, y: p.y }))],
-        {
-            render: {
-                sprite: {
-                    texture: videoElement.src,
-                    xScale: 1,
-                    yScale: 1
-                }
-            }
-        }
-    );
-
-    Composite.add(engine.world, body);
-}
 
 function caseImageUrl(caseFolder, fileName) {
     const folderPath = caseFolder.split('/').map(encodeURIComponent).join('/');
@@ -1419,12 +1039,16 @@ async function loadCaseStudy(kvittoId) {
     return result;
 }
 
-function showCaseStudy(kvittoId) {
+function showCaseStudy(kvittoId, returnContainer = null) {
     console.log(`📚 showCaseStudy() called for ${kvittoId}`);
-    playTransitionAnimation(async () => {
+    const openCaseStudy = async () => {
         try {
             const payload = await loadCaseStudy(kvittoId);
             if (!payload) return;
+            caseStudyReturnContainer = returnContainer;
+            if (returnContainer) {
+                returnContainer.style.display = 'none';
+            }
             if (caseStudyTitle) caseStudyTitle.textContent = payload.data.title || 'Case study';
             renderCaseStudy(payload.data, payload.caseFolder);
             CaseStudyContainer.style.display = "flex";
@@ -1432,7 +1056,14 @@ function showCaseStudy(kvittoId) {
         } catch (error) {
             console.error(`Kunde inte visa case study för ${kvittoId}:`, error);
         }
-    });
+    };
+
+    if (returnContainer) {
+        openCaseStudy();
+        return;
+    }
+
+    playTransitionAnimation(openCaseStudy);
 }
 
 function openWebProjectByTitle(projectTitle) {
@@ -1583,9 +1214,15 @@ function formatObjectCount(count) {
     return count === 1 ? '1 objekt' : `${count} objekt`;
 }
 
-// Projektgalleri (delat av Web Development och Laser engraving)
+function getProjectManifestPath(basePath, sourceFolder, subfolder, manifestFile) {
+    const folderSegment = sourceFolder ? `${sourceFolder}/` : '';
+    return `${basePath}/${folderSegment}${subfolder}/${manifestFile}`;
+}
+
+// Projektgalleri (delat av Web Development, Laser engraving och Image Design)
 async function loadProjectGallery(gallery) {
     const { basePath, groups, elements } = gallery;
+    const manifestFile = gallery.manifestFile || 'project.json';
     if (!elements.previews) return;
 
     try {
@@ -1595,15 +1232,24 @@ async function loadProjectGallery(gallery) {
             for (const source of getGalleryGroupSources(group)) {
                 for (const subfolder of source.subfolders) {
                     try {
-                        const response = await fetch(`${basePath}/${source.folder}/${subfolder}/project.json`);
+                        const manifestPath = getProjectManifestPath(basePath, source.folder, subfolder, manifestFile);
+                        const response = await fetch(manifestPath);
                         if (response.ok) {
-                            const projectData = await response.json();
-                            projectData.folder = `${source.folder}/${subfolder}`;
-                            projectData.group = group.name;
-                            const assignment = gallery.assignmentTypes?.[source.folder];
-                            if (assignment) {
-                                projectData.assignmentLabel = assignment.label;
-                                projectData.assignmentClass = assignment.className;
+                            let projectData = await response.json();
+                            if (gallery.mapManifest) {
+                                projectData = {
+                                    ...gallery.mapManifest(projectData, subfolder),
+                                    folder: subfolder,
+                                    group: group.name
+                                };
+                            } else {
+                                projectData.folder = `${source.folder}/${subfolder}`;
+                                projectData.group = group.name;
+                                const assignment = gallery.assignmentTypes?.[source.folder];
+                                if (assignment) {
+                                    projectData.assignmentLabel = assignment.label;
+                                    projectData.assignmentClass = assignment.className;
+                                }
                             }
                             if (!projectData.preview || !/\.(png|jpe?g|gif|webp)$/i.test(projectData.preview)) {
                                 projectData.preview = projectData.images?.[0];
@@ -1665,7 +1311,16 @@ function renderProjectGalleryPreviews(gallery) {
                 <p>${project.description}</p>
             `;
 
-            previewElement.addEventListener('click', () => showProjectGalleryDetail(gallery, index));
+            previewElement.addEventListener('click', () => {
+                if (gallery.openCaseStudyDirectly && project.caseId) {
+                    const returnContainer = typeof gallery.caseStudyReturnContainer === 'function'
+                        ? gallery.caseStudyReturnContainer()
+                        : gallery.caseStudyReturnContainer;
+                    showCaseStudy(project.caseId, returnContainer);
+                    return;
+                }
+                showProjectGalleryDetail(gallery, index);
+            });
             groupContainer.appendChild(previewElement);
         });
 
@@ -1726,8 +1381,10 @@ function showProjectGalleryDetail(gallery, projectIndex) {
 
 function showProjectGalleryPreviews(gallery) {
     const { elements } = gallery;
-    if (!elements.detail || !elements.previews) return;
-    elements.detail.style.display = 'none';
+    if (!elements.previews) return;
+    if (elements.detail) {
+        elements.detail.style.display = 'none';
+    }
     elements.previews.style.display = 'block';
     fadeInContainerElements(elements.previews);
 }
@@ -1764,17 +1421,18 @@ function showLaserProjectPreviews() {
     showProjectGalleryPreviews(laserProjectGallery);
 }
 
+async function loadDesignProjects() {
+    await loadProjectGallery(designProjectGallery);
+}
+
 // Hjälpfunktioner för att visa olika containers
 function showImageDesignContainer() {
     console.log("🖼️ showImageDesignContainer() called");
     playTransitionAnimation(async () => {
-        // Visa efter animationen är klar
         console.log("🖼️ Setting ImageDesignContainer to flex");
         ImageDesignContainer.style.display = "flex";
+        await loadDesignProjects();
         fadeInContainerElements(ImageDesignContainer);
-        setTimeout(async () => {
-            await initPhysics();
-        }, 200);
     });
 }
 
